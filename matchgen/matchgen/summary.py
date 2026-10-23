@@ -8,7 +8,7 @@ from collections import defaultdict
 def summarise(events: list[dict], frames: list[dict], team_ids: list[str]) -> dict:
     keys = ["passes", "passes_complete", "crosses", "shots", "xg", "on_target", "goals", "tackles",
             "interceptions", "pressures", "fouls", "clearances", "take_ons", "carrys", "yellow",
-            "second_yellow", "red", "subs"]
+            "second_yellow", "red", "subs", "corners", "goal_kicks", "throw_ins"]
     out = {t: defaultdict(float, {k: 0.0 for k in keys}) for t in team_ids}
     poss_time = defaultdict(float)
     prev = None
@@ -35,6 +35,15 @@ def summarise(events: list[dict], frames: list[dict], team_ids: list[str]) -> di
             o[e["outcome"]] += 1
         elif ty == "substitution":
             o["subs"] += 1
+        elif ty == "ball_out":
+            # the restart goes to the other team except for corners
+            restart = e["extra"].get("restart")
+            if restart == "corner":
+                o["corners"] += 1
+            elif restart == "goal_kick":
+                out[[x for x in team_ids if x != t][0]]["goal_kicks"] += 1
+            elif restart == "throw_in":
+                out[[x for x in team_ids if x != t][0]]["throw_ins"] += 1
         # possession share by time between consecutive on-ball events
         if prev is not None and e["elapsed"] - prev["elapsed"] < 15:
             poss_time[prev["possession_team_id"]] += e["elapsed"] - prev["elapsed"]

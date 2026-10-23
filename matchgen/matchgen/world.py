@@ -77,6 +77,10 @@ _LAST = [
     "Ashdown", "Quarrie", "Lindqvist", "Fairhurst", "Oduya", "Rennick", "Calloway", "Strand",
     "Wexley", "Amadi", "Harrowgate", "Novak", "Pelletier", "Garrow", "Mbeki-Shaw", "Tolland",
     "Brisco", "Delacroix", "Hendry", "Kowal", "Sorensen", "Achterberg", "Mabry", "Falconer",
+    "Ostrowski", "Bellamy", "Nakamura-Reid", "Carrick", "Egwu", "Tremblay", "Vasquez", "Lindgren",
+    "Oyelaran", "Pembrook", "Steinmetz", "Abara", "Wilde", "Montenegro", "Haugen", "Keane",
+    "Ferrante", "Obuya", "Rasmussen", "Delgado", "Whitlock", "Nwosu", "Bergstrom", "Cavanagh",
+    "Takeda", "Larkin", "Mensah", "Pires", "Aldana", "Rutherford", "Sokolov", "Byrne",
 ]
 _NATIONS = ["England", "Scotland", "Wales", "Ireland", "France", "Spain", "Portugal", "Netherlands",
             "Germany", "Denmark", "Sweden", "Norway", "Brazil", "Argentina", "Nigeria", "Ghana",
@@ -150,13 +154,26 @@ class World:
             return World.from_dict(json.load(f))
 
 
+def pick_name(rng: random.Random, used_names: set[str], used_surnames: set[str] | None = None) -> str:
+    """A seeded fictional name. Surnames are unique while any remain unused, full names always are."""
+    if used_surnames is None:
+        used_surnames = {n.split(" ", 1)[1] for n in used_names}
+    free = [n for n in _LAST if n not in used_surnames]
+    pool = free or _LAST
+    for _ in range(200):
+        name = f"{rng.choice(_FIRST)} {rng.choice(pool)}"
+        if name not in used_names:
+            break
+    else:  # pragma: no cover - 40 x 80 names, only reachable with thousands of players
+        name = f"{rng.choice(_FIRST)} {rng.choice(_LAST)} {len(used_names) + 1}"
+    used_names.add(name)
+    used_surnames.add(name.split(" ", 1)[1])
+    return name
+
+
 def _make_player(rng: random.Random, team_id: str, number: int, role: str, group: str,
                  quality: int, used_names: set[str]) -> Player:
-    while True:
-        name = f"{rng.choice(_FIRST)} {rng.choice(_LAST)}"
-        if name not in used_names:
-            used_names.add(name)
-            break
+    name = pick_name(rng, used_names)
     bias = _GROUP_BIAS[group]
     vals = {}
     for a, b in zip(_ATTRS, bias):

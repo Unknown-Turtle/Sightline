@@ -19,6 +19,9 @@ from .xg import shot_xg
 
 DT = 0.2  # physics step, seconds
 SPRINT_KMH = 25.2
+BIAS_M = 0.25           # metres of "effective distance" advantage per point of standout boost
+CARRY_STOP_RX = 96.0    # carries in central areas end no closer than this (team-relative x)
+BOX_HALF_W = 20.16      # half the width of the penalty area
 
 
 def clamp(v: float, lo: float, hi: float) -> float:
@@ -55,13 +58,13 @@ class PlayerState:
     jitter: tuple[float, float] = (0.0, 0.0)
     entered_at: float = 0.0  # elapsed seconds when they came on
     boost: int = 0
+    is_gk: bool = False
+
+    def __post_init__(self) -> None:
+        self.is_gk = self.role == "GK"
 
     def a(self, name: str) -> float:
         return self.p.attr(name) + self.boost
-
-    @property
-    def is_gk(self) -> bool:
-        return self.role == "GK"
 
     @property
     def pos(self) -> tuple[float, float]:
@@ -164,31 +167,39 @@ class MatchEngine:
 
     # --------------------------------------------------------------- physics
     def _vmax(self, s: PlayerState) -> float:
-        base = 6.9 + (s.a("pace") - 50) * 0.05
+        base = 6.9 + (s.p.pace + s.boost - 50) * 0.054
         on_for = (self.elapsed - s.entered_at) / 5700.0
         fatigue = 1.0 - 0.12 * on_for * (1.3 - s.p.stamina / 100.0)
         return base * fatigue
 
-    def _target(self, t: TeamState, s: PlayerState, in_poss: bool) -> tuple[float, float]:
-        brx, bry = t.rel(*self.ball)
+    def _shape_params(self, t: TeamState, in_poss: bool) -> tuple[float, float, float, float]:
+        """Formation shape constants (k, width, lat, shift) for a team this step."""
+        mom_poss = self._mom.get(self.poss.id, 0.0)
+        if in_poss:
+            return 0.62, 1.12, 0.22, 4.0 + 7.0 * mom_poss
+        return 0.52, 0.82, 0.42, -3.0 - 5.0 * max(0.0, mom_poss) + 4.0 * self._press.get(t.id, 0.0)
+
+    def _target(self, t: TeamState, s: PlayerState, in_poss: bool,
+                brel: tuple[float, float] | None = None,
+                params: tuple[float, float, float, float] | None = None) -> tuple[float, float]:
+        brx, bry = brel or t.rel(*self.ball)
         if s.is_gk:
             rx = clamp(4 + (brx - 52.5) * 0.12, 2, 18)
             ry = 34 + (bry - 34) * 0.18
         else:
-            mom_poss = self._mom.get(self.poss.id, 0.0)
-            if in_poss:
-                k, width, lat, shift = 0.62, 1.12, 0.22, 4.0 + 7.0 * mom_poss
-            else:
-                k, width, lat, shift = 0.52, 0.82, 0.42, -3.0 - 5.0 * max(0.0, mom_poss) + 4.0 * self._press.get(t.id, 0.0)
+            k, width, lat, shift = params or self._shape_params(t, in_poss)
             rx = s.ax + (brx - 52.5) * k + shift
             ry = 34 + (s.ay - 34) * width + (bry - 34) * lat
-            rx = clamp(rx, 6, 93 if in_poss else 100)
-            if not in_poss and s.p.group == "DEF":
-                rx = max(rx, 7.0)
-            ry = clamp(ry, 2, 66)
+            hi = 93 if in_poss else 100
+            rx = 6 if rx < 6 else hi if rx > hi else rx
+            if not in_poss and s.p.group == "DEF" and rx < 7.0:
+                rx = 7.0
+            ry = 2 if ry < 2 else 66 if ry > 66 else ry
         rx += s.jitter[0]
         ry += s.jitter[1]
-        return t.abs(rx, ry)
+        if t.dir == 1:
+            return (rx, ry)
+        return (L - rx, W - ry)
 
     def advance(self, duration: float, ball_to: tuple[float, float] | None = None,
                 carrier: PlayerState | None = None, receiver: PlayerState | None = None,
@@ -202,13 +213,15 @@ class MatchEngine:
         press_level = clamp(defending.team.style["press"] + press, 0, 1.5)
         self._mom = {t.id: self.mods(t)[0] for t in (self.home, self.away)}
         self._press = {t.id: self.mods(t)[2] for t in (self.home, self.away)}
+        vmax = {s.p.id: self._vmax(s) for t in (self.home, self.away) for s in t.active()}
         for i in range(1, steps + 1):
             frac = i / steps
             self.ball = (start[0] + (end[0] - start[0]) * frac, start[1] + (end[1] - start[1]) * frac)
             self.ball_z = 4 * height * frac * (1 - frac)
             chasers: set[str] = set()
+            sweep = None if (dead or not chase) else self._gk_sweep_target(defending)
             if chase and not dead:
-                outs = sorted(defending.outfield(), key=lambda s: dist(s.pos, self.ball))
+                outs = sorted(defending.outfield(), key=lambda s: self.eff_dist(s, self.ball))
                 n = 1
                 brx_def, _ = defending.rel(*self.ball)
                 if brx_def > 55 and press_level > 0.55:
@@ -227,28 +240,35 @@ class MatchEngine:
                     for d_ in defending.outfield():
                         if d_.p.id in chasers or d_.p.group == "FWD":
                             continue
-                        a_ = min(attackers, key=lambda a: dist(a.pos, d_.pos))
-                        if dist(a_.pos, d_.pos) < 16:
+                        dx_, dy_ = d_.x, d_.y
+                        a_ = min(attackers, key=lambda a: (a.x - dx_) ** 2 + (a.y - dy_) ** 2)
+                        if (a_.x - dx_) ** 2 + (a_.y - dy_) ** 2 < 256:
                             vx, vy = gx - a_.x, gy - a_.y
                             n_ = math.hypot(vx, vy) or 1.0
                             marks[d_.p.id] = (a_.x + vx / n_ * 1.6, a_.y + vy / n_ * 1.6)
             for t in (self.home, self.away):
                 in_poss = t is self.poss
+                brel = t.rel(*self.ball)
+                params = self._shape_params(t, in_poss)
+                chase_boost = 1.0 + 0.08 * max(0.0, self._press.get(t.id, 0.0))
                 for s in t.active():
+                    pid = s.p.id
                     if carrier is s:
                         tx, ty = self.ball
                     elif receiver is s:
                         tx, ty = end
-                    elif s.p.id in chasers:
+                    elif pid in chasers:
                         tx, ty = self.ball
-                    elif s.p.id in marks:
-                        sx_, sy_ = self._target(t, s, in_poss)
-                        mx_, my_ = marks[s.p.id]
+                    elif s.is_gk and sweep is not None and t is defending:
+                        tx, ty = sweep
+                    elif pid in marks:
+                        sx_, sy_ = self._target(t, s, in_poss, brel, params)
+                        mx_, my_ = marks[pid]
                         tx, ty = 0.7 * mx_ + 0.3 * sx_, 0.7 * my_ + 0.3 * sy_
                     else:
-                        tx, ty = self._target(t, s, in_poss)
-                    self._move(s, tx, ty, carrying=carrier is s,
-                               boost=1.0 + 0.08 * max(0.0, self._press.get(t.id, 0.0)) if s.p.id in chasers else 1.0)
+                        tx, ty = self._target(t, s, in_poss, brel, params)
+                    self._move(s, tx, ty, vmax[pid], carrying=carrier is s,
+                               boost=chase_boost if pid in chasers else 1.0)
                     if carrier is s:
                         s.x, s.y = self.ball
             self.elapsed += DT
@@ -258,24 +278,28 @@ class MatchEngine:
                 self._emit_frame()
                 self.next_frame_at += self.tracking_interval
 
-    def _move(self, s: PlayerState, tx: float, ty: float, carrying: bool = False, boost: float = 1.0) -> None:
+    def _move(self, s: PlayerState, tx: float, ty: float, vmax: float, carrying: bool = False,
+              boost: float = 1.0) -> None:
         dx, dy = tx - s.x, ty - s.y
         d = math.hypot(dx, dy)
-        vmax = self._vmax(s) * (0.9 if carrying else 1.0) * boost
-        desired = min(vmax, d * 0.45)
+        vmax = vmax * (0.9 if carrying else 1.0) * boost
+        desired = d * 0.45
+        if desired > vmax:
+            desired = vmax
         if d > 1e-6:
             dvx, dvy = dx / d * desired, dy / d * desired
         else:
             dvx = dvy = 0.0
         ax, ay = (dvx - s.vx) / DT, (dvy - s.vy) / DT
-        amax = 4.0
         a = math.hypot(ax, ay)
-        if a > amax:
-            ax, ay = ax / a * amax, ay / a * amax
+        if a > 4.0:
+            ax, ay = ax / a * 4.0, ay / a * 4.0
         s.vx += ax * DT
         s.vy += ay * DT
-        s.x = clamp(s.x + s.vx * DT, -2, L + 2)
-        s.y = clamp(s.y + s.vy * DT, -2, W + 2)
+        x = s.x + s.vx * DT
+        y = s.y + s.vy * DT
+        s.x = -2.0 if x < -2.0 else L + 2.0 if x > L + 2.0 else x
+        s.y = -2.0 if y < -2.0 else W + 2.0 if y > W + 2.0 else y
 
     def _refresh_jitter(self) -> None:
         for t in (self.home, self.away):
@@ -349,11 +373,32 @@ class MatchEngine:
         self.seq = 0
         self.play_pattern = pattern
 
+    @staticmethod
+    def eff_dist(s: PlayerState, point: tuple[float, float]) -> float:
+        """Distance to a point, shortened for standout players so they get involved more often."""
+        return dist(s.pos, point) - s.boost * BIAS_M
+
     def nearest(self, team: TeamState, point: tuple[float, float], outfield: bool = True,
                 exclude: PlayerState | None = None) -> PlayerState:
+        """Closest player by effective distance (standouts are favoured, see eff_dist)."""
         pool = team.outfield() if outfield else team.active()
         pool = [s for s in pool if s is not exclude] or team.active()
-        return min(pool, key=lambda s: dist(s.pos, point))
+        return min(pool, key=lambda s: self.eff_dist(s, point))
+
+    def _gk_sweep_target(self, defending: TeamState) -> tuple[float, float] | None:
+        """Where the defending keeper steps out to when the ball is close to goal and unmarked.
+
+        Triggered inside roughly 22 m of the goal line in the central channel when no
+        outfield defender is within 3 m of the ball. The keeper never leaves the box.
+        """
+        brx, bry = defending.rel(*self.ball)
+        if brx > 22 or abs(bry - 34) > BOX_HALF_W:
+            return None
+        if min((dist(o.pos, self.ball) for o in defending.outfield()), default=99) < 3.0:
+            return None
+        rx = clamp(brx - 1.5, 1.5, 15.5)
+        ry = clamp(34 + (bry - 34) * 0.7, 34 - BOX_HALF_W + 1, 34 + BOX_HALF_W - 1)
+        return defending.abs(rx, ry)
 
     # ------------------------------------------------------------ main loop
     def run(self) -> None:
@@ -499,6 +544,12 @@ class MatchEngine:
         pd = dist(presser.pos, self.ball)
         under = pd < 4.0
         if under:
+            # the closest real presser: involvement bias must not invent pressure from 7 m away
+            close = [o for o in opp.outfield() if dist(o.pos, self.ball) < 4.0]
+            if close:
+                presser = min(close, key=lambda o: self.eff_dist(o, self.ball))
+                pd = dist(presser.pos, self.ball)
+        if under:
             self.emit("pressure", presser, opp, start=presser.pos, related=self.last_event_id,
                       extra={"target_player_id": s.p.id, "distance_m": round(pd, 1)},
                       count_in_sequence=False)
@@ -507,7 +558,7 @@ class MatchEngine:
         if under and not s.is_gk:
             r0 = self.rng.random()
             box_now = rx > 88.5 and 13.84 < ry < 54.16
-            if r0 < (0.006 if box_now else 0.055):
+            if r0 < (0.006 if box_now else 0.062):
                 self._foul(presser, s, self.last_event_id)
                 return
             if r0 < 0.13:
@@ -540,6 +591,7 @@ class MatchEngine:
         elif rx > 70 and 22 < ry < 46:
             # speculative long-range efforts
             p_shot = (0.035 + 0.02 * mom) * (0.5 if under else 1.0)
+        p_shot *= 1.0 + 0.02 * s.boost
         wide = ry < 16 or ry > 52
         p_cross = 0.32 if (rx > 80 and wide) else 0.0
         drib = s.a("dribbling")
@@ -564,7 +616,7 @@ class MatchEngine:
             self.do_pass(kind="open", under=under, presser=presser)
 
     # ---------------------------------------------------------------- passes
-    def _choose_receiver(self, t: TeamState, s: PlayerState, kind: str) -> PlayerState:
+    def _choose_receiver(self, t: TeamState, s: PlayerState, kind: str, under: bool = False) -> PlayerState:
         opp = self.other(t)
         brx, bry = t.rel(*self.ball)
         directness = t.team.style["directness"] + self.mods(t)[0] * 0.3 - self.mods(t)[1] * 0.2
@@ -590,7 +642,13 @@ class MatchEngine:
             w *= 1.0 + max(0.0, gain) / 25.0 * (0.6 + directness)
             w *= min(open_d, 7.0) / 7.0 + 0.12
             if c.is_gk:
-                w *= 0.35 if brx < 35 else 0.0
+                # keepers take part in build-up: more for controlled teams and under pressure
+                if brx < 45:
+                    w *= 0.7 + 1.0 * t.team.style["control"] + (1.5 if under else 0.0)
+                else:
+                    w *= 0.0
+            elif c.boost:
+                w *= 1.0 + 0.03 * c.boost
             if gain < -15 and brx > 60:
                 w *= 0.5
             weights.append((c, w))
@@ -610,7 +668,7 @@ class MatchEngine:
         t, s = self.poss, self.carrier
         opp = self.other(t)
         mom, ctrl, _ = self.mods(t)
-        recv = self._choose_receiver(t, s, kind)
+        recv = self._choose_receiver(t, s, kind, under=under)
         brx, bry = t.rel(*self.ball)
         crx, cry = t.rel(recv.x, recv.y)
         lead = 2.5 if crx > brx else 0.5
@@ -710,6 +768,10 @@ class MatchEngine:
             ang += (34 - ry) / 34 * 0.4  # cut inside
         trx = clamp(rx + length * math.cos(ang), 1, L - 1)
         try_ = clamp(ry + length * math.sin(ang), 1, W - 1)
+        if not after_dribble and abs(try_ - 34) < BOX_HALF_W and trx > CARRY_STOP_RX:
+            # no walking the ball onto the goal line: stop at the edge of the six-yard area
+            trx = max(CARRY_STOP_RX, min(rx, trx))
+        length = max(1.0, math.hypot(trx - rx, try_ - ry))
         target = t.abs(trx, try_)
         duration = length / (self._vmax(s) * 0.82)
         if under and not after_dribble and self.rng.random() < 0.16 and presser:
@@ -742,7 +804,7 @@ class MatchEngine:
         t = self.poss
         opp = self.other(t)
         rx, ry = t.rel(*self.ball)
-        foul_p = 0.12 + (0.08 if rx > 60 else 0) - (defender.a("tackling") - 70) * 0.003
+        foul_p = 0.13 + (0.08 if rx > 60 else 0) - (defender.a("tackling") - 70) * 0.003
         if rx > 88.5 and 13.84 < ry < 54.16:
             foul_p *= 0.15
         if self.rng.random() < foul_p:
@@ -891,10 +953,15 @@ class MatchEngine:
                         in_cone += 0 if o.is_gk else 1
                 xg *= 0.72 ** min(in_cone, 4)
                 xg = max(xg, 0.005)
-        fin = s.a("finishing") if not header else (s.a("finishing") + s.a("aerial")) / 2
         gk = opp.gk()
+        if gk and not penalty and not direct_free_kick:
+            # a keeper who has stepped out narrows the angle on close-range chances
+            gkd = dist(gk.pos, self.ball)
+            if gkd < 6.0 and rx > 88:
+                xg *= clamp(0.4 + 0.1 * gkd, 0.4, 1.0)
+        fin = s.a("finishing") if not header else (s.a("finishing") + s.a("aerial")) / 2
         keep = gk.a("keeping") if gk else 40
-        p_goal = clamp(xg * (1 + (fin - 75) * 0.01) * (1 - (keep - 80) * 0.008), 0.005, 0.95)
+        p_goal = clamp(1.16 * xg * (1 + (fin - 75) * 0.01) * (1 - (keep - 80) * 0.008), 0.005, 0.95)
         blockers = [o for o in opp.outfield() if dist(o.pos, self.ball) < 6]
         p_block = 0.0 if (penalty or direct_free_kick or header or not blockers) else clamp(0.08 + 0.07 * len(blockers), 0, 0.4)
         shot_speed = (self.rng.uniform(55, 80) if header else self.rng.uniform(85, 125)) * (0.9 if under else 1.0)
@@ -916,7 +983,7 @@ class MatchEngine:
             self.emit("block", blocker, opp, start=blocker.pos, related=eid, count_in_sequence=False)
             self.advance(0.4, ball_to=blocker.pos)
             if self.rng.random() < 0.3:
-                self.restart("corner", t, self.ball)
+                self._corner_after(t, eid)
             else:
                 self._loose_ball(related=eid)
             return
@@ -948,7 +1015,7 @@ class MatchEngine:
             if r2 < 0.5:
                 self.restart("keeper", opp, goal_point)
             elif r2 < 0.8:
-                self.restart("corner", t, goal_point)
+                self._corner_after(t, eid)
             else:
                 self._loose_ball(related=eid, near=t.abs(97, 34 + self.rng.uniform(-10, 10)))
             return
@@ -957,7 +1024,18 @@ class MatchEngine:
                         qualifiers=quals, under_pressure=under,
                         pressure_player=presser.p.id if presser and under else None, extra=extra)
         self.advance(travel, ball_to=wide_point, height=2.0, chase=False)
+        self.emit("ball_out", None, t, start=wide_point, related=eid, extra={"restart": "goal_kick"},
+                  count_in_sequence=False)
         self.restart("goal_kick", opp, wide_point)
+
+    def _corner_after(self, t: TeamState, related: str | None) -> None:
+        """The ball goes behind off a defender or keeper: ball_out, then a corner for the attack."""
+        gx = L if t.dir == 1 else 0.0
+        out_pt = (gx, clamp(self.ball[1] + self.rng.gauss(0, 4), 1, W - 1))
+        self.advance(0.6, ball_to=out_pt, chase=False)
+        self.emit("ball_out", None, t, start=out_pt, related=related, extra={"restart": "corner"},
+                  count_in_sequence=False)
+        self.restart("corner", t, out_pt)
 
     def _loose_ball(self, related: str | None, near: tuple[float, float] | None = None) -> None:
         pt = near or (clamp(self.ball[0] + self.rng.gauss(0, 6), 1, L - 1), clamp(self.ball[1] + self.rng.gauss(0, 6), 1, W - 1))

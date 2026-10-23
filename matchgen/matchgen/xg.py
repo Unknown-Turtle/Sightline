@@ -23,7 +23,7 @@ def shot_xg(rx: float, ry: float, header: bool = False, under_pressure: bool = F
             counter: bool = False) -> float:
     d = math.hypot(105.0 - rx, 34.0 - ry)
     ang = goal_angle(rx, ry)
-    z = -0.6 - 0.14 * d + 1.6 * ang
+    z = -0.52 - 0.14 * d + 1.6 * ang
     xg = 1.25 / (1.0 + math.exp(-z))
     if header:
         xg *= 0.55
