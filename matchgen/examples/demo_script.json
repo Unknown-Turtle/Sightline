@@ -1,0 +1,42 @@
+{
+  "segments": [
+    {
+      "from": 0,
+      "to": 25,
+      "team": "ARD",
+      "control": 0.35,
+      "press": 0.3
+    },
+    {
+      "from": 25,
+      "to": 40,
+      "team": "HVL",
+      "momentum": 0.3
+    },
+    {
+      "from": 55,
+      "to": 75,
+      "team": "HVL",
+      "momentum": 0.45,
+      "press": 0.5
+    },
+    {
+      "from": 75,
+      "to": 95,
+      "team": "ARD",
+      "momentum": 0.5,
+      "control": 0.2
+    }
+  ],
+  "standouts": [
+    {
+      "player": "ARD_05",
+      "boost": 12
+    },
+    {
+      "player": "HVL_09",
+      "boost": 10
+    }
+  ],
+  "red_cards": []
+}

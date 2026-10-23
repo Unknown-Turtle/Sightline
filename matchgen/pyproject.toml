@@ -1,0 +1,20 @@
+[project]
+name = "matchgen"
+version = "0.1.0"
+description = "Synthetic football match generator: events + tracking, with storyline scripting"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+eventhub = ["azure-eventhub>=5.11"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+matchgen = "matchgen.__main__:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["matchgen"]
