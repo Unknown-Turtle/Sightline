@@ -170,3 +170,106 @@ def test_standout_gets_more_defensive_actions():
         tot.update(e["player_id"] for e in eng.events if e["type"] in kinds and e["player_id"] in ("ARD_05", "ARD_06"))
     print(f"\nARD_05 {tot['ARD_05'] / 6:.1f} vs ARD_06 {tot['ARD_06'] / 6:.1f} defensive actions per match (6 seeds)")
     assert tot["ARD_05"] > 1.25 * tot["ARD_06"], tot
+
+
+# ----------------------------------------------------------------- schema 0.2.0
+
+def _first_events_by_possession(events):
+    first = {}
+    for e in events:
+        first.setdefault(e["possession_id"], e)
+    return first
+
+
+def test_score_on_every_event(match):
+    score = {"ARD": 0, "HVL": 0}
+    for e in match.events:
+        if e["type"] == "goal":
+            score[e["team_id"]] += 1
+        assert e["score"] == score, (e["event_id"], e["type"], e["score"], score)
+
+
+def test_assist_links(match):
+    by_id = {e["event_id"]: e for e in match.events}
+    shots = [e for e in match.events if e["type"] == "shot"]
+    assisted = [e for e in shots if "assist_event_id" in e["extra"]]
+    assert assisted
+    for e in assisted:
+        pe = by_id[e["extra"]["assist_event_id"]]
+        assert pe["type"] == "pass" and pe["outcome"] == "complete"
+        assert pe["team_id"] == e["team_id"] and pe["possession_id"] == e["possession_id"]
+        assert pe["extra"]["receiver_id"] == e["player_id"]
+        assert pe["extra"].get("key_pass") is True
+        assert e["extra"]["assist_type"] in ("cross", "through_ball", "cutback", "pass", "set_piece")
+        if e["outcome"] == "goal":
+            assert pe["extra"].get("assist") is True
+    # every assist flag points back to a goal
+    for pe in match.events:
+        if pe["type"] == "pass" and pe["extra"].get("assist"):
+            assert any(s["outcome"] == "goal" and s["extra"].get("assist_event_id") == pe["event_id"] for s in shots)
+
+
+def test_shot_context_fields(match):
+    for e in match.events:
+        if e["type"] != "shot":
+            continue
+        x = e["extra"]
+        for k in ("defenders_in_lane", "gk_position", "gk_distance_m", "first_time", "one_on_one", "counter", "xg_factors"):
+            assert k in x, k
+        f = x["xg_factors"]
+        prod = f["base"]
+        for k, v in f.items():
+            if k != "base":
+                prod *= v
+        if "penalty" not in e["qualifiers"]:
+            assert abs(max(0.005, min(0.95, prod)) - x["xg"]) < 0.01, (f, x["xg"])
+        if x["one_on_one"]:
+            assert x["defenders_in_lane"] == 0 and x["gk_distance_m"] < 8
+
+
+def test_possession_summaries_cover_every_possession(match):
+    summaries = [e["extra"]["prev_possession"] for e in match.events if "prev_possession" in e["extra"]]
+    ids = [s["possession_id"] for s in summaries]
+    assert ids == sorted(ids) and len(ids) == len(set(ids))
+    assert set(ids) == set(range(1, match.poss_id + 1))
+    allowed = {"shot", "goal", "tackle", "interception", "recovery", "out_of_play", "foul", "offside", "keeper", "period_end"}
+    assert all(s["end_reason"] in allowed for s in summaries)
+    passes = Counter(e["possession_id"] for e in match.events if e["type"] == "pass")
+    for s in summaries:
+        assert s["passes"] == passes.get(s["possession_id"], 0)
+        assert s["duration_s"] >= 0
+    reasons = Counter(s["end_reason"] for s in summaries)
+    goals = sum(1 for e in match.events if e["type"] == "goal")
+    assert reasons["goal"] == goals and reasons["period_end"] == 2
+
+
+def test_pass_context_fields(match):
+    for e in match.events:
+        if e["type"] != "pass":
+            continue
+        x = e["extra"]
+        assert x["direction"] in ("forward", "backward", "lateral")
+        assert 0 <= x["difficulty"] <= 1
+        assert isinstance(x["progressive"], bool) and isinstance(x["into_box"], bool)
+        if x["into_box"]:
+            assert x["progressive"]
+        srx, _ = _rel(e, "start")
+        if x["into_final_third"] and e["outcome"] == "complete":
+            erx, _ = _rel(e, "end")
+            assert srx < 70 <= erx + 0.01
+
+
+def test_match_context_generated_and_overridable():
+    from matchgen.io import match_metadata
+    base = simulate(default_world(), seed=4)
+    meta = match_metadata(base)
+    assert meta["schema_version"] == "0.2.0"
+    assert meta["attendance"] <= meta["venue_capacity"]
+    assert 0 <= meta["referee"]["strictness"] <= 1 and 1 <= meta["matchday"] <= 38
+    assert meta["weather"] in ("clear", "overcast", "rain", "wind", "cold")
+    over = simulate(default_world(), seed=4, script=Script.from_dict(
+        {"context": {"weather": meta["weather"], "stakes": "cup final", "attendance": 10 ** 9}}))
+    m2 = match_metadata(over)
+    assert m2["stakes"] == "cup final" and m2["attendance"] == m2["venue_capacity"]
+    # overriding context (same weather, same referee) never changes the simulation itself
+    assert over.events == base.events

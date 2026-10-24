@@ -136,6 +136,10 @@ class World:
     venue: str
     home: Team
     away: Team
+    venue_capacity: int = 31400
+    # optional overrides for the seeded match context (referee, weather, attendance,
+    # kickoff_local, matchday, stakes); see engine.build_context
+    context: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -146,7 +150,9 @@ class World:
             players = [Player(**p) for p in td.pop("players")]
             return Team(players=players, **td)
         return World(competition=d["competition"], venue=d["venue"],
-                     home=team(dict(d["home"])), away=team(dict(d["away"])))
+                     home=team(dict(d["home"])), away=team(dict(d["away"])),
+                     venue_capacity=int(d.get("venue_capacity", 31400)),
+                     context=dict(d.get("context", {})))
 
     @staticmethod
     def load(path: str) -> "World":

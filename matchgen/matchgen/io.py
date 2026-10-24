@@ -8,7 +8,7 @@ from dataclasses import asdict
 from .engine import MatchEngine
 from .world import FORMATIONS
 
-SCHEMA_VERSION = "0.1.0"
+SCHEMA_VERSION = "0.2.0"
 
 
 def match_metadata(eng: MatchEngine) -> dict:
@@ -36,6 +36,13 @@ def match_metadata(eng: MatchEngine) -> dict:
         "home_team_id": w.home.id,
         "away_team_id": w.away.id,
         "final_score": {eng.home.id: eng.home.score, eng.away.id: eng.away.score},
+        "referee": eng.context["referee"],
+        "weather": eng.context["weather"],
+        "attendance": eng.context["attendance"],
+        "venue_capacity": eng.context["venue_capacity"],
+        "kickoff_local": eng.context["kickoff_local"],
+        "matchday": eng.context["matchday"],
+        "stakes": eng.context["stakes"],
         "stoppage_seconds": {"1": eng.stoppage[1], "2": eng.stoppage[2]},
         "duration_elapsed_s": round(eng.elapsed, 1),
         "pitch": {"length_m": 105, "width_m": 68},
