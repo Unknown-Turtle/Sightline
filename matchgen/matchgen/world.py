@@ -118,10 +118,14 @@ class Team:
     short_name: str
     colour: str
     formation: str
-    style: dict  # directness, press, control in [0, 1]
+    style: dict  # directness, press, control, rehearsed in [0, 1]
     players: list[Player] = field(default_factory=list)
     starting_xi: list[str] = field(default_factory=list)  # ids in formation slot order
     bench: list[str] = field(default_factory=list)
+    # rehearsed build-up routines: {"id", "name", "trigger", "steps": [{"from", "to", "zone": [x, y]}]}
+    # roles are formation slot names ("*" = whoever has the ball, for regain triggers),
+    # zones are team-relative (own goal at x = 0)
+    routines: list[dict] = field(default_factory=list)
 
     def player(self, pid: str) -> Player:
         for p in self.players:
@@ -225,12 +229,42 @@ def build_team(rng: random.Random, team_id: str, name: str, short: str, colour: 
                 style=style, players=players, starting_xi=xi, bench=bench)
 
 
+# Rehearsed routines for the default clubs. Triggers: goal_kick, keeper (keeper distribution),
+# regain_own_third (a regain with the ball inside the team's own third).
+ARD_ROUTINES = [
+    {"id": "ARD_R1", "name": "keeper to pivot to striker drop-off to runner", "trigger": "goal_kick",
+     "steps": [{"from": "GK", "to": "CDM", "zone": [24, 34]},
+               {"from": "CDM", "to": "ST", "zone": [52, 34]},
+               {"from": "ST", "to": "RW", "zone": [72, 12]}]},
+    {"id": "ARD_R2", "name": "right-side overload to switch", "trigger": "regain_own_third",
+     "steps": [{"from": "*", "to": "RB", "zone": [38, 8]},
+               {"from": "RB", "to": "RCM", "zone": [48, 18]},
+               {"from": "RCM", "to": "LW", "zone": [66, 60]}]},
+    {"id": "ARD_R3", "name": "keeper short to full back to third man", "trigger": "keeper",
+     "steps": [{"from": "GK", "to": "LB", "zone": [26, 58]},
+               {"from": "LB", "to": "LCM", "zone": [42, 44]}]},
+]
+HVL_ROUTINES = [
+    {"id": "HVL_R1", "name": "keeper long to target man to wing back", "trigger": "goal_kick",
+     "steps": [{"from": "GK", "to": "ST", "zone": [60, 34]},
+               {"from": "ST", "to": "RWB", "zone": [66, 8]}]},
+    {"id": "HVL_R2", "name": "back three out through the left wing back", "trigger": "regain_own_third",
+     "steps": [{"from": "*", "to": "LCB", "zone": [28, 52]},
+               {"from": "LCB", "to": "LWB", "zone": [46, 62]},
+               {"from": "LWB", "to": "LAM", "zone": [62, 46]}]},
+]
+
+
 def default_world(seed: int = 2026) -> World:
     """Two fictional clubs with contrasting styles."""
     rng = random.Random(seed)
     used: set[str] = set()
     home = build_team(rng, "ARD", "Arden Athletic", "Arden", "#C8102E", "4-3-3", quality=76,
-                      style={"directness": 0.35, "press": 0.7, "control": 0.65}, used_names=used)
+                      style={"directness": 0.35, "press": 0.7, "control": 0.65, "rehearsed": 0.6},
+                      used_names=used)
     away = build_team(rng, "HVL", "Hollow Vale", "Hollow Vale", "#1D4E89", "3-4-2-1", quality=74,
-                      style={"directness": 0.6, "press": 0.45, "control": 0.45}, used_names=used)
+                      style={"directness": 0.6, "press": 0.45, "control": 0.45, "rehearsed": 0.4},
+                      used_names=used)
+    home.routines = [dict(r) for r in ARD_ROUTINES]
+    away.routines = [dict(r) for r in HVL_ROUTINES]
     return World(competition="Fictional Premier Division", venue="Arden Park", home=home, away=away)

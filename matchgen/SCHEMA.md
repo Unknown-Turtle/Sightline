@@ -139,6 +139,28 @@ The first event of every possession (whatever its type) carries `extra.prev_poss
 
 The `period_end` event carries the summary of the possession running at the whistle, and the second-half kick-off does not repeat it. Possession ids are contiguous, so every possession is summarised exactly once.
 
+## Rehearsed routines **new**
+
+Each team may define 2 or 3 named build-up routines in the world JSON (`routines` on the team) as a short sequence of role-to-role passes with target zones in the team-relative frame:
+
+```json
+{"id": "ARD_R1", "name": "keeper to pivot to striker drop-off to runner", "trigger": "goal_kick",
+ "steps": [{"from": "GK", "to": "CDM", "zone": [24, 34]}, {"from": "CDM", "to": "ST", "zone": [52, 34]}]}
+```
+
+- `trigger`: `goal_kick`, `keeper` (keeper distribution) or `regain_own_third` (a regain or second ball won inside the team's own third). `from` may be `"*"` for whoever has the ball.
+- At a trigger the team attempts a matching routine with probability `style.rehearsed`. The receiver of each step runs to its zone; a step is skipped with probability 0.6 when the carrier is under pressure (`broken_pressure`), ends when a pass is not completed (`broken_pass`), when the ball is lost before the next pass (`lost_possession`), or when the wrong player ends up on the ball or a restart interrupts (`abandoned`).
+- The definitions (the playbook) are public in `match.json` under each lineup's `routines`.
+- Which events belonged to an attempt is written **only** to `routines_truth.jsonl`, never into `events.jsonl`, so detection code can be evaluated honestly:
+
+```json
+{"attempt_id": "r_0007", "routine_id": "ARD_R1", "team_id": "ARD", "trigger": "goal_kick", "possession_id": 58,
+ "start_elapsed": 1210.4, "end_elapsed": 1221.8, "steps_completed": 3, "steps_total": 3,
+ "event_ids": ["e_000402", "e_000404", "e_000405"], "outcome": "completed"}
+```
+
+Attempts that ended before any pass was played are not recorded.
+
 ## Tracking frames
 
 ```json

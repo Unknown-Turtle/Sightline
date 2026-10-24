@@ -194,6 +194,9 @@ class MatchEngine:
         self._setup: dict | None = None             # last completed pass to the current carrier
         self._received: tuple[str, float] | None = None  # (receiver_id, elapsed) of the last completed pass
         self._touches_since_receive = 0
+        # rehearsed routines (ground truth kept out of events.jsonl, see routines_truth.jsonl)
+        self.routine: dict | None = None
+        self.routine_attempts: list[dict] = []
 
     # ------------------------------------------------------------------ setup
     def _team_state(self, team: Team) -> TeamState:
@@ -476,6 +479,77 @@ class MatchEngine:
         self._setup = None
         self._received = None
         self._touches_since_receive = 0
+        self._maybe_start_routine(team, pattern)
+
+    # ------------------------------------------------------------- routines
+    def _maybe_start_routine(self, team: TeamState, pattern: str) -> None:
+        """At a trigger situation, the team attempts one of its rehearsed routines with probability `rehearsed`."""
+        if self.routine is not None:
+            self._end_routine("lost_possession" if self.routine["team_id"] != team.id else "abandoned")
+        routines = team.team.routines
+        if not routines:
+            return
+        rx = self.poss_start_rx
+        trigger = pattern if pattern in ("goal_kick", "keeper") else (
+            "regain_own_third" if pattern in ("regain", "second_ball") and rx < 35 else None)
+        cands = [r for r in routines if r.get("trigger") == trigger]
+        # one draw per possession start keeps the random stream stable whether or not a routine exists
+        roll = self.rng.random()
+        if not cands or roll >= team.team.style.get("rehearsed", 0.0):
+            return
+        routine = cands[int(roll / max(team.team.style.get("rehearsed", 1e-9), 1e-9) * len(cands)) % len(cands)]
+        self.routine = {"routine_id": routine["id"], "team_id": team.id, "trigger": trigger,
+                        "steps": routine["steps"], "i": 0, "event_ids": [],
+                        "start_elapsed": round(self.elapsed, 2), "possession_id": self.poss_id}
+
+    def _end_routine(self, outcome: str) -> None:
+        r = self.routine
+        if r is None:
+            return
+        self.routine = None
+        if not r["event_ids"]:
+            return  # ended before a single rehearsed pass: not an attempt worth recording
+        self.routine_attempts.append({
+            "attempt_id": f"r_{len(self.routine_attempts) + 1:04d}",
+            "routine_id": r["routine_id"], "team_id": r["team_id"], "trigger": r["trigger"],
+            "possession_id": r["possession_id"], "start_elapsed": r["start_elapsed"],
+            "end_elapsed": round(self.elapsed, 2), "steps_completed": r["i"], "steps_total": len(r["steps"]),
+            "event_ids": list(r["event_ids"]), "outcome": outcome,
+        })
+
+    def _by_role(self, team: TeamState, role: str) -> PlayerState | None:
+        for s in team.active():
+            if s.role == role:
+                return s
+        return None
+
+    def _routine_step(self, s: PlayerState, under: bool, presser: PlayerState | None) -> bool:
+        """Play the next rehearsed pass if the carrier is the right player. Returns True if handled."""
+        r = self.routine
+        if r is None or r["team_id"] != self.poss.id:
+            return False
+        step = r["steps"][r["i"]]
+        if step["from"] != "*" and s.role != step["from"]:
+            self._end_routine("abandoned")
+            return False
+        recv = self._by_role(self.poss, step["to"])
+        if recv is None or recv is s:
+            self._end_routine("abandoned")
+            return False
+        if under and self.rng.random() < 0.6:
+            self._end_routine("broken_pressure")
+            return False
+        n_before = len(self.events)
+        ok = self.do_pass(kind="open", under=under, presser=presser, recv=recv, target_rel=tuple(step["zone"]),
+                          rehearsed=True)
+        r["event_ids"] += [e["event_id"] for e in self.events[n_before:] if e["type"] == "pass"]
+        if not ok:
+            self._end_routine("broken_pass")
+            return True
+        r["i"] += 1
+        if r["i"] >= len(r["steps"]):
+            self._end_routine("completed")
+        return True
 
     def is_counter(self) -> bool:
         """The possession began with a regain in the team's own half less than 15 s ago."""
@@ -535,6 +609,7 @@ class MatchEngine:
                         t.natural_momentum = 0.85 * t.natural_momentum + self.rng.gauss(0, 0.1)
                 self.step()
             self._pending_prev = None
+            self._end_routine("abandoned")
             self.emit("period_end", None, self.home,
                       extra={"period": period, "prev_possession": self._close_possession("period_end")},
                       count_in_sequence=False)
@@ -621,6 +696,8 @@ class MatchEngine:
                 self.do_pass(kind="free_kick")
         elif kind == "throw_in":
             self.do_pass(kind="throw_in")
+        elif self.routine is not None and self._routine_step(taker, False, None):
+            pass  # a rehearsed goal kick or keeper distribution
         elif kind == "goal_kick":
             self.do_pass(kind="goal_kick")
         else:
@@ -687,7 +764,7 @@ class MatchEngine:
         if under and not s.is_gk:
             r0 = self.rng.random()
             box_now = rx > 88.5 and 13.84 < ry < 54.16
-            if r0 < (0.006 if box_now else 0.062):
+            if r0 < (0.009 if box_now else 0.062):
                 self._foul(presser, s, self.last_event_id)
                 return
             if r0 < 0.13:
@@ -706,6 +783,8 @@ class MatchEngine:
         if under and self._received and self._received[0] == s.p.id and self._touches_since_receive == 0:
             hold *= 0.5  # hurried first touch
         self.advance(hold, carrier=s)
+        if self.routine is not None and self._routine_step(s, under, presser):
+            return
         if s.is_gk:
             self.do_pass(kind="open", under=under, presser=presser)
             return
@@ -775,7 +854,7 @@ class MatchEngine:
             if c.is_gk:
                 # keepers take part in build-up: more for controlled teams and under pressure
                 if brx < 45:
-                    w *= 0.7 + 1.0 * t.team.style["control"] + (1.5 if under else 0.0)
+                    w *= 0.85 + 1.1 * t.team.style["control"] + (1.6 if under else 0.0)
                 else:
                     w *= 0.0
             elif c.boost:
@@ -795,13 +874,20 @@ class MatchEngine:
                 return c
         return weights[-1][0]
 
-    def do_pass(self, kind: str = "open", under: bool = False, presser: PlayerState | None = None) -> None:
+    def do_pass(self, kind: str = "open", under: bool = False, presser: PlayerState | None = None,
+                recv: PlayerState | None = None, target_rel: tuple[float, float] | None = None,
+                rehearsed: bool = False) -> bool:
+        """Play a pass. Returns True when it is completed. recv/target_rel force a rehearsed pass."""
         t, s = self.poss, self.carrier
         opp = self.other(t)
         mom, ctrl, _ = self.mods(t)
-        recv = self._choose_receiver(t, s, kind, under=under)
+        recv = recv or self._choose_receiver(t, s, kind, under=under)
         brx, bry = t.rel(*self.ball)
         crx, cry = t.rel(recv.x, recv.y)
+        if target_rel is not None:
+            # the receiver runs to the rehearsed zone, so aim between where they are and where they will be
+            crx = 0.4 * crx + 0.6 * target_rel[0]
+            cry = 0.4 * cry + 0.6 * target_rel[1]
         lead = 2.5 if crx > brx else 0.5
         trx = clamp(crx + lead + self.rng.gauss(0, 1.2), 1, L - 1)
         try_ = clamp(cry + self.rng.gauss(0, 1.2), 1, W - 1)
@@ -830,6 +916,8 @@ class MatchEngine:
             p -= 0.015
         elif weather == "wind" and length > 30:
             p -= 0.04
+        if rehearsed:
+            p += 0.03
         p = clamp(p, 0.25, 0.985)
         quals = []
         if kind != "open":
@@ -860,7 +948,7 @@ class MatchEngine:
             self.emit("offside", recv, t, related=eid, count_in_sequence=False)
             self.end_reason = "offside"
             self.restart("free_kick", opp, self.ball)
-            return
+            return False
         if success:
             self.emit("pass", s, t, "complete", start=self.ball, end=target, body_part=body,
                       qualifiers=quals, under_pressure=under,
@@ -869,7 +957,7 @@ class MatchEngine:
             recv.x, recv.y = target
             self.carrier = recv
             self._received = (recv.p.id, self.elapsed)
-            return
+            return True
         # failed pass
         out_side = try_ < 9 or try_ > W - 9 or length > 30
         if out_side and self.rng.random() < 0.55:
@@ -882,7 +970,7 @@ class MatchEngine:
                       count_in_sequence=False)
             self.end_reason = "out_of_play"
             self.restart("throw_in", opp, out_pt)
-            return
+            return False
         frac = self.rng.uniform(0.55, 1.0)
         cut = (self.ball[0] + (target[0] - self.ball[0]) * frac, self.ball[1] + (target[1] - self.ball[1]) * frac)
         interceptor = self.nearest(opp, cut, outfield=False)
@@ -895,6 +983,7 @@ class MatchEngine:
         kind_ = "interception" if frac < 0.68 else "ball_recovery"
         self.new_possession(opp, interceptor, "regain", reason="interception" if frac < 0.68 else "recovery")
         self.emit(kind_, interceptor, opp, outcome="won", start=cut, related=eid)
+        return False
 
     def _pass_context(self, t: TeamState, start: tuple[float, float], end: tuple[float, float],
                       length: float, height: str, under: bool, quals: list[str]) -> dict:
@@ -989,7 +1078,7 @@ class MatchEngine:
         rx, ry = t.rel(*self.ball)
         foul_p = 0.13 + (0.08 if rx > 60 else 0) - (defender.a("tackling") - 70) * 0.003
         if rx > 88.5 and 13.84 < ry < 54.16:
-            foul_p *= 0.15
+            foul_p *= 0.2
         if self.rng.random() < foul_p:
             self._foul(defender, victim, related)
             return
@@ -1197,7 +1286,7 @@ class MatchEngine:
         fin = s.a("finishing") if not header else (s.a("finishing") + s.a("aerial")) / 2
         gk = opp.gk()
         keep = gk.a("keeping") if gk else 40
-        p_goal = clamp(1.5 * xg * (1 + (fin - 75) * 0.01) * (1 - (keep - 80) * 0.008), 0.005, 0.95)
+        p_goal = clamp(1.38 * xg * (1 + (fin - 75) * 0.01) * (1 - (keep - 80) * 0.008), 0.005, 0.95)
         blockers = [o for o in opp.outfield() if dist(o.pos, self.ball) < 6]
         p_block = 0.0 if (penalty or direct_free_kick or header or not blockers) else clamp(0.08 + 0.07 * len(blockers), 0, 0.4)
         shot_speed = (self.rng.uniform(55, 80) if header else self.rng.uniform(85, 125)) * (0.9 if under else 1.0)

@@ -26,6 +26,7 @@ def match_metadata(eng: MatchEngine) -> dict:
                 for pid, (role, *_rest) in zip(team.starting_xi, FORMATIONS[team.formation])
             ],
             "bench": list(team.bench),
+            "routines": [dict(r) for r in team.routines],
         }
 
     return {
@@ -67,6 +68,10 @@ def write_match(eng: MatchEngine, out_dir: str) -> dict:
     with open(os.path.join(out_dir, "tracking.jsonl"), "w") as f:
         for fr in eng.frames:
             f.write(json.dumps(fr, separators=(",", ":")) + "\n")
+    # ground truth for routine detection, deliberately kept out of events.jsonl
+    with open(os.path.join(out_dir, "routines_truth.jsonl"), "w") as f:
+        for r in eng.routine_attempts:
+            f.write(json.dumps(r, separators=(",", ":")) + "\n")
     return meta
 
 
