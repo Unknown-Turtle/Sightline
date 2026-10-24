@@ -8,7 +8,9 @@ Sinks:
   eventhub  Azure Event Hubs (pip install azure-eventhub); reads
             EVENTHUB_CONNECTION_STRING and EVENTHUB_NAME from the environment
 
-Every message is wrapped as {"kind": "event" | "frame" | "match_start" | "match_end", "data": {...}}.
+Every message is wrapped as {"kind": "event" | "frame" | "snapshot" | "match_start" | "match_end", "data": {...}}.
+With snapshot_every set, a stats snapshot (matchgen/stats.py) is interleaved every N seconds of
+match time, built from exactly the messages released before it.
 """
 from __future__ import annotations
 
@@ -18,6 +20,8 @@ import os
 import sys
 import time
 from typing import Iterator
+
+from .stats import StatsEngine
 
 
 def merged(events: list[dict], frames: list[dict], include_frames: bool = True) -> Iterator[tuple[float, str, dict]]:
@@ -76,9 +80,26 @@ class EventHubSink:
         self.client.close()
 
 
+def with_snapshots(meta: dict, messages: Iterator[tuple[float, str, dict]],
+                   every: float) -> Iterator[tuple[float, str, dict]]:
+    """Wrap a merged message stream, yielding a snapshot every `every` seconds of match time."""
+    engine = StatsEngine(meta)
+    next_at = every
+    for t, kind, data in messages:
+        while t > next_at:
+            yield next_at, "snapshot", engine.snapshot(at=next_at)
+            next_at += every
+        if kind == "frame":
+            engine.ingest_frame(data)
+        else:
+            engine.ingest_event(data)
+        yield t, kind, data
+    yield engine.elapsed, "snapshot", engine.snapshot()
+
+
 def replay(meta: dict, events: list[dict], frames: list[dict], speed: float = 30.0,
            sink=None, include_frames: bool = True, start_minute: float = 0.0,
-           tick: float = 0.25) -> None:
+           tick: float = 0.25, snapshot_every: float | None = None) -> None:
     """Send messages at match pace / speed. Messages due in the same tick are batched."""
     sink = sink or StdoutSink()
     start_elapsed = start_minute * 60.0
@@ -87,7 +108,10 @@ def replay(meta: dict, events: list[dict], frames: list[dict], speed: float = 30
     wall0 = time.monotonic()
     batch: list[dict] = []
     batch_due = None
-    for t, kind, data in merged(events, frames, include_frames):
+    stream = merged(events, frames, include_frames)
+    if snapshot_every:
+        stream = with_snapshots(meta, stream, snapshot_every)
+    for t, kind, data in stream:
         if t < start_elapsed:
             continue
         due = (t - start_elapsed) / speed

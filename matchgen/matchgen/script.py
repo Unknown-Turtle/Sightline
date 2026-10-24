@@ -10,8 +10,13 @@ schedules a red card. Example:
     {"from": 55, "to": 72, "team": "HVL", "momentum": 0.5, "press": 0.6}
   ],
   "standouts": [{"player": "ARD_07", "boost": 10}],
-  "red_cards": [{"minute": 68, "team": "HVL", "player": "HVL_05"}]
+  "red_cards": [{"minute": 68, "team": "HVL", "player": "HVL_05"}],
+  "context": {"weather": "rain", "stakes": "relegation six-pointer"}
 }
+
+`context` overrides any of the seeded match-context fields (referee, weather,
+attendance, kickoff_local, matchday, stakes) and takes precedence over the same
+block in the world JSON.
 """
 from __future__ import annotations
 
@@ -34,6 +39,7 @@ class Script:
     segments: list[Segment] = field(default_factory=list)
     standouts: dict[str, int] = field(default_factory=dict)
     red_cards: list[dict] = field(default_factory=list)
+    context: dict = field(default_factory=dict)
 
     @staticmethod
     def from_dict(d: dict) -> "Script":
@@ -41,7 +47,8 @@ class Script:
                         momentum=s.get("momentum", 0.0), control=s.get("control", 0.0),
                         press=s.get("press", 0.0)) for s in d.get("segments", [])]
         stand = {s["player"]: int(s.get("boost", 10)) for s in d.get("standouts", [])}
-        return Script(segments=segs, standouts=stand, red_cards=list(d.get("red_cards", [])))
+        return Script(segments=segs, standouts=stand, red_cards=list(d.get("red_cards", [])),
+                      context=dict(d.get("context", {})))
 
     @staticmethod
     def load(path: str) -> "Script":
