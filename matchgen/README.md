@@ -9,8 +9,9 @@ All clubs, players, matches and history are fictional. No real match data is use
 Python 3.10+, no dependencies for generating.
 
 ```bash
-# simulate the demo match (Arden Athletic __SCORE__ Hollow Vale: __STORY__)
-python -m matchgen generate --seed __SEED__ --script demo --out out/demo
+# simulate the demo match: Arden Athletic 3-2 Hollow Vale. Hollow Vale lead 2-0 (30', 59'),
+# Arden pull back to 2-2 (73', 77') and a substitute wins it in the 91st minute
+python -m matchgen generate --seed 587 --script demo --out out/demo
 
 # full-time team stats for that match
 python -m matchgen summary --dir out/demo
@@ -31,7 +32,7 @@ python -m matchgen stream --dir out/demo --speed 10 --no-frames --start-minute 5
 python -m matchgen history --seed 7 --out out/history
 ```
 
-Pre-generated copies are in `sample/demo_seed__SEED__/` (match, events, 1 Hz tracking, routine ground truth, snapshots every 30 s) and `sample/history/`.
+Pre-generated copies are in `sample/demo_seed587/` (match, events, 1 Hz tracking, routine ground truth, snapshots every 30 s) and `sample/history/`. In the demo match the boosted centre back `ARD_05` makes 25 defensive actions, twice as many as any other Arden player, and Arden's one big chance that does not go in is saved in the 23rd minute. The seed was found with `python scripts/find_demo_seed.py`, which searches for exactly that story.
 
 ## What a match folder contains
 
