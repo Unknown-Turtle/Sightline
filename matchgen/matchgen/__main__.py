@@ -1,4 +1,4 @@
-"""Command line: python -m matchgen {generate,stream,summary,snapshot,snapshots,world}"""
+"""Command line: python -m matchgen {generate,stream,summary,snapshot,snapshots,history,world}"""
 from __future__ import annotations
 
 import argparse
@@ -6,6 +6,7 @@ import json
 import sys
 
 from .engine import simulate
+from .history import build_history
 from .io import read_match, write_match
 from .script import DEMO_SCRIPT, Script
 from .stats import StatsEngine, clock_to_elapsed, snapshots_every
@@ -70,6 +71,12 @@ def cmd_snapshots(a: argparse.Namespace) -> None:
     print(json.dumps({"out": a.out, "snapshots": n, "every_s": a.every}), file=sys.stderr)
 
 
+def cmd_history(a: argparse.Namespace) -> None:
+    hist = build_history(a.seed, _world(a.world))
+    counts = hist.write(a.out)
+    print(json.dumps({"out": a.out, "seed": a.seed, "tables": counts}), file=sys.stderr)
+
+
 def cmd_world(a: argparse.Namespace) -> None:
     w = default_world(a.seed)
     with open(a.out, "w") as f:
@@ -114,6 +121,12 @@ def main(argv: list[str] | None = None) -> None:
     ss.add_argument("--every", type=float, default=30.0)
     ss.add_argument("--out", default="out/match/snapshots.jsonl")
     ss.set_defaults(fn=cmd_snapshots)
+
+    h = sub.add_parser("history", help="generate the fictional league history (CSV and JSONL tables)")
+    h.add_argument("--seed", type=int, default=1)
+    h.add_argument("--out", default="out/history")
+    h.add_argument("--world", help="world JSON whose Arden and Hollow Vale squads get career logs")
+    h.set_defaults(fn=cmd_history)
 
     w = sub.add_parser("world", help="export the default world to JSON for editing")
     w.add_argument("--seed", type=int, default=2026)

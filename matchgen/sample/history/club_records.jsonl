@@ -1,0 +1,160 @@
+{"club_id":"ARD","record":"biggest_win","value":5,"detail":"2021-11-28 ARD 5-0 MCR"}
+{"club_id":"ARD","record":"biggest_defeat","value":4,"detail":"2022-09-04 EGA 4-0 ARD"}
+{"club_id":"ARD","record":"longest_winning_streak","value":7,"detail":"league matches"}
+{"club_id":"ARD","record":"longest_unbeaten_run","value":16,"detail":"league matches"}
+{"club_id":"ARD","record":"record_scorer","value":71,"detail":"ARD_H09 Callum Varga"}
+{"club_id":"ARD","record":"record_home_attendance","value":31400,"detail":"2026-02-21 ARD 1-1 EGA"}
+{"club_id":"ARD","record":"most_points_in_a_season","value":74,"detail":"2024-25"}
+{"club_id":"ARD","record":"highest_finish","value":2,"detail":"2022-23"}
+{"club_id":"HVL","record":"biggest_win","value":5,"detail":"2022-08-20 HVL 5-0 PNC"}
+{"club_id":"HVL","record":"biggest_defeat","value":4,"detail":"2022-11-13 LKT 4-0 HVL"}
+{"club_id":"HVL","record":"longest_winning_streak","value":7,"detail":"league matches"}
+{"club_id":"HVL","record":"longest_unbeaten_run","value":13,"detail":"league matches"}
+{"club_id":"HVL","record":"record_scorer","value":67,"detail":"HVL_11 Jude Saltash"}
+{"club_id":"HVL","record":"record_home_attendance","value":26800,"detail":"2026-04-26 HVL 1-0 EGA"}
+{"club_id":"HVL","record":"most_points_in_a_season","value":63,"detail":"2021-22"}
+{"club_id":"HVL","record":"highest_finish","value":8,"detail":"2025-26"}
+{"club_id":"KSB","record":"biggest_win","value":5,"detail":"2022-12-31 KSB 5-0 PNC"}
+{"club_id":"KSB","record":"biggest_defeat","value":4,"detail":"2024-02-23 PNC 4-0 KSB"}
+{"club_id":"KSB","record":"longest_winning_streak","value":7,"detail":"league matches"}
+{"club_id":"KSB","record":"longest_unbeaten_run","value":13,"detail":"league matches"}
+{"club_id":"KSB","record":"record_scorer","value":53,"detail":"KSB_H18 Marek Vescovi"}
+{"club_id":"KSB","record":"record_home_attendance","value":42000,"detail":"2025-01-12 KSB 2-2 ARD"}
+{"club_id":"KSB","record":"most_points_in_a_season","value":68,"detail":"2025-26"}
+{"club_id":"KSB","record":"highest_finish","value":3,"detail":"2025-26"}
+{"club_id":"THB","record":"biggest_win","value":7,"detail":"2026-02-21 THB 8-1 SWK"}
+{"club_id":"THB","record":"biggest_defeat","value":4,"detail":"2022-04-17 MCR 4-0 THB"}
+{"club_id":"THB","record":"longest_winning_streak","value":6,"detail":"league matches"}
+{"club_id":"THB","record":"longest_unbeaten_run","value":11,"detail":"league matches"}
+{"club_id":"THB","record":"record_scorer","value":47,"detail":"THB_H09 Femi Marlowe"}
+{"club_id":"THB","record":"record_home_attendance","value":37618,"detail":"2022-01-01 THB 3-0 GHU"}
+{"club_id":"THB","record":"most_points_in_a_season","value":66,"detail":"2022-23"}
+{"club_id":"THB","record":"highest_finish","value":5,"detail":"2021-22"}
+{"club_id":"MRM","record":"biggest_win","value":5,"detail":"2021-11-27 MRM 5-0 SWK"}
+{"club_id":"MRM","record":"biggest_defeat","value":5,"detail":"2024-01-27 MRM 0-5 EGA"}
+{"club_id":"MRM","record":"longest_winning_streak","value":4,"detail":"league matches"}
+{"club_id":"MRM","record":"longest_unbeaten_run","value":13,"detail":"league matches"}
+{"club_id":"MRM","record":"record_scorer","value":37,"detail":"MRM_H10 Tomas Bellamy"}
+{"club_id":"MRM","record":"record_home_attendance","value":24000,"detail":"2026-01-10 MRM 0-1 KSB"}
+{"club_id":"MRM","record":"most_points_in_a_season","value":63,"detail":"2023-24"}
+{"club_id":"MRM","record":"highest_finish","value":4,"detail":"2023-24"}
+{"club_id":"SWK","record":"biggest_win","value":4,"detail":"2022-04-03 SWK 4-0 CRH"}
+{"club_id":"SWK","record":"biggest_defeat","value":7,"detail":"2026-02-21 THB 8-1 SWK"}
+{"club_id":"SWK","record":"longest_winning_streak","value":4,"detail":"league matches"}
+{"club_id":"SWK","record":"longest_unbeaten_run","value":7,"detail":"league matches"}
+{"club_id":"SWK","record":"record_scorer","value":44,"detail":"SWK_H09 Joaquin Rowntree"}
+{"club_id":"SWK","record":"record_home_attendance","value":22500,"detail":"2025-04-12 SWK 1-2 KSB"}
+{"club_id":"SWK","record":"most_points_in_a_season","value":64,"detail":"2023-24"}
+{"club_id":"SWK","record":"highest_finish","value":2,"detail":"2023-24"}
+{"club_id":"EGA","record":"biggest_win","value":7,"detail":"2025-11-30 EGA 7-0 MCR"}
+{"club_id":"EGA","record":"biggest_defeat","value":5,"detail":"2024-09-21 FWR 6-1 EGA"}
+{"club_id":"EGA","record":"longest_winning_streak","value":8,"detail":"league matches"}
+{"club_id":"EGA","record":"longest_unbeaten_run","value":14,"detail":"league matches"}
+{"club_id":"EGA","record":"record_scorer","value":46,"detail":"EGA_H22 Kofi Okafor"}
+{"club_id":"EGA","record":"record_home_attendance","value":35200,"detail":"2024-10-26 EGA 1-3 GHU"}
+{"club_id":"EGA","record":"most_points_in_a_season","value":77,"detail":"2021-22"}
+{"club_id":"EGA","record":"highest_finish","value":2,"detail":"2021-22"}
+{"club_id":"WRF","record":"biggest_win","value":6,"detail":"2022-11-12 WRF 7-1 DNC"}
+{"club_id":"WRF","record":"biggest_defeat","value":4,"detail":"2024-12-01 HVL 4-0 WRF"}
+{"club_id":"WRF","record":"longest_winning_streak","value":8,"detail":"league matches"}
+{"club_id":"WRF","record":"longest_unbeaten_run","value":11,"detail":"league matches"}
+{"club_id":"WRF","record":"record_scorer","value":51,"detail":"WRF_H18 Nils Bellamy"}
+{"club_id":"WRF","record":"record_home_attendance","value":29600,"detail":"2024-03-17 WRF 2-2 EGA"}
+{"club_id":"WRF","record":"most_points_in_a_season","value":65,"detail":"2025-26"}
+{"club_id":"WRF","record":"highest_finish","value":5,"detail":"2025-26"}
+{"club_id":"GGW","record":"biggest_win","value":6,"detail":"2021-12-04 GGW 6-0 FWR"}
+{"club_id":"GGW","record":"biggest_defeat","value":4,"detail":"2025-04-05 ARD 5-1 GGW"}
+{"club_id":"GGW","record":"longest_winning_streak","value":6,"detail":"league matches"}
+{"club_id":"GGW","record":"longest_unbeaten_run","value":14,"detail":"league matches"}
+{"club_id":"GGW","record":"record_scorer","value":75,"detail":"GGW_H09 Malik Lindgren"}
+{"club_id":"GGW","record":"record_home_attendance","value":33000,"detail":"2024-09-15 GGW 1-1 GHU"}
+{"club_id":"GGW","record":"most_points_in_a_season","value":72,"detail":"2021-22"}
+{"club_id":"GGW","record":"highest_finish","value":3,"detail":"2021-22"}
+{"club_id":"ASH","record":"biggest_win","value":3,"detail":"2021-08-28 ASH 3-0 MRM"}
+{"club_id":"ASH","record":"biggest_defeat","value":5,"detail":"2023-12-02 EGA 5-0 ASH"}
+{"club_id":"ASH","record":"longest_winning_streak","value":3,"detail":"league matches"}
+{"club_id":"ASH","record":"longest_unbeaten_run","value":6,"detail":"league matches"}
+{"club_id":"ASH","record":"record_scorer","value":59,"detail":"ASH_H09 Yusuf Lindqvist"}
+{"club_id":"ASH","record":"record_home_attendance","value":18900,"detail":"2022-05-21 ASH 3-4 ARD"}
+{"club_id":"ASH","record":"most_points_in_a_season","value":46,"detail":"2025-26"}
+{"club_id":"ASH","record":"highest_finish","value":14,"detail":"2025-26"}
+{"club_id":"BMA","record":"biggest_win","value":7,"detail":"2024-08-10 BMA 7-0 LKT"}
+{"club_id":"BMA","record":"biggest_defeat","value":4,"detail":"2023-04-22 KSB 4-0 BMA"}
+{"club_id":"BMA","record":"longest_winning_streak","value":6,"detail":"league matches"}
+{"club_id":"BMA","record":"longest_unbeaten_run","value":11,"detail":"league matches"}
+{"club_id":"BMA","record":"record_scorer","value":47,"detail":"BMA_H18 Oskar Dunmore"}
+{"club_id":"BMA","record":"record_home_attendance","value":27200,"detail":"2026-02-21 BMA 1-1 IRB"}
+{"club_id":"BMA","record":"most_points_in_a_season","value":71,"detail":"2023-24"}
+{"club_id":"BMA","record":"highest_finish","value":1,"detail":"2023-24"}
+{"club_id":"CRH","record":"biggest_win","value":4,"detail":"2024-01-06 CRH 6-2 DNC"}
+{"club_id":"CRH","record":"biggest_defeat","value":4,"detail":"2021-08-14 EGA 4-0 CRH"}
+{"club_id":"CRH","record":"longest_winning_streak","value":3,"detail":"league matches"}
+{"club_id":"CRH","record":"longest_unbeaten_run","value":7,"detail":"league matches"}
+{"club_id":"CRH","record":"record_scorer","value":48,"detail":"CRH_H09 Niko Amadi"}
+{"club_id":"CRH","record":"record_home_attendance","value":21000,"detail":"2025-11-08 CRH 0-1 GHU"}
+{"club_id":"CRH","record":"most_points_in_a_season","value":65,"detail":"2024-25"}
+{"club_id":"CRH","record":"highest_finish","value":4,"detail":"2024-25"}
+{"club_id":"DNC","record":"biggest_win","value":5,"detail":"2026-04-24 DNC 5-0 ASH"}
+{"club_id":"DNC","record":"biggest_defeat","value":6,"detail":"2022-11-12 WRF 7-1 DNC"}
+{"club_id":"DNC","record":"longest_winning_streak","value":8,"detail":"league matches"}
+{"club_id":"DNC","record":"longest_unbeaten_run","value":8,"detail":"league matches"}
+{"club_id":"DNC","record":"record_scorer","value":38,"detail":"DNC_H18 Arlo Halloran"}
+{"club_id":"DNC","record":"record_home_attendance","value":25500,"detail":"2026-02-13 DNC 1-0 GHU"}
+{"club_id":"DNC","record":"most_points_in_a_season","value":63,"detail":"2025-26"}
+{"club_id":"DNC","record":"highest_finish","value":6,"detail":"2025-26"}
+{"club_id":"FWR","record":"biggest_win","value":5,"detail":"2024-09-21 FWR 6-1 EGA"}
+{"club_id":"FWR","record":"biggest_defeat","value":6,"detail":"2021-10-23 THB 7-1 FWR"}
+{"club_id":"FWR","record":"longest_winning_streak","value":3,"detail":"league matches"}
+{"club_id":"FWR","record":"longest_unbeaten_run","value":5,"detail":"league matches"}
+{"club_id":"FWR","record":"record_scorer","value":41,"detail":"FWR_H18 Sami Rutherford"}
+{"club_id":"FWR","record":"record_home_attendance","value":19800,"detail":"2023-08-13 FWR 2-1 THB"}
+{"club_id":"FWR","record":"most_points_in_a_season","value":40,"detail":"2021-22"}
+{"club_id":"FWR","record":"highest_finish","value":15,"detail":"2021-22"}
+{"club_id":"GHU","record":"biggest_win","value":5,"detail":"2025-03-22 GHU 5-0 DNC"}
+{"club_id":"GHU","record":"biggest_defeat","value":4,"detail":"2022-03-12 DNC 4-0 GHU"}
+{"club_id":"GHU","record":"longest_winning_streak","value":11,"detail":"league matches"}
+{"club_id":"GHU","record":"longest_unbeaten_run","value":17,"detail":"league matches"}
+{"club_id":"GHU","record":"record_scorer","value":87,"detail":"GHU_H09 Emil Tolland"}
+{"club_id":"GHU","record":"record_home_attendance","value":40100,"detail":"2026-04-19 GHU 1-0 EGA"}
+{"club_id":"GHU","record":"most_points_in_a_season","value":89,"detail":"2024-25"}
+{"club_id":"GHU","record":"highest_finish","value":1,"detail":"2024-25"}
+{"club_id":"IRB","record":"biggest_win","value":5,"detail":"2023-01-29 IRB 5-0 DNC"}
+{"club_id":"IRB","record":"biggest_defeat","value":4,"detail":"2022-02-05 LKT 5-1 IRB"}
+{"club_id":"IRB","record":"longest_winning_streak","value":5,"detail":"league matches"}
+{"club_id":"IRB","record":"longest_unbeaten_run","value":16,"detail":"league matches"}
+{"club_id":"IRB","record":"record_scorer","value":76,"detail":"IRB_H09 Owen Kestrel"}
+{"club_id":"IRB","record":"record_home_attendance","value":23700,"detail":"2025-04-12 IRB 0-4 GHU"}
+{"club_id":"IRB","record":"most_points_in_a_season","value":76,"detail":"2025-26"}
+{"club_id":"IRB","record":"highest_finish","value":1,"detail":"2025-26"}
+{"club_id":"LKT","record":"biggest_win","value":4,"detail":"2022-02-05 LKT 5-1 IRB"}
+{"club_id":"LKT","record":"biggest_defeat","value":7,"detail":"2024-08-10 BMA 7-0 LKT"}
+{"club_id":"LKT","record":"longest_winning_streak","value":4,"detail":"league matches"}
+{"club_id":"LKT","record":"longest_unbeaten_run","value":8,"detail":"league matches"}
+{"club_id":"LKT","record":"record_scorer","value":22,"detail":"LKT_H18 Idris Cavanagh"}
+{"club_id":"LKT","record":"record_home_attendance","value":17600,"detail":"2025-02-08 LKT 1-4 ARD"}
+{"club_id":"LKT","record":"most_points_in_a_season","value":49,"detail":"2025-26"}
+{"club_id":"LKT","record":"highest_finish","value":13,"detail":"2025-26"}
+{"club_id":"MCR","record":"biggest_win","value":5,"detail":"2024-01-07 PNC 1-6 MCR"}
+{"club_id":"MCR","record":"biggest_defeat","value":7,"detail":"2025-11-30 EGA 7-0 MCR"}
+{"club_id":"MCR","record":"longest_winning_streak","value":4,"detail":"league matches"}
+{"club_id":"MCR","record":"longest_unbeaten_run","value":6,"detail":"league matches"}
+{"club_id":"MCR","record":"record_scorer","value":30,"detail":"MCR_H18 Yusuf Rennick"}
+{"club_id":"MCR","record":"record_home_attendance","value":20400,"detail":"2023-11-10 MCR 0-0 KSB"}
+{"club_id":"MCR","record":"most_points_in_a_season","value":58,"detail":"2024-25"}
+{"club_id":"MCR","record":"highest_finish","value":8,"detail":"2024-25"}
+{"club_id":"PNC","record":"biggest_win","value":4,"detail":"2024-02-23 PNC 4-0 KSB"}
+{"club_id":"PNC","record":"biggest_defeat","value":5,"detail":"2022-08-20 HVL 5-0 PNC"}
+{"club_id":"PNC","record":"longest_winning_streak","value":3,"detail":"league matches"}
+{"club_id":"PNC","record":"longest_unbeaten_run","value":9,"detail":"league matches"}
+{"club_id":"PNC","record":"record_scorer","value":30,"detail":"PNC_H18 Ravi Brisco"}
+{"club_id":"PNC","record":"record_home_attendance","value":22100,"detail":"2026-02-08 PNC 3-4 KSB"}
+{"club_id":"PNC","record":"most_points_in_a_season","value":46,"detail":"2023-24"}
+{"club_id":"PNC","record":"highest_finish","value":13,"detail":"2022-23"}
+{"club_id":"SBH","record":"biggest_win","value":4,"detail":"2024-03-17 IRB 0-4 SBH"}
+{"club_id":"SBH","record":"biggest_defeat","value":5,"detail":"2024-05-10 KSB 5-0 SBH"}
+{"club_id":"SBH","record":"longest_winning_streak","value":5,"detail":"league matches"}
+{"club_id":"SBH","record":"longest_unbeaten_run","value":10,"detail":"league matches"}
+{"club_id":"SBH","record":"record_scorer","value":54,"detail":"SBH_H09 Callum Aldana"}
+{"club_id":"SBH","record":"record_home_attendance","value":30300,"detail":"2024-05-18 SBH 1-0 EGA"}
+{"club_id":"SBH","record":"most_points_in_a_season","value":68,"detail":"2022-23"}
+{"club_id":"SBH","record":"highest_finish","value":3,"detail":"2022-23"}

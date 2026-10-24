@@ -1,0 +1,23 @@
+{
+  "seed": 7,
+  "seasons": [
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25",
+    "2025-26"
+  ],
+  "clubs": 20,
+  "tables": {
+    "clubs": 20,
+    "results": 1900,
+    "standings": 100,
+    "head_to_head": 190,
+    "club_records": 160,
+    "player_careers": 1959,
+    "scoring_timeline": 5226,
+    "milestones_upcoming": 13,
+    "matches": 1900
+  },
+  "note": "All clubs, players and results are fictional."
+}

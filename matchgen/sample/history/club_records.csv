@@ -1,0 +1,161 @@
+club_id,record,value,detail
+ARD,biggest_win,5,2021-11-28 ARD 5-0 MCR
+ARD,biggest_defeat,4,2022-09-04 EGA 4-0 ARD
+ARD,longest_winning_streak,7,league matches
+ARD,longest_unbeaten_run,16,league matches
+ARD,record_scorer,71,ARD_H09 Callum Varga
+ARD,record_home_attendance,31400,2026-02-21 ARD 1-1 EGA
+ARD,most_points_in_a_season,74,2024-25
+ARD,highest_finish,2,2022-23
+HVL,biggest_win,5,2022-08-20 HVL 5-0 PNC
+HVL,biggest_defeat,4,2022-11-13 LKT 4-0 HVL
+HVL,longest_winning_streak,7,league matches
+HVL,longest_unbeaten_run,13,league matches
+HVL,record_scorer,67,HVL_11 Jude Saltash
+HVL,record_home_attendance,26800,2026-04-26 HVL 1-0 EGA
+HVL,most_points_in_a_season,63,2021-22
+HVL,highest_finish,8,2025-26
+KSB,biggest_win,5,2022-12-31 KSB 5-0 PNC
+KSB,biggest_defeat,4,2024-02-23 PNC 4-0 KSB
+KSB,longest_winning_streak,7,league matches
+KSB,longest_unbeaten_run,13,league matches
+KSB,record_scorer,53,KSB_H18 Marek Vescovi
+KSB,record_home_attendance,42000,2025-01-12 KSB 2-2 ARD
+KSB,most_points_in_a_season,68,2025-26
+KSB,highest_finish,3,2025-26
+THB,biggest_win,7,2026-02-21 THB 8-1 SWK
+THB,biggest_defeat,4,2022-04-17 MCR 4-0 THB
+THB,longest_winning_streak,6,league matches
+THB,longest_unbeaten_run,11,league matches
+THB,record_scorer,47,THB_H09 Femi Marlowe
+THB,record_home_attendance,37618,2022-01-01 THB 3-0 GHU
+THB,most_points_in_a_season,66,2022-23
+THB,highest_finish,5,2021-22
+MRM,biggest_win,5,2021-11-27 MRM 5-0 SWK
+MRM,biggest_defeat,5,2024-01-27 MRM 0-5 EGA
+MRM,longest_winning_streak,4,league matches
+MRM,longest_unbeaten_run,13,league matches
+MRM,record_scorer,37,MRM_H10 Tomas Bellamy
+MRM,record_home_attendance,24000,2026-01-10 MRM 0-1 KSB
+MRM,most_points_in_a_season,63,2023-24
+MRM,highest_finish,4,2023-24
+SWK,biggest_win,4,2022-04-03 SWK 4-0 CRH
+SWK,biggest_defeat,7,2026-02-21 THB 8-1 SWK
+SWK,longest_winning_streak,4,league matches
+SWK,longest_unbeaten_run,7,league matches
+SWK,record_scorer,44,SWK_H09 Joaquin Rowntree
+SWK,record_home_attendance,22500,2025-04-12 SWK 1-2 KSB
+SWK,most_points_in_a_season,64,2023-24
+SWK,highest_finish,2,2023-24
+EGA,biggest_win,7,2025-11-30 EGA 7-0 MCR
+EGA,biggest_defeat,5,2024-09-21 FWR 6-1 EGA
+EGA,longest_winning_streak,8,league matches
+EGA,longest_unbeaten_run,14,league matches
+EGA,record_scorer,46,EGA_H22 Kofi Okafor
+EGA,record_home_attendance,35200,2024-10-26 EGA 1-3 GHU
+EGA,most_points_in_a_season,77,2021-22
+EGA,highest_finish,2,2021-22
+WRF,biggest_win,6,2022-11-12 WRF 7-1 DNC
+WRF,biggest_defeat,4,2024-12-01 HVL 4-0 WRF
+WRF,longest_winning_streak,8,league matches
+WRF,longest_unbeaten_run,11,league matches
+WRF,record_scorer,51,WRF_H18 Nils Bellamy
+WRF,record_home_attendance,29600,2024-03-17 WRF 2-2 EGA
+WRF,most_points_in_a_season,65,2025-26
+WRF,highest_finish,5,2025-26
+GGW,biggest_win,6,2021-12-04 GGW 6-0 FWR
+GGW,biggest_defeat,4,2025-04-05 ARD 5-1 GGW
+GGW,longest_winning_streak,6,league matches
+GGW,longest_unbeaten_run,14,league matches
+GGW,record_scorer,75,GGW_H09 Malik Lindgren
+GGW,record_home_attendance,33000,2024-09-15 GGW 1-1 GHU
+GGW,most_points_in_a_season,72,2021-22
+GGW,highest_finish,3,2021-22
+ASH,biggest_win,3,2021-08-28 ASH 3-0 MRM
+ASH,biggest_defeat,5,2023-12-02 EGA 5-0 ASH
+ASH,longest_winning_streak,3,league matches
+ASH,longest_unbeaten_run,6,league matches
+ASH,record_scorer,59,ASH_H09 Yusuf Lindqvist
+ASH,record_home_attendance,18900,2022-05-21 ASH 3-4 ARD
+ASH,most_points_in_a_season,46,2025-26
+ASH,highest_finish,14,2025-26
+BMA,biggest_win,7,2024-08-10 BMA 7-0 LKT
+BMA,biggest_defeat,4,2023-04-22 KSB 4-0 BMA
+BMA,longest_winning_streak,6,league matches
+BMA,longest_unbeaten_run,11,league matches
+BMA,record_scorer,47,BMA_H18 Oskar Dunmore
+BMA,record_home_attendance,27200,2026-02-21 BMA 1-1 IRB
+BMA,most_points_in_a_season,71,2023-24
+BMA,highest_finish,1,2023-24
+CRH,biggest_win,4,2024-01-06 CRH 6-2 DNC
+CRH,biggest_defeat,4,2021-08-14 EGA 4-0 CRH
+CRH,longest_winning_streak,3,league matches
+CRH,longest_unbeaten_run,7,league matches
+CRH,record_scorer,48,CRH_H09 Niko Amadi
+CRH,record_home_attendance,21000,2025-11-08 CRH 0-1 GHU
+CRH,most_points_in_a_season,65,2024-25
+CRH,highest_finish,4,2024-25
+DNC,biggest_win,5,2026-04-24 DNC 5-0 ASH
+DNC,biggest_defeat,6,2022-11-12 WRF 7-1 DNC
+DNC,longest_winning_streak,8,league matches
+DNC,longest_unbeaten_run,8,league matches
+DNC,record_scorer,38,DNC_H18 Arlo Halloran
+DNC,record_home_attendance,25500,2026-02-13 DNC 1-0 GHU
+DNC,most_points_in_a_season,63,2025-26
+DNC,highest_finish,6,2025-26
+FWR,biggest_win,5,2024-09-21 FWR 6-1 EGA
+FWR,biggest_defeat,6,2021-10-23 THB 7-1 FWR
+FWR,longest_winning_streak,3,league matches
+FWR,longest_unbeaten_run,5,league matches
+FWR,record_scorer,41,FWR_H18 Sami Rutherford
+FWR,record_home_attendance,19800,2023-08-13 FWR 2-1 THB
+FWR,most_points_in_a_season,40,2021-22
+FWR,highest_finish,15,2021-22
+GHU,biggest_win,5,2025-03-22 GHU 5-0 DNC
+GHU,biggest_defeat,4,2022-03-12 DNC 4-0 GHU
+GHU,longest_winning_streak,11,league matches
+GHU,longest_unbeaten_run,17,league matches
+GHU,record_scorer,87,GHU_H09 Emil Tolland
+GHU,record_home_attendance,40100,2026-04-19 GHU 1-0 EGA
+GHU,most_points_in_a_season,89,2024-25
+GHU,highest_finish,1,2024-25
+IRB,biggest_win,5,2023-01-29 IRB 5-0 DNC
+IRB,biggest_defeat,4,2022-02-05 LKT 5-1 IRB
+IRB,longest_winning_streak,5,league matches
+IRB,longest_unbeaten_run,16,league matches
+IRB,record_scorer,76,IRB_H09 Owen Kestrel
+IRB,record_home_attendance,23700,2025-04-12 IRB 0-4 GHU
+IRB,most_points_in_a_season,76,2025-26
+IRB,highest_finish,1,2025-26
+LKT,biggest_win,4,2022-02-05 LKT 5-1 IRB
+LKT,biggest_defeat,7,2024-08-10 BMA 7-0 LKT
+LKT,longest_winning_streak,4,league matches
+LKT,longest_unbeaten_run,8,league matches
+LKT,record_scorer,22,LKT_H18 Idris Cavanagh
+LKT,record_home_attendance,17600,2025-02-08 LKT 1-4 ARD
+LKT,most_points_in_a_season,49,2025-26
+LKT,highest_finish,13,2025-26
+MCR,biggest_win,5,2024-01-07 PNC 1-6 MCR
+MCR,biggest_defeat,7,2025-11-30 EGA 7-0 MCR
+MCR,longest_winning_streak,4,league matches
+MCR,longest_unbeaten_run,6,league matches
+MCR,record_scorer,30,MCR_H18 Yusuf Rennick
+MCR,record_home_attendance,20400,2023-11-10 MCR 0-0 KSB
+MCR,most_points_in_a_season,58,2024-25
+MCR,highest_finish,8,2024-25
+PNC,biggest_win,4,2024-02-23 PNC 4-0 KSB
+PNC,biggest_defeat,5,2022-08-20 HVL 5-0 PNC
+PNC,longest_winning_streak,3,league matches
+PNC,longest_unbeaten_run,9,league matches
+PNC,record_scorer,30,PNC_H18 Ravi Brisco
+PNC,record_home_attendance,22100,2026-02-08 PNC 3-4 KSB
+PNC,most_points_in_a_season,46,2023-24
+PNC,highest_finish,13,2022-23
+SBH,biggest_win,4,2024-03-17 IRB 0-4 SBH
+SBH,biggest_defeat,5,2024-05-10 KSB 5-0 SBH
+SBH,longest_winning_streak,5,league matches
+SBH,longest_unbeaten_run,10,league matches
+SBH,record_scorer,54,SBH_H09 Callum Aldana
+SBH,record_home_attendance,30300,2024-05-18 SBH 1-0 EGA
+SBH,most_points_in_a_season,68,2022-23
+SBH,highest_finish,3,2022-23
