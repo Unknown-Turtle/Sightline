@@ -6,11 +6,14 @@
   background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m);
   padding: 14px; min-width: 0;
 }
-.x-panel h2 { font-family: var(--display); font-size: 24px; line-height: 1.1; margin: 0; }
+.x-card { background: var(--panel); border-radius: var(--radius-m); padding: 16px; min-width: 0; }
+.x-panel.x-own .x-card { padding: 0; }
+.x-panel h2, .x-card h2 { font-family: var(--display); font-size: 24px; line-height: 1.1; margin: 0; }
 .x-sub { color: var(--muted); font-size: 13px; margin: 4px 0 12px; }
 
 /* personal bar */
 .x-bar.x-own { padding: 10px 14px; }
+.x-bar { min-width: 0; }
 .x-bar-inner { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; }
 .x-field { display: grid; gap: 2px; font-size: 12px; color: var(--muted); min-width: 0; flex: 1 1 140px; max-width: 240px; }
 .x-field select, .x-claim-form input {

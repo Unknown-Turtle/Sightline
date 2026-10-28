@@ -22,7 +22,7 @@ export class Ratings {
   constructor(private x: Extras) {
     this.panel = ensureContainer("panel-ratings", "Match ratings", document.getElementById("reel-wrap"));
     this.body = document.createElement("div");
-    this.body.className = "x-ratings-root";
+    this.body.className = "x-card";
     this.panel.appendChild(this.body);
     this.body.innerHTML = `<h2>Match ratings</h2><p class="x-sub">Loading ratings.</p>`;
     void this.load();

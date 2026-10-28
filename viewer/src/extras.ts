@@ -21,6 +21,9 @@ export interface Host {
   selectPoint(p: Point): void;
   /** rebuild the points rail */
   refresh(): void;
+  /** the insights file the rail reads (English unless swapped for a translation) */
+  getInsights(): unknown;
+  setInsights(file: unknown): void;
 }
 
 /** Point kinds added by extras; the rail treats them like any other point. */
@@ -42,6 +45,7 @@ export function ensureContainer(id: string, title: string, after?: Element | nul
     if (after && after.parentElement) after.insertAdjacentElement("afterend", el);
     else app.appendChild(el);
   }
+  el.querySelectorAll(":scope > .placeholder").forEach((x) => x.remove());
   return el;
 }
 
@@ -113,13 +117,8 @@ export class Extras {
   }
 
   /** Small badge on a point card (your club, pattern). */
-  badge(p: Point): string {
+  badge(p: { team: string }): string {
     return this.personal.badge(p);
-  }
-
-  /** Claim text for a point, translated when an insight for it exists. */
-  claim(p: Point, lens: string, fallback: string): string {
-    return this.personal.claimText(p, lens, this.host.liveT()) ?? fallback;
   }
 }
 

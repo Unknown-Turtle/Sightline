@@ -37,6 +37,7 @@ export class Claims {
   constructor(private x: Extras) {
     const panel = ensureContainer("panel-claims", "Check a claim", document.getElementById("panel-ratings"));
     this.body = document.createElement("div");
+    this.body.className = "x-card";
     panel.appendChild(this.body);
     this.build();
     void this.load();

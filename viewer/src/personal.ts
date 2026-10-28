@@ -28,8 +28,7 @@ const METRICS: Record<string, { label: string; unit: string }> = {
 
 interface Settings { club: string; player: string; metric: string; lang: string }
 
-interface InsightItem { t: number; point_id?: string; text: Record<string, string> }
-interface Insights { items: InsightItem[] }
+interface Insights { items: { t: number }[] }
 
 function readSettings(): Settings {
   const base: Settings = { club: "", player: "", metric: "", lang: "en" };
@@ -56,13 +55,14 @@ export class Personal {
   private chip: HTMLDivElement;
   private note: HTMLElement;
   private frame: HTMLElement;
-  private insights: Insights | null = null;
-  private langNote = "";
+  /** the insights the app loaded on its own, in English */
+  private english: unknown;
   private lastSec = -1;
   private track: { dist: Float32Array[]; sprints: Uint16Array[] } | null = null;
 
   constructor(private x: Extras) {
     this.s = readSettings();
+    this.english = x.host.getInsights();
     const meta = x.host.meta;
     if (this.s.player && !meta.players.some((p) => p.id === this.s.player)) this.s.player = "";
     if (this.s.club && !meta.teams.some((t) => t.id === this.s.club)) this.s.club = "";
@@ -78,7 +78,7 @@ export class Personal {
     this.chip.setAttribute("aria-live", "off");
     (document.getElementById("stage") ?? document.body).appendChild(this.chip);
     this.applyClub();
-    void this.loadLang();
+    if (this.s.lang !== "en") void this.loadLang();
   }
 
   get player(): string | null {
@@ -139,30 +139,25 @@ export class Personal {
   }
 
   // ------------------------------------------------------------- language
+  /** Swap the app's insights for insights.<lang>.json; English keeps whatever the app loaded. */
   private async loadLang(): Promise<void> {
     const lang = this.s.lang;
     const html = document.documentElement;
     html.lang = lang;
     html.dir = LANGS[lang]?.rtl ? "rtl" : "ltr";
-    this.langNote = "";
-    let got = await loadData<Insights>(lang === "en" ? "insights" : `insights.${lang}`);
-    if (!got && lang !== "en") {
-      this.langNote = `${LANGS[lang].label}: no translation for this match yet, showing English.`;
-      got = await loadData<Insights>("insights");
+    let file: unknown = this.english;
+    let note = "";
+    if (lang !== "en") {
+      const got = await loadData<Insights>(`insights.${lang}`);
+      if (got && Array.isArray(got.data.items) && got.data.items.length) {
+        got.data.items = [...got.data.items].sort((a, b) => a.t - b.t);
+        file = got.data;
+      } else note = `${LANGS[lang].label}: no translation for this match yet, showing English.`;
     }
     if (lang !== this.s.lang) return; // changed again while loading
-    this.insights = got && Array.isArray(got.data.items) ? got.data : null;
-    this.note.textContent = this.langNote;
+    this.x.host.setInsights(file);
+    this.note.textContent = note;
     this.x.host.refresh();
-  }
-
-  /** Translated or agent-written text for a point, from insights files. */
-  claimText(p: Point, lens: string, t: number): string | null {
-    if (!this.insights) return null;
-    let best: InsightItem | null = null;
-    for (const it of this.insights.items) if (it.point_id === p.id && it.t <= t && (!best || it.t >= best.t)) best = it;
-    if (!best) return null;
-    return best.text[lens] ?? best.text.casual ?? null;
   }
 
   // --------------------------------------------------------------- points
@@ -180,7 +175,7 @@ export class Personal {
     return out;
   }
 
-  badge(p: Point): string {
+  badge(p: { team: string }): string {
     if (this.s.club && p.team === this.s.club) return `<span class="x-badge">Your club</span>`;
     return "";
   }
