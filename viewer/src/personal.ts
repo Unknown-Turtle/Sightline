@@ -233,7 +233,7 @@ export class Personal {
 
   // -------------------------------------------------------------- metrics
   private value(m: string, t: number, pid: string | null, team: string | null): number {
-    const live = this.fromSnapshot(m, pid, team);
+    const live = this.fromSnapshot(m, t, pid, team);
     if (live !== null) return live;
     const { events, meta } = this.x.host;
     const mine = (e: Ev) => (pid ? e.pl === pid : e.team === team);
@@ -260,17 +260,21 @@ export class Personal {
     return m === "passacc" ? (b ? (100 * a) / b : 0) : a;
   }
 
-  private fromSnapshot(m: string, pid: string | null, team: string | null): number | null {
-    const row = this.snapshot && (pid ? this.snapshot.players?.[pid] : this.snapshot.teams?.[team ?? ""]);
+  /** Live snapshot first, then the packed per-snapshot team stats in meta.momentum, else null. */
+  private fromSnapshot(m: string, t: number, pid: string | null, team: string | null): number | null {
+    let row: Record<string, number> | undefined | null = this.snapshot && (pid ? this.snapshot.players?.[pid] : this.snapshot.teams?.[team ?? ""]);
+    if (!row && !pid && team) {
+      for (const mp of this.x.host.meta.momentum) { if (mp.t > t) break; if (mp.stats?.[team]) row = mp.stats[team]; }
+    }
     if (!row) return null;
     const n = (k: string) => Number(row[k] ?? 0);
     switch (m) {
       case "distance": return "distance_km" in row ? n("distance_km") : null;
       case "sprints": return "sprints" in row ? n("sprints") : null;
-      case "xg": return n("xg");
-      case "shots": return n("shots");
-      case "passacc": return n("pass_accuracy") * 100;
-      case "defence": return n("tackles_won") + n("interceptions") + n("clearances") + n("blocks") + n("recoveries");
+      case "xg": return "xg" in row ? n("xg") : null;
+      case "shots": return "shots" in row ? n("shots") : null;
+      case "passacc": return "pass_accuracy" in row ? n("pass_accuracy") * (n("pass_accuracy") <= 1 ? 100 : 1) : null;
+      case "defence": return !("interceptions" in row) ? null : n("tackles_won") + n("interceptions") + n("clearances") + n("blocks") + n("recoveries");
     }
     return null;
   }

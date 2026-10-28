@@ -37,6 +37,16 @@ python tools/pack_match.py ../matchgen/out/demo5 public/data
 
 `public/data/insights.json` is written by the agent layer; the contract is in `INSIGHTS.md`. If it is missing or invalid the viewer loads `public/data/insights.sample.json`, a hand-written fixture at real event times of the demo match (five items plus two score states, one of them deliberately failing the checker). If both are missing the app runs on its templated points exactly as before.
 
+## Personalisation and extras
+
+Everything here lives in new files and reaches `main.ts` and `stage.ts` only through blocks marked `// [extras] start` and `// [extras] end`. Each feature reads its data file, falls back to the `.sample.json` fixture, and otherwise shows a short note; nothing breaks when a file is missing. Contract: `EXTRAS.md`.
+
+- **Personal bar** (`#personal-bar`): favourite club (underlined in the header, a "2 down" line from their side, a "Your club" badge and their points first), player focus (focus ring and tag stay on them, the broadcast camera leans towards them, and the rail keeps only points and moments involving them), a pinned stat chip on the stage (distance, sprints, xG, pass accuracy, shots or defensive actions, for both teams or the focused player; from the live snapshot or packed snapshot stats when present, else computed from events and tracking) and language (English, Español, Français, Português, العربية). A language loads `insights.<lang>.json` into the rail, falls back to English with a note, and Arabic sets `dir="rtl"` while the pitch, clock and timeline keep match orientation. Settings persist in `localStorage` when it is available.
+- **Ratings** (`#panel-ratings`): reads `ratings.json`. Both teams' current ratings with the last minute's move. In the Tactical lens and on the focused player, tags carry a rating chip with an up or down arrow. Selecting a player opens the evidence reel with the events that raised (For) or lowered (Against) the rating, with the usual replays.
+- **Claims** (`#panel-claims`): "Check a claim" with example chips. Tries `POST /api/claims` with a 15 second timeout; without an API it answers from `claims.sample.json` (exact or nearest example) and says so. Shows the verdict, the lens summary, each test with pass or fail, For and Against evidence buttons that open the reel, and the receipt (numbers checked, retries, model, latency, mode).
+- **Patterns** (`#panel-patterns`): reads `routines.json`. In the Tactical lens each pattern with three or more attempts so far becomes a point ("Arden Athletic have run the same goal kick routine 9 times, 2 led to shots"); its reel has one card per attempt (lost attempts under Against). The panel also shows the detector's precision and recall against the hidden playbook.
+- **Live hook**: with `#live` in the URL and `src/live.ts` present, live `rating`, `insight` and `snapshot` messages update the ratings, the rail and the pinned stat, and the claim checker calls the live API base. Until `live.ts` is merged this is a no-op.
+
 ## Look and feel
 
 Dark aubergine background, purple cards with large rounded corners, white and muted lavender text, Outfit from Google Fonts, pill buttons and underline tabs. The design tokens live in `src/styles.css` (`--paper`, `--panel`, `--ink`, `--muted`, `--line`, `--accent` and friends) and every panel should read those rather than fixed colours. Dark is primary; `<html data-theme="light">` switches to the pale lavender variant through the same tokens. Mobile first: phone width has no horizontal scroll, focus is visible, and reduced motion is respected.
@@ -51,12 +61,18 @@ src/stage.ts        Three.js scene, figures, animation clips, cameras, overlay a
 src/points.ts       point detectors and evidence (templated wording per lens)
 src/insights.ts     insights.json loading, validation, selection and receipt text
 src/main.ts         app state, playback, tabs, rail, receipts, recap, stats, evidence reel, replays
+src/extras.ts       extras hub: the only thing main.ts calls, through [extras] hook blocks; live mode hook
+src/personal.ts     personal settings bar, pinned stat chip, language switch
+src/ratings.ts      rating chips and the Ratings panel
+src/claims.ts       claim checker (Claims panel)
+src/routines.ts     rehearsed patterns (Tactical points and the Patterns panel)
+src/extras.css      styles for the above, tokens only
+EXTRAS.md           the ratings, routines, translations, claims and live contract
 tools/pack_match.py match folder to compact viewer data (int16 tracking, trimmed events, snapshot stats)
 INSIGHTS.md         the shared insight contract
 ```
 
 ## Known gaps
 
-- Ratings, Claims and Patterns tabs are placeholders until their panels mount
 - "Coming up" in the Commentator lens lists score-state insights with a later time than the live clock; in a true live feed it would hold the commentator's prepared lines instead
 - Animation clips are procedural and simple by design
