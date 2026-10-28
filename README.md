@@ -2,7 +2,7 @@
 
 **Explainable match intelligence for the second screen: every insight comes with the numbers behind it and the moments that prove it.**
 
-**Live app:** https://ashy-forest-0337eb50f.6.azurestaticapps.net
+**Live app:** https://ashy-forest-0337eb50f.6.azurestaticapps.net  
 **Demo video:** https://youtube.com/shorts/0qkXR8_CpwU
 
 **The problem.** Football talk runs on vibes. "They've lost the momentum", "he's having a nightmare", "the centre back is carrying them": pundits and fans make claims in real time with no way to check them. The data exists, but it reaches fans as tables they have to decode themselves, and AI summaries make things worse when they invent numbers.
