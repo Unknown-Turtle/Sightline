@@ -35,22 +35,8 @@
   --bad: #d64533;
   color-scheme: light;
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --paper: #f1ecf7;
-    --panel: #ffffff;
-    --panel-2: #e8e0f0;
-    --ink: #1e0526;
-    --muted: #6b5a7a;
-    --line: rgba(30, 5, 38, 0.14);
-    --accent: #d6005f;
-    --accent-ink: #ffffff;
-    --accent-2: #7a2bd6;
-    --good: #0f9d5c;
-    --bad: #d64533;
-    color-scheme: light;
-  }
-}
+/* Dark is the primary look; the light variant is opt-in with <html data-theme="light"> so the
+   same tokens drive both (other panels only ever read the tokens). */
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }

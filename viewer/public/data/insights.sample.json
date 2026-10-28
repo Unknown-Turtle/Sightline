@@ -1,0 +1,141 @@
+{
+  "match_id": "m_seed587",
+  "generated_at": "2026-10-28T03:00:00Z",
+  "mode": "fallback",
+  "model": null,
+  "items": [
+    {
+      "id": "i_0001",
+      "t": 1830.0,
+      "clock": "30:30",
+      "kind": "score_state",
+      "point_id": "score-state",
+      "team": "HVL",
+      "subject": null,
+      "text": {
+        "casual": "Hollow Vale lead 1-0 at Arden Park. Arden have had the ball more but not the chances.",
+        "tactical": "1-0 Hollow Vale after 30 minutes: Arden 55% possession, 0.31 xG against 0.52.",
+        "commentator": "Hollow Vale have not won here since 2022, and they lead for the first time in that run."
+      },
+      "evidence_for": ["e_000644", "e_000643"],
+      "evidence_against": ["e_000494"],
+      "trivia": [{ "text": "Hollow Vale's last away win at Arden Park came in the 2022-23 season.", "source": "head_to_head.csv", "row": "ARD,HVL" }],
+      "check": { "passed": true, "numbers_checked": 4, "retries": 0, "issues": [] },
+      "receipt": { "model": "fixture", "latency_ms": 0, "tokens_in": 0, "tokens_out": 0, "agents": ["analyst", "narrator", "checker", "trivia"] }
+    },
+    {
+      "id": "i_0002",
+      "t": 2883.0,
+      "clock": "45+3:03",
+      "kind": "recap",
+      "point_id": "recap-ht",
+      "team": "HVL",
+      "subject": null,
+      "text": {
+        "casual": "Half time: Hollow Vale 1-0 up through a quick break. Arden's best chance was saved in the 23rd minute.",
+        "tactical": "Half time 0-1. Arden 0.36 xG from 6 shots, Hollow Vale 0.64 from 11; Arden's only big chance (0.36 xG) was saved.",
+        "commentator": "One-nil to the visitors at the break, and Arden have not come back from a half-time deficit at home this season."
+      },
+      "evidence_for": ["e_000644", "e_000494"],
+      "evidence_against": [],
+      "trivia": [{ "text": "Arden have won 2 of their last 10 home matches after trailing at half time.", "source": "results.csv", "row": "ARD home, 2025-26" }],
+      "check": { "passed": true, "numbers_checked": 5, "retries": 1, "issues": [] },
+      "receipt": { "model": "fixture", "latency_ms": 0, "tokens_in": 0, "tokens_out": 0, "agents": ["analyst", "narrator", "checker"] }
+    },
+    {
+      "id": "i_0003",
+      "t": 3900.0,
+      "clock": "61:57",
+      "kind": "anchor",
+      "point_id": "anchor-ARD_05",
+      "team": "ARD",
+      "subject": "ARD_05",
+      "text": {
+        "casual": "Tremblay is the one keeping Arden in this. He keeps getting there first.",
+        "tactical": "Rhys Tremblay: 14 defensive actions by the hour, six more than any teammate, three of them inside his own box.",
+        "commentator": "Tremblay joined from Stonebrook in 2025 and already looks like the leader of this back line."
+      },
+      "evidence_for": ["e_000164", "e_000174", "e_000269", "e_000319", "e_000329", "e_000331"],
+      "evidence_against": ["e_000569", "e_001311", "e_001399"],
+      "trivia": [{ "text": "Tremblay made 113 league appearances for Stonebrook Harriers before joining Arden.", "source": "player_careers.csv", "row": "ARD_05" }],
+      "check": { "passed": true, "numbers_checked": 3, "retries": 0, "issues": [] },
+      "receipt": { "model": "fixture", "latency_ms": 0, "tokens_in": 0, "tokens_out": 0, "agents": ["analyst", "narrator", "checker", "trivia"] }
+    },
+    {
+      "id": "i_0006",
+      "t": 3765.0,
+      "clock": "59:42",
+      "kind": "score_state",
+      "point_id": "score-state",
+      "team": "HVL",
+      "subject": null,
+      "text": {
+        "casual": "Two-nil Hollow Vale. Arden need something quickly or this is gone.",
+        "tactical": "0-2 at 59:42. Arden 0.42 xG from 8 shots, Hollow Vale 1.02 from 20.",
+        "commentator": "Two-nil down at home with half an hour left. Arden have never recovered from that in the five seasons on record."
+      },
+      "evidence_for": ["e_001358", "e_001357"],
+      "evidence_against": [],
+      "trivia": [{ "text": "Arden have lost all 6 home league matches in which they trailed by two goals since 2021-22.", "source": "results.csv", "row": "ARD home" }],
+      "check": { "passed": true, "numbers_checked": 4, "retries": 0, "issues": [] },
+      "receipt": { "model": "fixture", "latency_ms": 0, "tokens_in": 0, "tokens_out": 0, "agents": ["analyst", "narrator", "checker", "trivia"] }
+    },
+    {
+      "id": "i_0007",
+      "t": 4815.0,
+      "clock": "77:12",
+      "kind": "score_state",
+      "point_id": "score-state",
+      "team": "ARD",
+      "subject": null,
+      "text": {
+        "casual": "Level at 2-2 with 13 minutes left. Arden have all the momentum now.",
+        "tactical": "2-2 at 77:12. Arden 1.39 xG from 12 shots, Hollow Vale 1.30 from 27.",
+        "commentator": "Two-two, and Arden's record scorer Finn Castellan is two goals short of 30 for the club."
+      },
+      "evidence_for": ["e_001651", "e_001737"],
+      "evidence_against": ["e_000644", "e_001358"],
+      "trivia": [{ "text": "Finn Castellan has 28 league goals for Arden, 2 short of 30.", "source": "milestones_upcoming.csv", "row": "ARD_09" }],
+      "check": { "passed": true, "numbers_checked": 5, "retries": 0, "issues": [] },
+      "receipt": { "model": "fixture", "latency_ms": 0, "tokens_in": 0, "tokens_out": 0, "agents": ["analyst", "narrator", "checker", "trivia"] }
+    },
+    {
+      "id": "i_0004",
+      "t": 4830.0,
+      "clock": "77:27",
+      "kind": "momentum",
+      "point_id": "momentum-ARD",
+      "team": "ARD",
+      "subject": null,
+      "text": {
+        "casual": "Arden have turned this around in five minutes. Two goals, and the crowd is right behind them.",
+        "tactical": "Two Arden goals in 4 minutes 8 seconds from 0.97 xG; momentum 78 to 22 over the last five minutes.",
+        "commentator": "Two goals in four minutes. The last time Arden scored twice that quickly at home was against Kestrel Bay in 2024."
+      },
+      "evidence_for": ["e_001651", "e_001737", "e_001650", "e_001736"],
+      "evidence_against": ["e_001358"],
+      "trivia": [{ "text": "Arden's quickest two-goal burst at home in the archive is three minutes, against Kestrel Bay in 2024-25.", "source": "scoring_timeline.csv", "row": "ARD home" }],
+      "check": { "passed": false, "numbers_checked": 4, "retries": 2, "issues": ["momentum figure did not match the snapshot"] },
+      "receipt": { "model": "fixture", "latency_ms": 0, "tokens_in": 0, "tokens_out": 0, "agents": ["analyst", "narrator", "checker", "trivia"] }
+    },
+    {
+      "id": "i_0005",
+      "t": 5946.0,
+      "clock": "90+6:03",
+      "kind": "recap",
+      "point_id": "recap-ft",
+      "team": "ARD",
+      "subject": null,
+      "text": {
+        "casual": "Full time: Arden 3-2 Hollow Vale. Two down with 18 minutes left, and a substitute wins it in stoppage time.",
+        "tactical": "Full time 3-2. Arden 3 goals from 1.95 xG, Hollow Vale 2 from 1.48; all three Arden goals came after the 72nd minute.",
+        "commentator": "From two down to a stoppage-time winner. Arden had never come back from 0-2 at home in the five seasons on record."
+      },
+      "evidence_for": ["e_001651", "e_001737", "e_002005"],
+      "evidence_against": ["e_000644", "e_001358"],
+      "trivia": [{ "text": "No Arden home win from two goals down appears in the 2021-22 to 2025-26 results.", "source": "results.csv", "row": "ARD home" }],
+      "check": { "passed": true, "numbers_checked": 6, "retries": 0, "issues": [] },
+      "receipt": { "model": "fixture", "latency_ms": 0, "tokens_in": 0, "tokens_out": 0, "agents": ["analyst", "narrator", "checker", "trivia"] }
+    }
+  ]
+}

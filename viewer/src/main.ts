@@ -2,6 +2,23 @@ import "./styles.css";
 import { clockAt, loadMatch, relX, type Ev, type Meta, type Tracking } from "./data";
 import { Stage, type CameraMode } from "./stage";
 import { cardLabel, detectPoints, zoneText, type Lens, type Point } from "./points";
+import { currentInsights, loadInsights, receiptLine, STANDALONE, textFor, type Insight, type InsightFile } from "./insights";
+
+/** One card on the rail: a templated point, an insight that replaces its wording, or a standalone insight. */
+interface RailItem {
+  id: string;
+  kind: string;
+  team: string;
+  subject: string | null;
+  text: string;
+  stat: string | null;
+  forEv: Ev[];
+  againstEv: Ev[];
+  checked: number;
+  insight: Insight | null;
+  rejected: boolean;
+  t: number;
+}
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const ON_BALL = new Set(["pass", "carry", "take_on", "shot", "clearance"]);
@@ -14,16 +31,16 @@ interface State {
   speed: number;
   lens: Lens;
   cam: CameraMode;
-  point: Point | null;
+  item: RailItem | null;
   side: "for" | "against";
   replayEnd: number | null;
   playingCard: string | null;
 }
 
 async function boot(): Promise<void> {
-  const { meta, events, tracking } = await loadMatch();
+  const [{ meta, events, tracking }, ins] = await Promise.all([loadMatch(), loadInsights()]);
   $("loading").hidden = true;
-  const app = new App(meta, events, tracking);
+  const app = new App(meta, events, tracking, ins?.file ?? null, ins?.source ?? null);
   app.start();
 }
 
@@ -32,15 +49,19 @@ class App {
   private st: State;
   private lastFrame = performance.now();
   private lastPointsAt = -1;
-  private points: Point[] = [];
+  private items: RailItem[] = [];
+  private byId = new Map<string, Ev>();
+  private dismissedRecaps = new Set<string>();
   private tags: HTMLDivElement[] = [];
   private names = new Map<string, { name: string; number: number; team: string }>();
   private duration: number;
   private home: string;
   private away: string;
 
-  constructor(private meta: Meta, private events: Ev[], private tracking: Tracking) {
+  constructor(private meta: Meta, private events: Ev[], private tracking: Tracking,
+              private insights: InsightFile | null, private insightSource: string | null) {
     this.stage = new Stage($("canvas") as HTMLCanvasElement, meta, tracking, events);
+    for (const e of events) this.byId.set(e.id, e);
     for (const p of meta.players) this.names.set(p.id, { name: p.name, number: p.number, team: p.team });
     this.duration = tracking.duration;
     this.home = meta.home;
@@ -51,7 +72,7 @@ class App {
       t: p2 ? p2.start + (72.6 - 45) * 60 : 0,
       liveT: 0,
       playing: false, speed: 12, lens: "casual", cam: "broadcast",
-      point: null, side: "for", replayEnd: null, playingCard: null,
+      item: null, side: "for", replayEnd: null, playingCard: null,
     };
     this.st.liveT = this.st.t;
     this.buildHeader();
@@ -66,7 +87,7 @@ class App {
     this.stage.update(this.st.t, 0, null, []);
     this.stage.snapCamera();
     this.refreshPoints(true);
-    if (this.points[0]) this.selectPoint(this.points[0]);
+    if (this.items[0]) this.selectItem(this.items[0]);
     this.booted = true;
     const loop = (now: number) => {
       const real = Math.min(0.1, (now - this.lastFrame) / 1000);
@@ -239,7 +260,7 @@ class App {
         this.stage.lens = this.st.lens === "tactical" ? "tactical" : "casual";
         this.markOn("[data-lens]", b);
         this.refreshPoints(true);
-        if (this.st.point) this.renderReel();
+        if (this.st.item) this.renderReel();
       }),
     );
     document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((b) =>
@@ -452,46 +473,149 @@ class App {
   }
 
   // ---------------------------------------------------------------- points
+  /** Rebuild the rail: templated points, overridden by insights when one exists for the point_id,
+   *  plus standalone insights (momentum, score_state, recap) as their own items. */
   private refreshPoints(force: boolean): void {
     this.lastPointsAt = this.st.liveT;
     this.renderStats();
-    const pts = detectPoints(this.meta, this.events, this.st.liveT);
-    $("rail-sub").textContent = `As of ${clockAt(this.meta, this.st.liveT).text}. Points update as the match plays.`;
-    const sig = pts.map((p) => `${p.id}:${p.stat}`).join("|") + this.st.lens;
+    const liveT = this.st.liveT;
+    const lens = this.st.lens;
+    const pts = detectPoints(this.meta, this.events, liveT);
+    const current = currentInsights(this.insights, liveT);
+    const items: RailItem[] = [];
+    for (const p of pts) {
+      const ins = current.get(p.id) ?? null;
+      items.push(this.railItem(p, ins, lens));
+      current.delete(p.id);
+    }
+    for (const ins of current.values()) {
+      if (STANDALONE.has(ins.kind)) items.push(this.railItem(null, ins, lens));
+    }
+    // templated points keep their strength order; standalone insights follow, newest first
+    items.sort((x, y) => Number(x.stat === null) - Number(y.stat === null) || (x.stat === null ? y.t - x.t : 0));
+    const sig = items.map((i) => `${i.id}:${i.stat}:${i.insight?.id ?? ""}:${i.rejected}`).join("|") + lens;
+    $("rail-sub").textContent = `As of ${clockAt(this.meta, liveT).text}. ${this.insights ? "AI insights with receipts" : "Points"} update as the match plays.`;
+    this.maybeRecap(liveT);
     if (!force && sig === this.pointsSig) return;
     this.pointsSig = sig;
-    this.points = pts;
+    this.items = items;
     const list = $("points");
     list.innerHTML = "";
-    if (!pts.length) {
+    if (!items.length) {
       list.innerHTML = `<li class="empty">Nothing stands out yet. Points appear once a pattern holds up.</li>`;
     }
-    for (const p of pts) {
+    for (const it of items) {
       const li = document.createElement("li");
       const b = document.createElement("button");
-      b.className = "point" + (this.st.point?.id === p.id ? " on" : "");
-      const colour = this.meta.teams.find((t) => t.id === p.team)?.colour ?? "#999";
-      b.innerHTML = `<span class="claim">${claimOf(p, this.st.lens)}</span>
-        <span class="stat">${p.stat}</span>
-        <span class="meta"><i class="who" style="--c:${colour}"></i>${p.forEv.length} moments for, ${p.againstEv.length} against</span>`;
-      b.addEventListener("click", () => this.selectPoint(p));
+      b.className = "point" + (this.st.item?.id === it.id ? " on" : "");
+      const colour = this.meta.teams.find((t) => t.id === it.team)?.colour ?? "#999";
+      b.innerHTML = `<span class="kind">${kindLabel(it.kind)}</span>
+        <span class="claim">${esc(it.text)}</span>
+        ${it.stat ? `<span class="stat">${esc(it.stat)}</span>` : ""}
+        <span class="meta"><i class="who" style="--c:${colour}"></i>${it.forEv.length} moments for, ${it.againstEv.length} against</span>
+        ${this.receiptHtml(it)}
+        ${lens === "commentator" ? this.triviaHtml(it) : ""}`;
+      b.addEventListener("click", () => this.selectItem(it));
       li.appendChild(b);
       list.appendChild(li);
     }
-    // keep the open point in sync with the latest evidence
-    if (this.st.point) {
-      const fresh = pts.find((p) => p.id === this.st.point!.id);
-      if (fresh) { this.st.point = fresh; this.renderReel(); }
+    this.renderComingUp();
+    // keep the open item in sync with the latest evidence
+    if (this.st.item) {
+      const fresh = items.find((i) => i.id === this.st.item!.id);
+      if (fresh) { this.st.item = fresh; this.renderReel(); }
     }
-    $("rail-sub").textContent = `As of ${clockAt(this.meta, this.st.liveT).text}. Points update as the match plays.`;
   }
   private pointsSig = "";
 
-  private selectPoint(p: Point): void {
-    this.st.point = p;
+  private railItem(p: Point | null, ins: Insight | null, lens: Lens): RailItem {
+    const rejected = !!ins && !ins.check.passed;
+    const useInsight = !!ins && !rejected;
+    const template = p ? claimOf(p, lens) : ins ? this.standaloneTemplate(ins) : "";
+    const evs = (ids: string[]) => ids.map((id) => this.byId.get(id)).filter((e): e is Ev => !!e);
+    return {
+      id: p?.id ?? ins!.point_id,
+      kind: p?.kind ?? ins!.kind,
+      team: p?.team ?? ins!.team,
+      subject: p?.subject ?? ins?.subject ?? null,
+      text: useInsight ? textFor(ins!, lens) : template,
+      stat: p?.stat ?? null,
+      forEv: ins ? evs(ins.evidence_for) : p!.forEv,
+      againstEv: ins ? evs(ins.evidence_against) : p!.againstEv,
+      checked: p?.checked ?? (ins!.evidence_for.length + ins!.evidence_against.length),
+      insight: ins,
+      rejected,
+      t: ins?.t ?? -1,
+    };
+  }
+
+  /** Wording for a standalone insight whose AI text was rejected by the checker. */
+  private standaloneTemplate(ins: Insight): string {
+    const team = this.meta.teams.find((t) => t.id === ins.team)?.name ?? ins.team;
+    const sc = this.lastEventBefore(ins.t, (e) => !!e.score)?.score ?? {};
+    const score = `${sc[this.home] ?? 0}-${sc[this.away] ?? 0}`;
+    if (ins.kind === "momentum") return `Momentum has swung towards ${team}`;
+    if (ins.kind === "score_state") return `${score} at ${ins.clock}`;
+    return `${ins.point_id.endsWith("ft") ? "Full time" : "Half time"}: ${score}`;
+  }
+
+  private receiptHtml(it: RailItem): string {
+    const ins = it.insight;
+    if (!ins) return "";
+    const line = receiptLine(ins);
+    const head = it.rejected
+      ? `<span class="receipt-line rejected"><b>AI version rejected by the checker.</b> Showing the template. ${esc(line)}</span>`
+      : `<span class="receipt-line">${esc(line)}</span>`;
+    const r = ins.receipt;
+    const mode = this.insights?.mode ?? "fallback";
+    const agents = r.agents?.length ? r.agents.join(", ") : "not recorded";
+    const issues = ins.check.issues?.length ? `<li>Issues: ${esc(ins.check.issues.join("; "))}</li>` : "";
+    return `${head}<details class="receipt-more" onclick="event.stopPropagation()"><summary>Full receipt</summary><ul>
+      <li>Agents: ${esc(agents)}</li>
+      <li>Tokens: ${r.tokens_in ?? 0} in, ${r.tokens_out ?? 0} out</li>
+      <li>Mode: ${esc(mode)}${this.insightSource === "sample" ? " (sample fixture)" : ""}</li>
+      <li>Numbers checked: ${ins.check.numbers_checked}, retries: ${ins.check.retries}</li>${issues}
+      <li>Written at ${esc(ins.clock)}, id ${esc(ins.id)}</li></ul></details>`;
+  }
+
+  private triviaHtml(it: RailItem): string {
+    const tr = it.insight?.trivia ?? [];
+    if (!tr.length) return "";
+    return tr.map((x) => `<span class="trivia"><b>${esc(x.text)}</b> From ${esc(sourceName(x.source))}${x.row ? ` (${esc(x.row)})` : ""}</span>`).join("");
+  }
+
+  /** Commentator lens: the score_state insights still to come, as prepared lines. */
+  private renderComingUp(): void {
+    const box = $("coming");
+    const list = this.insights?.items.filter((i) => i.kind === "score_state" && i.t > this.st.liveT) ?? [];
+    if (this.st.lens !== "commentator" || !list.length) { box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = `<h3>Coming up</h3><ul>${list.slice(0, 4).map((i) =>
+      `<li><b>${esc(i.clock)}</b> ${esc(i.text.commentator || i.text.casual)}</li>`).join("")}</ul>`;
+  }
+
+  /** Half-time and full-time recaps as a dismissable panel over the stage. */
+  private maybeRecap(liveT: number): void {
+    const box = $("recap");
+    let recap: Insight | null = null;
+    for (const i of this.insights?.items ?? []) if (i.kind === "recap" && i.t <= liveT && i.check.passed) recap = i;
+    if (!recap || this.dismissedRecaps.has(recap.id) || liveT - recap.t > 600) { box.hidden = true; return; }
+    if (box.dataset.id === recap.id) return;
+    box.dataset.id = recap.id;
+    box.hidden = false;
+    const title = recap.point_id.endsWith("ft") || liveT >= (this.meta.periods[1]?.end ?? Infinity) - 1 ? "Full time" : "Half time";
+    box.innerHTML = `<h3>${title}</h3><p>${esc(textFor(recap, this.st.lens))}</p>
+      <span class="receipt-line">${esc(receiptLine(recap))}</span>
+      <button class="pill close" type="button">Dismiss</button>`;
+    const id = recap.id;
+    box.querySelector("button")!.addEventListener("click", () => { this.dismissedRecaps.add(id); box.hidden = true; });
+  }
+
+  private selectItem(it: RailItem): void {
+    this.st.item = it;
     this.st.side = "for";
-    this.stage.focus = p.subject;
-    document.querySelectorAll(".point").forEach((el, i) => el.classList.toggle("on", this.points[i]?.id === p.id));
+    this.stage.focus = it.subject;
+    document.querySelectorAll(".point").forEach((el, i) => el.classList.toggle("on", this.items[i]?.id === it.id));
     this.renderReel();
     if (!$("panel-moments").hidden || !this.booted) return;
     this.showTab("moments");
@@ -504,13 +628,14 @@ class App {
   }
 
   private renderReel(): void {
-    const p = this.st.point;
+    const p = this.st.item;
     const wrap = $("reel-wrap");
     if (!p) { wrap.hidden = true; return; }
     wrap.hidden = false;
-    $("reel-title").textContent = claimOf(p, this.st.lens);
-    $("reel-receipt").textContent =
-      `Checked against ${p.checked} logged events up to ${clockAt(this.meta, this.st.liveT).text}. Every card is one of them. Select a card to watch it.`;
+    $("reel-title").textContent = p.text;
+    $("reel-receipt").textContent = p.insight
+      ? `${receiptLine(p.insight)}. Evidence: ${p.forEv.length} events for, ${p.againstEv.length} against, each one a logged event. Select a card to watch it.`
+      : `Checked against ${p.checked} logged events up to ${clockAt(this.meta, this.st.liveT).text}. Every card is one of them. Select a card to watch it.`;
     const tf = $("tab-for"), ta = $("tab-against");
     tf.textContent = `For (${p.forEv.length})`;
     ta.textContent = `Against (${p.againstEv.length})`;
@@ -562,7 +687,7 @@ class App {
 
   private playMoment(e: Ev): void {
     this.st.playingCard = e.id;
-    this.stage.focus = this.st.point?.subject ?? e.pl;
+    this.stage.focus = this.st.item?.subject ?? e.pl;
     this.st.t = Math.max(0, e.t - 4);
     this.st.replayEnd = e.t + 3;
     this.st.speed = 1;
@@ -580,6 +705,21 @@ class App {
     $("stage").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
     this.renderReel();
   }
+}
+
+function esc(s: string): string {
+  return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] as string));
+}
+
+function kindLabel(kind: string): string {
+  return ({ anchor: "Defensive anchor", duel: "Winning the duel", finishing: "Finishing", momentum: "Momentum",
+    score_state: "Score state", recap: "Recap" } as Record<string, string>)[kind] ?? kind;
+}
+
+function sourceName(src: string): string {
+  return ({ "head_to_head.csv": "head-to-head records", "results.csv": "past results", "player_careers.csv": "player careers",
+    "scoring_timeline.csv": "the scoring timeline", "club_records.csv": "club records", "standings.csv": "league tables",
+    "milestones_upcoming.csv": "upcoming milestones" } as Record<string, string>)[src] ?? src;
 }
 
 function surname(name: string): string {
