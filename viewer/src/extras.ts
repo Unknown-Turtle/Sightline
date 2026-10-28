@@ -8,6 +8,7 @@ import type { Stage } from "./stage";
 import { Personal } from "./personal";
 import { Ratings } from "./ratings";
 import { Claims } from "./claims";
+import { Routines } from "./routines";
 
 export interface Host {
   meta: Meta;
@@ -71,6 +72,7 @@ export class Extras {
   readonly personal: Personal;
   readonly ratings: Ratings;
   readonly claims: Claims;
+  readonly routines: Routines;
   private lastLens = "";
   private byId = new Map<string, Ev>();
 
@@ -79,6 +81,7 @@ export class Extras {
     this.personal = new Personal(this);
     this.ratings = new Ratings(this);
     this.claims = new Claims(this);
+    this.routines = new Routines(this);
   }
 
   ev(id: string): Ev | undefined {
@@ -98,6 +101,7 @@ export class Extras {
     this.host.stage.bias = pf;
     this.personal.tick(t);
     this.ratings.tick(t);
+    this.routines.tick(t);
     const lens = this.host.lens();
     if (lens !== this.lastLens) {
       this.lastLens = lens;
@@ -107,7 +111,9 @@ export class Extras {
 
   /** Reorder, filter and extend the detected points. */
   points(pts: Point[], lens: string): Point[] {
-    return this.personal.arrange(pts, lens, this.host.liveT());
+    const t = this.host.liveT();
+    const all = lens === "tactical" ? [...pts, ...this.routines.points(t)] : pts;
+    return this.personal.arrange(all, lens, t);
   }
 
   /** Extra html after a player tag (rating chip). */
