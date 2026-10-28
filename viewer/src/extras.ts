@@ -6,6 +6,7 @@ import type { Ev, Meta, Tracking } from "./data";
 import type { Point } from "./points";
 import type { Stage } from "./stage";
 import { Personal } from "./personal";
+import { Ratings } from "./ratings";
 
 export interface Host {
   meta: Meta;
@@ -63,11 +64,13 @@ export async function loadData<T>(name: string): Promise<{ data: T; sample: bool
 
 export class Extras {
   readonly personal: Personal;
+  readonly ratings: Ratings;
   private byId = new Map<string, Ev>();
 
   constructor(readonly host: Host) {
     for (const e of host.events) this.byId.set(e.id, e);
     this.personal = new Personal(this);
+    this.ratings = new Ratings(this);
   }
 
   ev(id: string): Ev | undefined {
@@ -86,6 +89,7 @@ export class Extras {
     if (pf) this.host.stage.focus = pf;
     this.host.stage.bias = pf;
     this.personal.tick(t);
+    this.ratings.tick(t);
   }
 
   /** Reorder, filter and extend the detected points. */
@@ -94,8 +98,9 @@ export class Extras {
   }
 
   /** Extra html after a player tag (rating chip). */
-  tagChip(_pid: string, _lens: string): string {
-    return "";
+  tagChip(pid: string, lens: string): string {
+    if (!this.ratings.ready || (lens !== "tactical" && pid !== this.personal.player)) return "";
+    return this.ratings.chip(pid, this.host.liveT());
   }
 
   /** Small badge on a point card (your club, pattern). */
