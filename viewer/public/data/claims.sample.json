@@ -1,0 +1,525 @@
+{
+ "match_id": "m_seed587",
+ "mode": "fallback",
+ "model": null,
+ "claims": [
+  {
+   "claim": "Arden have lost all momentum since the goal",
+   "match_id": "m_seed587",
+   "t": 1900.0,
+   "clock": "31:38",
+   "lens": "tactical",
+   "lang": "en",
+   "claim_type": "momentum_lost",
+   "subject": {
+    "team": "ARD"
+   },
+   "verdict": "partly",
+   "summary": {
+    "casual": "Arden Athletic lost momentum? That is only partly true: 2 of 5 checks agree. Key one: territory, last 10 min (share of touches in the opponent half), 32% vs 68% for Hollow Vale.",
+    "tactical": "Partly (2/5). final-third entries, last 10 min vs match average: 3 vs 3.5 per 10 min (fails); xG, last 10 min vs match average: 0.39 vs 0.13 per 10 min (fails); territory, last 10 min (share of touches in the opponent half): 32% vs 68% for Hollow Vale (passes); field tilt, last 10 min vs match: 26% vs 28% (fails); momentum index, last 5 min (0 to 100): 1.5 (passes)."
+   },
+   "tests": [
+    {
+     "name": "final-third entries, last 10 min vs match average",
+     "value": "3 vs 3.5 per 10 min",
+     "passes": false
+    },
+    {
+     "name": "xG, last 10 min vs match average",
+     "value": "0.39 vs 0.13 per 10 min",
+     "passes": false
+    },
+    {
+     "name": "territory, last 10 min (share of touches in the opponent half)",
+     "value": "32% vs 68% for Hollow Vale",
+     "passes": true
+    },
+    {
+     "name": "field tilt, last 10 min vs match",
+     "value": "26% vs 28%",
+     "passes": false
+    },
+    {
+     "name": "momentum index, last 5 min (0 to 100)",
+     "value": "1.5",
+     "passes": true
+    }
+   ],
+   "evidence_for": [
+    "e_000594",
+    "e_000597",
+    "e_000604",
+    "e_000605",
+    "e_000622",
+    "e_000624",
+    "e_000632",
+    "e_000640",
+    "e_000643"
+   ],
+   "evidence_against": [
+    "e_000454",
+    "e_000457",
+    "e_000494",
+    "e_000500",
+    "e_000506"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 25,
+    "retries": 0,
+    "issues": []
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 108,
+    "mode": "fallback",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "classifier": "keywords"
+   }
+  },
+  {
+   "claim": "Arden's defence has completely collapsed",
+   "match_id": "m_seed587",
+   "t": 3700.0,
+   "clock": "58:20",
+   "lens": "tactical",
+   "lang": "en",
+   "claim_type": "defensive_collapse",
+   "subject": {
+    "team": "ARD"
+   },
+   "verdict": "not_supported",
+   "summary": {
+    "casual": "Arden Athletic defence has collapsed? The numbers say otherwise: 1 of 5 checks agree. Key one: goals conceded, last 15 min, 0.",
+    "tactical": "Not supported (1/5). goals conceded, last 15 min: 0 (fails); xG conceded, last 10 min vs match average: 0.21 vs 0.2 per 10 min (fails); box entries conceded, last 10 min vs match average: 2 vs 3.1 per 10 min (fails); errors leading to shots, last 15 min: 1 (passes); defensive actions, last 10 min vs match average: 6 vs 6.2 per 10 min (fails)."
+   },
+   "tests": [
+    {
+     "name": "goals conceded, last 15 min",
+     "value": "0",
+     "passes": false
+    },
+    {
+     "name": "xG conceded, last 10 min vs match average",
+     "value": "0.21 vs 0.2 per 10 min",
+     "passes": false
+    },
+    {
+     "name": "box entries conceded, last 10 min vs match average",
+     "value": "2 vs 3.1 per 10 min",
+     "passes": false
+    },
+    {
+     "name": "errors leading to shots, last 15 min",
+     "value": "1",
+     "passes": true
+    },
+    {
+     "name": "defensive actions, last 10 min vs match average",
+     "value": "6 vs 6.2 per 10 min",
+     "passes": false
+    }
+   ],
+   "evidence_for": [
+    "e_001189",
+    "e_001193",
+    "e_001268",
+    "e_001309",
+    "e_001332"
+   ],
+   "evidence_against": [],
+   "check": {
+    "passed": true,
+    "numbers_checked": 22,
+    "retries": 0,
+    "issues": []
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 151,
+    "mode": "fallback",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "classifier": "keywords"
+   }
+  },
+  {
+   "claim": "Hollow Vale have lost the momentum now",
+   "match_id": "m_seed587",
+   "t": 4700.0,
+   "clock": "74:57",
+   "lens": "tactical",
+   "lang": "en",
+   "claim_type": "momentum_lost",
+   "subject": {
+    "team": "HVL"
+   },
+   "verdict": "supported",
+   "summary": {
+    "casual": "Hollow Vale lost momentum? The numbers back that up: 4 of 5 checks agree. Key one: final-third entries, last 10 min vs match average, 7 vs 9.4 per 10 min.",
+    "tactical": "Supported (4/5). final-third entries, last 10 min vs match average: 7 vs 9.4 per 10 min (passes); xG, last 10 min vs match average: 0.1 vs 0.18 per 10 min (passes); territory, last 10 min (share of touches in the opponent half): 57% vs 43% for Arden Athletic (fails); field tilt, last 10 min vs match: 60% vs 68% (passes); momentum index, last 5 min (0 to 100): 13.7 (passes)."
+   },
+   "tests": [
+    {
+     "name": "final-third entries, last 10 min vs match average",
+     "value": "7 vs 9.4 per 10 min",
+     "passes": true
+    },
+    {
+     "name": "xG, last 10 min vs match average",
+     "value": "0.1 vs 0.18 per 10 min",
+     "passes": true
+    },
+    {
+     "name": "territory, last 10 min (share of touches in the opponent half)",
+     "value": "57% vs 43% for Arden Athletic",
+     "passes": false
+    },
+    {
+     "name": "field tilt, last 10 min vs match",
+     "value": "60% vs 68%",
+     "passes": true
+    },
+    {
+     "name": "momentum index, last 5 min (0 to 100)",
+     "value": "13.7",
+     "passes": true
+    }
+   ],
+   "evidence_for": [
+    "e_001519",
+    "e_001535",
+    "e_001620",
+    "e_001624",
+    "e_001631",
+    "e_001640",
+    "e_001650"
+   ],
+   "evidence_against": [
+    "e_001526",
+    "e_001528",
+    "e_001544",
+    "e_001546",
+    "e_001549",
+    "e_001552",
+    "e_001563",
+    "e_001672",
+    "e_001674"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 26,
+    "retries": 0,
+    "issues": []
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 194,
+    "mode": "fallback",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "classifier": "keywords"
+   }
+  },
+  {
+   "claim": "Arden's press is finally working",
+   "match_id": "m_seed587",
+   "t": 4700.0,
+   "clock": "74:57",
+   "lens": "tactical",
+   "lang": "en",
+   "claim_type": "pressing_working",
+   "subject": {
+    "team": "ARD"
+   },
+   "verdict": "not_supported",
+   "summary": {
+    "casual": "Arden Athletic press is working? The numbers say otherwise: 0 of 5 checks agree. Key one: PPDA, last 10 min vs match (lower is a stronger press), 8.7 vs 8.0.",
+    "tactical": "Not supported (0/5). PPDA, last 10 min vs match (lower is a stronger press): 8.7 vs 8.0 (fails); high turnovers, last 10 min vs match average: 0 vs 1.3 per 10 min (fails); counter-press regains, last 10 min vs match average: 0 vs 1.9 per 10 min (fails); Hollow Vale pass accuracy, last 10 min vs match: 95% vs 89% (fails); pressures, last 10 min vs match average: 14 vs 18.9 per 10 min (fails)."
+   },
+   "tests": [
+    {
+     "name": "PPDA, last 10 min vs match (lower is a stronger press)",
+     "value": "8.7 vs 8.0",
+     "passes": false
+    },
+    {
+     "name": "high turnovers, last 10 min vs match average",
+     "value": "0 vs 1.3 per 10 min",
+     "passes": false
+    },
+    {
+     "name": "counter-press regains, last 10 min vs match average",
+     "value": "0 vs 1.9 per 10 min",
+     "passes": false
+    },
+    {
+     "name": "Hollow Vale pass accuracy, last 10 min vs match",
+     "value": "95% vs 89%",
+     "passes": false
+    },
+    {
+     "name": "pressures, last 10 min vs match average",
+     "value": "14 vs 18.9 per 10 min",
+     "passes": false
+    }
+   ],
+   "evidence_for": [
+    "e_001506",
+    "e_001510",
+    "e_001615",
+    "e_001666"
+   ],
+   "evidence_against": [],
+   "check": {
+    "passed": true,
+    "numbers_checked": 25,
+    "retries": 0,
+    "issues": []
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 182,
+    "mode": "fallback",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "classifier": "keywords"
+   }
+  },
+  {
+   "claim": "Garrow has Takeda in his pocket",
+   "match_id": "m_seed587",
+   "t": 5000.0,
+   "clock": "80:14",
+   "lens": "tactical",
+   "lang": "en",
+   "claim_type": "duel_winning",
+   "subject": {
+    "team": "HVL",
+    "player": "HVL_09",
+    "opponent": "ARD_08"
+   },
+   "verdict": "supported",
+   "summary": {
+    "casual": "Garrow against Takeda is winning the duel? The numbers back that up: 3 of 4 checks agree. Key one: duels won, Garrow vs Takeda, 10 vs 3.",
+    "tactical": "Supported (3/4). duels won, Garrow vs Takeda: 10 vs 3 (passes); tackles between them won: 3 vs 1 (passes); take-ons between them won: 6 vs 1 (passes); fouls won by Garrow vs by Takeda: 1 vs 1 (fails)."
+   },
+   "tests": [
+    {
+     "name": "duels won, Garrow vs Takeda",
+     "value": "10 vs 3",
+     "passes": true
+    },
+    {
+     "name": "tackles between them won",
+     "value": "3 vs 1",
+     "passes": true
+    },
+    {
+     "name": "take-ons between them won",
+     "value": "6 vs 1",
+     "passes": true
+    },
+    {
+     "name": "fouls won by Garrow vs by Takeda",
+     "value": "1 vs 1",
+     "passes": false
+    }
+   ],
+   "evidence_for": [
+    "e_000299",
+    "e_000462",
+    "e_000463",
+    "e_000633",
+    "e_000820",
+    "e_000856",
+    "e_000881",
+    "e_000960",
+    "e_001144"
+   ],
+   "evidence_against": [
+    "e_000347",
+    "e_000376",
+    "e_000519"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 14,
+    "retries": 0,
+    "issues": []
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 202,
+    "mode": "fallback",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "classifier": "keywords"
+   }
+  },
+  {
+   "claim": "Tremblay is having a huge game",
+   "match_id": "m_seed587",
+   "t": 5400.0,
+   "clock": "86:56",
+   "lens": "tactical",
+   "lang": "en",
+   "claim_type": "player_big_game",
+   "subject": {
+    "team": "ARD",
+    "player": "ARD_05"
+   },
+   "verdict": "supported",
+   "summary": {
+    "casual": "Tremblay is having a big game? The numbers back that up: 3 of 4 checks agree. Key one: match rating for Tremblay (team rank of 16), 7.15 (rank 3).",
+    "tactical": "Supported (3/4). match rating for Tremblay (team rank of 16): 7.15 (rank 3) (passes); key actions (goals, assists, key passes, tackles won, interceptions, blocks, take-ons won) vs team average: 14 vs 3.2 (passes); possession losses (passes lost, dispossessed, beaten, fouls) vs team average: 6 vs 8.0 (passes); goals and assists: 0 goals, 0 assists (fails)."
+   },
+   "tests": [
+    {
+     "name": "match rating for Tremblay (team rank of 16)",
+     "value": "7.15 (rank 3)",
+     "passes": true
+    },
+    {
+     "name": "key actions (goals, assists, key passes, tackles won, interceptions, blocks, take-ons won) vs team average",
+     "value": "14 vs 3.2",
+     "passes": true
+    },
+    {
+     "name": "possession losses (passes lost, dispossessed, beaten, fouls) vs team average",
+     "value": "6 vs 8.0",
+     "passes": true
+    },
+    {
+     "name": "goals and assists",
+     "value": "0 goals, 0 assists",
+     "passes": false
+    }
+   ],
+   "evidence_for": [
+    "e_000531",
+    "e_000760",
+    "e_001318",
+    "e_001468",
+    "e_001509",
+    "e_001570"
+   ],
+   "evidence_against": [
+    "e_000451",
+    "e_000497",
+    "e_000524",
+    "e_000662",
+    "e_001311",
+    "e_001399"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 16,
+    "retries": 0,
+    "issues": []
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 222,
+    "mode": "fallback",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "classifier": "keywords"
+   }
+  },
+  {
+   "claim": "Hollow Vale look tired",
+   "match_id": "m_seed587",
+   "t": 5500.0,
+   "clock": "88:36",
+   "lens": "tactical",
+   "lang": "en",
+   "claim_type": "tiredness",
+   "subject": {
+    "team": "HVL"
+   },
+   "verdict": "supported",
+   "summary": {
+    "casual": "Hollow Vale are tiring? The numbers back that up: 4 of 5 checks agree. Key one: sprints per minute for Hollow Vale, last 10 min vs match, 2.6 vs 4.05.",
+    "tactical": "Supported (4/5). sprints per minute for Hollow Vale, last 10 min vs match: 2.6 vs 4.05 (passes); metres per minute for Hollow Vale, last 10 min vs match: 1025 vs 1141 (passes); pressures per minute for Hollow Vale, last 10 min vs match: 1.6 vs 1.21 (fails); territory, last 10 min: 43% (passes); tackles and interceptions, last 10 min vs match average: 2 vs 3.6 per 10 min (passes)."
+   },
+   "tests": [
+    {
+     "name": "sprints per minute for Hollow Vale, last 10 min vs match",
+     "value": "2.6 vs 4.05",
+     "passes": true
+    },
+    {
+     "name": "metres per minute for Hollow Vale, last 10 min vs match",
+     "value": "1025 vs 1141",
+     "passes": true
+    },
+    {
+     "name": "pressures per minute for Hollow Vale, last 10 min vs match",
+     "value": "1.6 vs 1.21",
+     "passes": false
+    },
+    {
+     "name": "territory, last 10 min",
+     "value": "43%",
+     "passes": true
+    },
+    {
+     "name": "tackles and interceptions, last 10 min vs match average",
+     "value": "2 vs 3.6 per 10 min",
+     "passes": true
+    }
+   ],
+   "evidence_for": [],
+   "evidence_against": [],
+   "check": {
+    "passed": true,
+    "numbers_checked": 22,
+    "retries": 0,
+    "issues": []
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 234,
+    "mode": "fallback",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "classifier": "keywords"
+   }
+  },
+  {
+   "claim": "The referee has been shocking tonight",
+   "match_id": "m_seed587",
+   "t": 5946.0,
+   "clock": "90+6:03",
+   "lens": "tactical",
+   "lang": "en",
+   "claim_type": "out_of_scope",
+   "subject": {},
+   "verdict": "out_of_scope",
+   "summary": {
+    "casual": "That one is outside what the match data can test. Try a claim about momentum, control, pressing, a duel, a player's game, finishing, the defence or tiredness.",
+    "tactical": "Out of scope: the claim does not map to a testable claim type over the match events."
+   },
+   "tests": [],
+   "evidence_for": [],
+   "evidence_against": [],
+   "check": {
+    "passed": true,
+    "numbers_checked": 0,
+    "retries": 0,
+    "issues": []
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 232,
+    "mode": "fallback",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "classifier": "keywords"
+   }
+  }
+ ]
+}

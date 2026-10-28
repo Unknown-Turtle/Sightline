@@ -1,0 +1,481 @@
+{
+ "match_id": "m_seed587",
+ "method": "playbook template matching plus repeated opening role chains, events and match.json only",
+ "zone_tolerance_m": 15.0,
+ "patterns": [
+  {
+   "id": "ARD_R1",
+   "team": "ARD",
+   "label": "keeper to pivot to striker drop-off to runner",
+   "trigger": "goal_kick",
+   "source": "playbook",
+   "steps": [
+    "GK to CDM",
+    "CDM to ST",
+    "ST to RW"
+   ],
+   "attempts": [
+    {
+     "t": 975.8,
+     "clock": "16:15",
+     "possession_id": 43,
+     "event_ids": [
+      "e_000341",
+      "e_000342",
+      "e_000343"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 1109.2,
+     "clock": "18:29",
+     "possession_id": 51,
+     "event_ids": [
+      "e_000403",
+      "e_000404"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 1784.2,
+     "clock": "29:44",
+     "possession_id": 74,
+     "event_ids": [
+      "e_000626",
+      "e_000627"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 2299.6,
+     "clock": "38:19",
+     "possession_id": 100,
+     "event_ids": [
+      "e_000810",
+      "e_000811",
+      "e_000812"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 2849.6,
+     "clock": "45+2:29",
+     "possession_id": 128,
+     "event_ids": [
+      "e_001046",
+      "e_001047"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 3021.8,
+     "clock": "47:18",
+     "possession_id": 134,
+     "event_ids": [
+      "e_001100",
+      "e_001101",
+      "e_001102"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "shot"
+    },
+    {
+     "t": 3114.4,
+     "clock": "48:51",
+     "possession_id": 140,
+     "event_ids": [
+      "e_001128",
+      "e_001129",
+      "e_001130"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 3704.0,
+     "clock": "58:41",
+     "possession_id": 158,
+     "event_ids": [
+      "e_001334",
+      "e_001335",
+      "e_001336"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 4236.4,
+     "clock": "67:33",
+     "possession_id": 183,
+     "event_ids": [
+      "e_001530",
+      "e_001531",
+      "e_001532"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "shot"
+    },
+    {
+     "t": 5110.8,
+     "clock": "82:07",
+     "possession_id": 207,
+     "event_ids": [
+      "e_001808",
+      "e_001809",
+      "e_001811"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    }
+   ],
+   "shots_from": 2,
+   "completed": 7,
+   "evaluation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "attempts_detected": 10,
+    "attempts_true": 10,
+    "attempts_matched": 10,
+    "against": "routines_truth.jsonl"
+   }
+  },
+  {
+   "id": "ARD_R2",
+   "team": "ARD",
+   "label": "right-side overload to switch",
+   "trigger": "regain_own_third",
+   "source": "playbook",
+   "steps": [
+    "* to RB",
+    "RB to RCM",
+    "RCM to LW"
+   ],
+   "attempts": [
+    {
+     "t": 465.4,
+     "clock": "07:45",
+     "possession_id": 22,
+     "event_ids": [
+      "e_000165",
+      "e_000166",
+      "e_000167"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 1025.4,
+     "clock": "17:05",
+     "possession_id": 45,
+     "event_ids": [
+      "e_000364"
+     ],
+     "steps_matched": 1,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 1061.2,
+     "clock": "17:41",
+     "possession_id": 49,
+     "event_ids": [
+      "e_000387",
+      "e_000388",
+      "e_000389"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 1363.6,
+     "clock": "22:43",
+     "possession_id": 59,
+     "event_ids": [
+      "e_000478",
+      "e_000479"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 1934.0,
+     "clock": "32:14",
+     "possession_id": 80,
+     "event_ids": [
+      "e_000670",
+      "e_000671"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 1987.0,
+     "clock": "33:07",
+     "possession_id": 82,
+     "event_ids": [
+      "e_000688",
+      "e_000689"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 2095.8,
+     "clock": "34:55",
+     "possession_id": 88,
+     "event_ids": [
+      "e_000728",
+      "e_000729",
+      "e_000730"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 3438.4,
+     "clock": "54:15",
+     "possession_id": 151,
+     "event_ids": [
+      "e_001236",
+      "e_001237"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 4659.2,
+     "clock": "74:36",
+     "possession_id": 192,
+     "event_ids": [
+      "e_001677",
+      "e_001678",
+      "e_001679"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 4988.8,
+     "clock": "80:05",
+     "possession_id": 203,
+     "event_ids": [
+      "e_001768",
+      "e_001769"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 5518.6,
+     "clock": "88:55",
+     "possession_id": 223,
+     "event_ids": [
+      "e_001940",
+      "e_001941"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    }
+   ],
+   "shots_from": 0,
+   "completed": 4,
+   "evaluation": {
+    "precision": 1.0,
+    "recall": 0.806,
+    "attempts_detected": 11,
+    "attempts_true": 13,
+    "attempts_matched": 11,
+    "against": "routines_truth.jsonl"
+   }
+  },
+  {
+   "id": "ARD_R3",
+   "team": "ARD",
+   "label": "keeper short to full back to third man",
+   "trigger": "keeper",
+   "source": "playbook",
+   "steps": [
+    "GK to LB",
+    "LB to LCM"
+   ],
+   "attempts": [
+    {
+     "t": 600.6,
+     "clock": "10:00",
+     "possession_id": 27,
+     "event_ids": [
+      "e_000217",
+      "e_000218"
+     ],
+     "steps_matched": 2,
+     "steps_total": 2,
+     "outcome": "completed"
+    },
+    {
+     "t": 2661.2,
+     "clock": "44:21",
+     "possession_id": 118,
+     "event_ids": [
+      "e_000953"
+     ],
+     "steps_matched": 1,
+     "steps_total": 2,
+     "outcome": "lost"
+    }
+   ],
+   "shots_from": 0,
+   "completed": 1,
+   "evaluation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "attempts_detected": 2,
+    "attempts_true": 2,
+    "attempts_matched": 2,
+    "against": "routines_truth.jsonl"
+   }
+  },
+  {
+   "id": "HVL_R1",
+   "team": "HVL",
+   "label": "keeper long to target man to wing back",
+   "trigger": "goal_kick",
+   "source": "playbook",
+   "steps": [
+    "GK to ST",
+    "ST to RWB"
+   ],
+   "attempts": [],
+   "shots_from": 0,
+   "completed": 0,
+   "evaluation": {
+    "precision": null,
+    "recall": null,
+    "attempts_detected": 0,
+    "attempts_true": 0,
+    "attempts_matched": 0,
+    "against": "routines_truth.jsonl"
+   }
+  },
+  {
+   "id": "HVL_R2",
+   "team": "HVL",
+   "label": "back three out through the left wing back",
+   "trigger": "regain_own_third",
+   "source": "playbook",
+   "steps": [
+    "* to LCB",
+    "LCB to LWB",
+    "LWB to LAM"
+   ],
+   "attempts": [
+    {
+     "t": 55.0,
+     "clock": "00:55",
+     "possession_id": 4,
+     "event_ids": [
+      "e_000022",
+      "e_000023",
+      "e_000024"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 440.6,
+     "clock": "07:20",
+     "possession_id": 19,
+     "event_ids": [
+      "e_000152"
+     ],
+     "steps_matched": 1,
+     "steps_total": 3,
+     "outcome": "lost"
+    },
+    {
+     "t": 993.4,
+     "clock": "16:33",
+     "possession_id": 44,
+     "event_ids": [
+      "e_000350",
+      "e_000351",
+      "e_000352"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 3065.0,
+     "clock": "48:02",
+     "possession_id": 137,
+     "event_ids": [
+      "e_001112",
+      "e_001113",
+      "e_001114"
+     ],
+     "steps_matched": 3,
+     "steps_total": 3,
+     "outcome": "completed"
+    },
+    {
+     "t": 5129.2,
+     "clock": "82:26",
+     "possession_id": 208,
+     "event_ids": [
+      "e_001817",
+      "e_001818"
+     ],
+     "steps_matched": 2,
+     "steps_total": 3,
+     "outcome": "lost"
+    }
+   ],
+   "shots_from": 0,
+   "completed": 3,
+   "evaluation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "attempts_detected": 5,
+    "attempts_true": 5,
+    "attempts_matched": 5,
+    "against": "routines_truth.jsonl"
+   }
+  }
+ ],
+ "evaluation": {
+  "against": "routines_truth.jsonl",
+  "level": "event ids of playbook attempts",
+  "precision": 1.0,
+  "recall": 0.918,
+  "attempt_precision": 1.0,
+  "attempt_recall": 0.933,
+  "detected_events": 67,
+  "true_events": 73
+ }
+}
