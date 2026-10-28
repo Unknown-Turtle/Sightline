@@ -72,7 +72,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 112,
+    "latency_ms": 108,
     "mode": "fallback",
     "tokens_in": 0,
     "tokens_out": 0,
@@ -138,7 +138,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 157,
+    "latency_ms": 151,
     "mode": "fallback",
     "tokens_in": 0,
     "tokens_out": 0,
@@ -216,7 +216,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 222,
+    "latency_ms": 194,
     "mode": "fallback",
     "tokens_in": 0,
     "tokens_out": 0,
@@ -281,7 +281,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 233,
+    "latency_ms": 182,
     "mode": "fallback",
     "tokens_in": 0,
     "tokens_out": 0,
@@ -295,32 +295,32 @@
    "clock": "80:14",
    "lens": "tactical",
    "lang": "en",
-   "claim_type": "duel_losing",
+   "claim_type": "duel_winning",
    "subject": {
     "team": "HVL",
     "player": "HVL_09",
     "opponent": "ARD_08"
    },
-   "verdict": "not_supported",
+   "verdict": "supported",
    "summary": {
-    "casual": "Garrow against Takeda is losing the duel? The numbers say otherwise: 0 of 4 checks agree. Key one: duels won, Garrow vs Takeda, 10 vs 3.",
-    "tactical": "Not supported (0/4). duels won, Garrow vs Takeda: 10 vs 3 (fails); tackles between them won: 3 vs 1 (fails); take-ons between them won: 6 vs 1 (fails); fouls won by Garrow vs by Takeda: 1 vs 1 (fails)."
+    "casual": "Garrow against Takeda is winning the duel? The numbers back that up: 3 of 4 checks agree. Key one: duels won, Garrow vs Takeda, 10 vs 3.",
+    "tactical": "Supported (3/4). duels won, Garrow vs Takeda: 10 vs 3 (passes); tackles between them won: 3 vs 1 (passes); take-ons between them won: 6 vs 1 (passes); fouls won by Garrow vs by Takeda: 1 vs 1 (fails)."
    },
    "tests": [
     {
      "name": "duels won, Garrow vs Takeda",
      "value": "10 vs 3",
-     "passes": false
+     "passes": true
     },
     {
      "name": "tackles between them won",
      "value": "3 vs 1",
-     "passes": false
+     "passes": true
     },
     {
      "name": "take-ons between them won",
      "value": "6 vs 1",
-     "passes": false
+     "passes": true
     },
     {
      "name": "fouls won by Garrow vs by Takeda",
@@ -329,11 +329,6 @@
     }
    ],
    "evidence_for": [
-    "e_000347",
-    "e_000376",
-    "e_000519"
-   ],
-   "evidence_against": [
     "e_000299",
     "e_000462",
     "e_000463",
@@ -344,6 +339,11 @@
     "e_000960",
     "e_001144"
    ],
+   "evidence_against": [
+    "e_000347",
+    "e_000376",
+    "e_000519"
+   ],
    "check": {
     "passed": true,
     "numbers_checked": 14,
@@ -352,7 +352,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 212,
+    "latency_ms": 202,
     "mode": "fallback",
     "tokens_in": 0,
     "tokens_out": 0,
@@ -422,7 +422,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 226,
+    "latency_ms": 222,
     "mode": "fallback",
     "tokens_in": 0,
     "tokens_out": 0,
@@ -482,7 +482,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 245,
+    "latency_ms": 234,
     "mode": "fallback",
     "tokens_in": 0,
     "tokens_out": 0,
@@ -514,7 +514,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 266,
+    "latency_ms": 232,
     "mode": "fallback",
     "tokens_in": 0,
     "tokens_out": 0,
