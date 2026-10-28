@@ -22,7 +22,7 @@ for _p in (ROOT, os.path.join(ROOT, "matchgen")):
 
 from matchgen.stats import BIG_CHANCE_XG, StatsEngine  # noqa: E402
 
-DEFAULT_DATA_DIR = os.path.join(ROOT, "viewer", "public", "data")
+DEFAULT_DATA_DIR = os.environ.get("SIGHTLINE_DATA_DIR") or os.path.join(ROOT, "viewer", "public", "data")
 INSTANT_TYPES = {"goal", "card", "period_end"}
 
 

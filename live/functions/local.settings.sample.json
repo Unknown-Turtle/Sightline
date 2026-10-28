@@ -1,0 +1,13 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "EventHubConnection__fullyQualifiedNamespace": "<namespace>.servicebus.windows.net",
+    "EVENTHUB_NAME": "match-events",
+    "WEBPUBSUB_ENDPOINT": "https://<name>.webpubsub.azure.com",
+    "WEBPUBSUB_HUB": "match",
+    "DEFAULT_MATCH_ID": "m_seed587"
+  },
+  "Host": { "CORS": "*" }
+}
