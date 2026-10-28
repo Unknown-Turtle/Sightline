@@ -2,6 +2,26 @@ import "./styles.css";
 import { clockAt, loadMatch, relX, type Ev, type Meta, type Tracking } from "./data";
 import { Stage, type CameraMode } from "./stage";
 import { cardLabel, detectPoints, zoneText, type Lens, type Point } from "./points";
+import { currentInsights, loadInsights, receiptLine, STANDALONE, textFor, type Insight, type InsightFile } from "./insights";
+
+/** One card on the rail: a templated point, an insight that replaces its wording, or a standalone insight. */
+interface RailItem {
+  id: string;
+  kind: string;
+  team: string;
+  subject: string | null;
+  text: string;
+  stat: string | null;
+  forEv: Ev[];
+  againstEv: Ev[];
+  checked: number;
+  insight: Insight | null;
+  rejected: boolean;
+  t: number;
+}
+// [extras] start
+import { mountExtras, type Extras } from "./extras";
+// [extras] end
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const ON_BALL = new Set(["pass", "carry", "take_on", "shot", "clearance"]);
@@ -14,16 +34,16 @@ interface State {
   speed: number;
   lens: Lens;
   cam: CameraMode;
-  point: Point | null;
+  item: RailItem | null;
   side: "for" | "against";
   replayEnd: number | null;
   playingCard: string | null;
 }
 
 async function boot(): Promise<void> {
-  const { meta, events, tracking } = await loadMatch();
+  const [{ meta, events, tracking }, ins] = await Promise.all([loadMatch(), loadInsights()]);
   $("loading").hidden = true;
-  const app = new App(meta, events, tracking);
+  const app = new App(meta, events, tracking, ins?.file ?? null, ins?.source ?? null);
   app.start();
 }
 
@@ -32,15 +52,22 @@ class App {
   private st: State;
   private lastFrame = performance.now();
   private lastPointsAt = -1;
-  private points: Point[] = [];
+  private items: RailItem[] = [];
+  private byId = new Map<string, Ev>();
+  private dismissedRecaps = new Set<string>();
   private tags: HTMLDivElement[] = [];
   private names = new Map<string, { name: string; number: number; team: string }>();
   private duration: number;
   private home: string;
   private away: string;
+  // [extras] start
+  private extras!: Extras;
+  // [extras] end
 
-  constructor(private meta: Meta, private events: Ev[], private tracking: Tracking) {
+  constructor(private meta: Meta, private events: Ev[], private tracking: Tracking,
+              private insights: InsightFile | null, private insightSource: string | null) {
     this.stage = new Stage($("canvas") as HTMLCanvasElement, meta, tracking, events);
+    for (const e of events) this.byId.set(e.id, e);
     for (const p of meta.players) this.names.set(p.id, { name: p.name, number: p.number, team: p.team });
     this.duration = tracking.duration;
     this.home = meta.home;
@@ -51,12 +78,23 @@ class App {
       t: p2 ? p2.start + (72.6 - 45) * 60 : 0,
       liveT: 0,
       playing: false, speed: 12, lens: "casual", cam: "broadcast",
-      point: null, side: "for", replayEnd: null, playingCard: null,
+      item: null, side: "for", replayEnd: null, playingCard: null,
     };
     this.st.liveT = this.st.t;
     this.buildHeader();
     this.buildTimeline();
     this.bindControls();
+    // [extras] start
+    this.extras = mountExtras({
+      meta, events, tracking, stage: this.stage,
+      liveT: () => this.st.liveT,
+      lens: () => this.st.lens,
+      selectPoint: (p) => this.selectItem(this.railItem(p, null, this.st.lens)),
+      getInsights: () => this.insights,
+      setInsights: (f) => { this.insights = f as InsightFile | null; },
+      refresh: () => this.refreshPoints(true),
+    });
+    // [extras] end
     const ro = new ResizeObserver(() => this.resize());
     ro.observe($("stage"));
     this.resize();
@@ -66,7 +104,8 @@ class App {
     this.stage.update(this.st.t, 0, null, []);
     this.stage.snapCamera();
     this.refreshPoints(true);
-    if (this.points[0]) this.selectPoint(this.points[0]);
+    if (this.items[0]) this.selectItem(this.items[0]);
+    this.booted = true;
     const loop = (now: number) => {
       const real = Math.min(0.1, (now - this.lastFrame) / 1000);
       this.lastFrame = now;
@@ -90,6 +129,9 @@ class App {
       if (st.replayEnd === null) st.liveT = st.t;
     }
     const dt = st.t - prev;
+    // [extras] start
+    this.extras.tick();
+    // [extras] end
     const recent = this.range(st.t - 4, st.t).filter((e) => e.type === "pass");
     this.stage.update(st.t, st.playing ? real : 0.016, this.carrier(), recent);
     this.stage.render();
@@ -141,8 +183,15 @@ class App {
     const ta = this.meta.teams.find((t) => t.id === this.away)!;
     $("home-name").textContent = th.name;
     $("away-name").textContent = ta.name;
-    $("home-chip").style.background = th.colour;
-    $("away-chip").style.background = ta.colour;
+    for (const [id, team] of [["home-chip", th], ["away-chip", ta]] as const) {
+      const crest = $(id);
+      crest.style.setProperty("--c", team.colour);
+      crest.textContent = initials(team.name);
+      crest.setAttribute("aria-hidden", "true");
+    }
+    const split = $("mc-split");
+    split.style.setProperty("--home", th.colour);
+    split.style.setProperty("--away", ta.colour);
     const c = this.meta.context;
     const bits: [string, string | number | undefined][] = [
       ["", this.meta.competition],
@@ -227,11 +276,15 @@ class App {
     document.querySelectorAll<HTMLButtonElement>("[data-lens]").forEach((b) =>
       b.addEventListener("click", () => {
         this.st.lens = b.dataset.lens as Lens;
-        this.stage.lens = this.st.lens;
+        // overlays in the commentator lens match casual
+        this.stage.lens = this.st.lens === "tactical" ? "tactical" : "casual";
         this.markOn("[data-lens]", b);
         this.refreshPoints(true);
-        if (this.st.point) this.renderReel();
+        if (this.st.item) this.renderReel();
       }),
+    );
+    document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((b) =>
+      b.addEventListener("click", () => this.showTab(b.dataset.tab!)),
     );
     const scrub = $("scrub") as HTMLInputElement;
     scrub.addEventListener("input", () => {
@@ -250,7 +303,74 @@ class App {
   }
 
   private markOn(sel: string, on: HTMLElement): void {
-    document.querySelectorAll(sel).forEach((x) => x.classList.toggle("on", x === on));
+    document.querySelectorAll(sel).forEach((x) => {
+      x.classList.toggle("on", x === on);
+      if (x.hasAttribute("aria-pressed")) x.setAttribute("aria-pressed", String(x === on));
+    });
+  }
+
+  /** Switch the match-centre tab (live, moments, stats, ratings, claims, patterns). */
+  private showTab(name: string): void {
+    document.querySelectorAll<HTMLElement>(".panel[id^='panel-']").forEach((p) => (p.hidden = p.id !== `panel-${name}`));
+    document.querySelectorAll<HTMLElement>(".tab[data-tab]").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.tab === name)));
+    if (name === "live") this.resize();
+    if (name === "stats") this.renderStats(true);
+  }
+
+  // ----------------------------------------------------------------- stats
+  private statsSig = "";
+
+  /** Comparison rows from the latest snapshot at the live time: home left, label centre, away right. */
+  private renderStats(force = false): void {
+    const pts = this.meta.momentum;
+    let snap: (typeof pts)[number] | null = null;
+    for (const p of pts) { if (p.t <= this.st.liveT + 1) snap = p; else break; }
+    const sig = snap ? String(snap.t) : "none";
+    if (!force && sig === this.statsSig) return;
+    this.statsSig = sig;
+    const th = this.meta.teams.find((t) => t.id === this.home)!;
+    const ta = this.meta.teams.find((t) => t.id === this.away)!;
+    const rows: [string, string, (v: number) => string, boolean][] = [
+      ["possession", "Possession", (v) => `${Math.round(v * 100)}%`, true],
+      ["shots", "Shots", (v) => String(v), true],
+      ["shots_on_target", "On target", (v) => String(v), true],
+      ["xg", "Expected goals", (v) => v.toFixed(2), true],
+      ["big_chances", "Big chances", (v) => String(v), true],
+      ["passes", "Passes", (v) => String(v), true],
+      ["pass_accuracy", "Pass accuracy", (v) => `${Math.round(v * 100)}%`, true],
+      ["final_third_entries", "Final-third entries", (v) => String(v), true],
+      ["box_entries", "Box entries", (v) => String(v), true],
+      ["corners", "Corners", (v) => String(v), true],
+      ["tackles", "Tackles", (v) => String(v), true],
+      ["interceptions", "Interceptions", (v) => String(v), true],
+      ["fouls", "Fouls", (v) => String(v), false],
+      ["yellows", "Yellow cards", (v) => String(v), false],
+      ["distance_km", "Distance (km)", (v) => v.toFixed(1), true],
+      ["sprints", "Sprints", (v) => String(v), true],
+    ];
+    const box = $("stats-rows");
+    $("stats-sub").textContent = snap
+      ? `${th.name} against ${ta.name}, as of ${clockAt(this.meta, snap.t).text}`
+      : "Stats appear once the match is under way.";
+    if (!snap || !snap.stats) { box.innerHTML = `<p class="empty">No snapshot yet.</p>`; return; }
+    const hs = snap.stats[this.home] ?? {}, as = snap.stats[this.away] ?? {};
+    box.innerHTML = rows
+      .filter(([k]) => k in hs || k in as)
+      .map(([k, label, fmt, moreIsBetter]) => {
+        const a = Number(hs[k] ?? 0), b = Number(as[k] ?? 0);
+        const total = a + b || 1;
+        const lead = a === b ? null : (a > b) === moreIsBetter ? "home" : "away";
+        const leadColour = lead === "home" ? th.colour : lead === "away" ? ta.colour : "inherit";
+        return `<div class="stat-row" style="--lead:${leadColour}">
+          <span class="v home${lead === "home" ? " lead" : ""}">${fmt(a)}</span>
+          <span class="l">${label}</span>
+          <span class="v away${lead === "away" ? " lead" : ""}">${fmt(b)}</span>
+          <span class="bar" aria-hidden="true">
+            <i class="home" style="--w:${Math.round((a / total) * 100)}%;--c:${th.colour}"></i>
+            <i class="away" style="--w:${Math.round((b / total) * 100)}%;--c:${ta.colour}"></i>
+          </span></div>`;
+      })
+      .join("");
   }
 
   private setPlaying(p: boolean): void {
@@ -297,6 +417,9 @@ class App {
       const d = this.tag(n++);
       d.className = `tag ${cls}`;
       d.innerHTML = html;
+      // [extras] start
+      if (cls !== "speed") d.innerHTML += this.extras.tagChip(pid, this.st.lens);
+      // [extras] end
       d.style.left = `${p.x}px`;
       d.style.top = `${p.y - lift}px`;
       d.hidden = false;
@@ -373,47 +496,157 @@ class App {
   }
 
   // ---------------------------------------------------------------- points
+  /** Rebuild the rail: templated points, overridden by insights when one exists for the point_id,
+   *  plus standalone insights (momentum, score_state, recap) as their own items. */
   private refreshPoints(force: boolean): void {
     this.lastPointsAt = this.st.liveT;
-    const pts = detectPoints(this.meta, this.events, this.st.liveT);
-    $("rail-sub").textContent = `As of ${clockAt(this.meta, this.st.liveT).text}. Points update as the match plays.`;
-    const sig = pts.map((p) => `${p.id}:${p.stat}`).join("|") + this.st.lens;
+    this.renderStats();
+    const liveT = this.st.liveT;
+    const lens = this.st.lens;
+    let pts = detectPoints(this.meta, this.events, liveT);
+    // [extras] start: player focus filter, favourite club first, rehearsed patterns
+    pts = this.extras.points(pts, lens);
+    // [extras] end
+    const current = currentInsights(this.insights, liveT);
+    const items: RailItem[] = [];
+    for (const p of pts) {
+      const ins = current.get(p.id) ?? null;
+      items.push(this.railItem(p, ins, lens));
+      current.delete(p.id);
+    }
+    for (const ins of current.values()) {
+      if (STANDALONE.has(ins.kind)) items.push(this.railItem(null, ins, lens));
+    }
+    // templated points keep their strength order; standalone insights follow, newest first
+    items.sort((x, y) => Number(x.stat === null) - Number(y.stat === null) || (x.stat === null ? y.t - x.t : 0));
+    const sig = items.map((i) => `${i.id}:${i.stat}:${i.insight?.id ?? ""}:${i.rejected}`).join("|") + lens;
+    $("rail-sub").textContent = `As of ${clockAt(this.meta, liveT).text}. ${this.insights ? "AI insights with receipts" : "Points"} update as the match plays.`;
+    this.maybeRecap(liveT);
     if (!force && sig === this.pointsSig) return;
     this.pointsSig = sig;
-    this.points = pts;
+    this.items = items;
     const list = $("points");
     list.innerHTML = "";
-    if (!pts.length) {
+    if (!items.length) {
       list.innerHTML = `<li class="empty">Nothing stands out yet. Points appear once a pattern holds up.</li>`;
     }
-    for (const p of pts) {
+    for (const it of items) {
       const li = document.createElement("li");
       const b = document.createElement("button");
-      b.className = "point" + (this.st.point?.id === p.id ? " on" : "");
-      const colour = this.meta.teams.find((t) => t.id === p.team)?.colour ?? "#999";
-      b.innerHTML = `<span class="claim">${p.claim[this.st.lens]}</span>
-        <span class="stat">${p.stat}</span>
-        <span class="meta"><i class="who" style="--c:${colour}"></i>${p.forEv.length} moments for, ${p.againstEv.length} against</span>`;
-      b.addEventListener("click", () => this.selectPoint(p));
+      b.className = "point" + (this.st.item?.id === it.id ? " on" : "");
+      const colour = this.meta.teams.find((t) => t.id === it.team)?.colour ?? "#999";
+      b.innerHTML = `<span class="kind">${kindLabel(it.kind)}</span>
+        <span class="claim">${this.extras.badge(it) /* [extras] */}${esc(it.text)}</span>
+        ${it.stat ? `<span class="stat">${esc(it.stat)}</span>` : ""}
+        <span class="meta"><i class="who" style="--c:${colour}"></i>${it.forEv.length} moments for, ${it.againstEv.length} against</span>
+        ${this.receiptHtml(it)}
+        ${lens === "commentator" ? this.triviaHtml(it) : ""}`;
+      b.addEventListener("click", () => this.selectItem(it));
       li.appendChild(b);
       list.appendChild(li);
     }
-    // keep the open point in sync with the latest evidence
-    if (this.st.point) {
-      const fresh = pts.find((p) => p.id === this.st.point!.id);
-      if (fresh) { this.st.point = fresh; this.renderReel(); }
+    this.renderComingUp();
+    // keep the open item in sync with the latest evidence
+    if (this.st.item) {
+      const fresh = items.find((i) => i.id === this.st.item!.id);
+      if (fresh) { this.st.item = fresh; this.renderReel(); }
     }
-    $("rail-sub").textContent = `As of ${clockAt(this.meta, this.st.liveT).text}. Points update as the match plays.`;
   }
   private pointsSig = "";
 
-  private selectPoint(p: Point): void {
-    this.st.point = p;
-    this.st.side = "for";
-    this.stage.focus = p.subject;
-    document.querySelectorAll(".point").forEach((el, i) => el.classList.toggle("on", this.points[i]?.id === p.id));
-    this.renderReel();
+  private railItem(p: Point | null, ins: Insight | null, lens: Lens): RailItem {
+    const rejected = !!ins && !ins.check.passed;
+    const useInsight = !!ins && !rejected;
+    const template = p ? claimOf(p, lens) : ins ? this.standaloneTemplate(ins) : "";
+    const evs = (ids: string[]) => ids.map((id) => this.byId.get(id)).filter((e): e is Ev => !!e);
+    return {
+      id: p?.id ?? ins!.point_id,
+      kind: p?.kind ?? ins!.kind,
+      team: p?.team ?? ins!.team,
+      subject: p?.subject ?? ins?.subject ?? null,
+      text: useInsight ? textFor(ins!, lens) : template,
+      stat: p?.stat ?? null,
+      forEv: ins ? evs(ins.evidence_for) : p!.forEv,
+      againstEv: ins ? evs(ins.evidence_against) : p!.againstEv,
+      checked: p?.checked ?? (ins!.evidence_for.length + ins!.evidence_against.length),
+      insight: ins,
+      rejected,
+      t: ins?.t ?? -1,
+    };
   }
+
+  /** Wording for a standalone insight whose AI text was rejected by the checker. */
+  private standaloneTemplate(ins: Insight): string {
+    const team = this.meta.teams.find((t) => t.id === ins.team)?.name ?? ins.team;
+    const sc = this.lastEventBefore(ins.t, (e) => !!e.score)?.score ?? {};
+    const score = `${sc[this.home] ?? 0}-${sc[this.away] ?? 0}`;
+    if (ins.kind === "momentum") return `Momentum has swung towards ${team}`;
+    if (ins.kind === "score_state") return `${score} at ${ins.clock}`;
+    return `${ins.point_id.endsWith("ft") ? "Full time" : "Half time"}: ${score}`;
+  }
+
+  private receiptHtml(it: RailItem): string {
+    const ins = it.insight;
+    if (!ins) return "";
+    const line = receiptLine(ins);
+    const head = it.rejected
+      ? `<span class="receipt-line rejected"><b>AI version rejected by the checker.</b> Showing the template. ${esc(line)}</span>`
+      : `<span class="receipt-line">${esc(line)}</span>`;
+    const r = ins.receipt;
+    const mode = this.insights?.mode ?? "fallback";
+    const agents = r.agents?.length ? r.agents.join(", ") : "not recorded";
+    const issues = ins.check.issues?.length ? `<li>Issues: ${esc(ins.check.issues.join("; "))}</li>` : "";
+    return `${head}<details class="receipt-more" onclick="event.stopPropagation()"><summary>Full receipt</summary><ul>
+      <li>Agents: ${esc(agents)}</li>
+      <li>Tokens: ${r.tokens_in ?? 0} in, ${r.tokens_out ?? 0} out</li>
+      <li>Mode: ${esc(mode)}${this.insightSource === "sample" ? " (sample fixture)" : ""}</li>
+      <li>Numbers checked: ${ins.check.numbers_checked}, retries: ${ins.check.retries}</li>${issues}
+      <li>Written at ${esc(ins.clock)}, id ${esc(ins.id)}</li></ul></details>`;
+  }
+
+  private triviaHtml(it: RailItem): string {
+    const tr = it.insight?.trivia ?? [];
+    if (!tr.length) return "";
+    return tr.map((x) => `<span class="trivia"><b>${esc(x.text)}</b> From ${esc(sourceName(x.source))}${x.row ? ` (${esc(x.row)})` : ""}</span>`).join("");
+  }
+
+  /** Commentator lens: the score_state insights still to come, as prepared lines. */
+  private renderComingUp(): void {
+    const box = $("coming");
+    const list = this.insights?.items.filter((i) => i.kind === "score_state" && i.t > this.st.liveT) ?? [];
+    if (this.st.lens !== "commentator" || !list.length) { box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = `<h3>Coming up</h3><ul>${list.slice(0, 4).map((i) =>
+      `<li><b>${esc(i.clock)}</b> ${esc(i.text.commentator || i.text.casual)}</li>`).join("")}</ul>`;
+  }
+
+  /** Half-time and full-time recaps as a dismissable panel over the stage. */
+  private maybeRecap(liveT: number): void {
+    const box = $("recap");
+    let recap: Insight | null = null;
+    for (const i of this.insights?.items ?? []) if (i.kind === "recap" && i.t <= liveT && i.check.passed) recap = i;
+    if (!recap || this.dismissedRecaps.has(recap.id) || liveT - recap.t > 600) { box.hidden = true; return; }
+    if (box.dataset.id === recap.id) return;
+    box.dataset.id = recap.id;
+    box.hidden = false;
+    const title = recap.point_id.endsWith("ft") || liveT >= (this.meta.periods[1]?.end ?? Infinity) - 1 ? "Full time" : "Half time";
+    box.innerHTML = `<h3>${title}</h3><p>${esc(textFor(recap, this.st.lens))}</p>
+      <span class="receipt-line">${esc(receiptLine(recap))}</span>
+      <button class="pill close" type="button">Dismiss</button>`;
+    const id = recap.id;
+    box.querySelector("button")!.addEventListener("click", () => { this.dismissedRecaps.add(id); box.hidden = true; });
+  }
+
+  private selectItem(it: RailItem): void {
+    this.st.item = it;
+    this.st.side = "for";
+    this.stage.focus = it.subject;
+    document.querySelectorAll(".point").forEach((el, i) => el.classList.toggle("on", this.items[i]?.id === it.id));
+    this.renderReel();
+    if (!$("panel-moments").hidden || !this.booted) return;
+    this.showTab("moments");
+  }
+  private booted = false;
 
   private setSide(side: "for" | "against"): void {
     this.st.side = side;
@@ -421,13 +654,14 @@ class App {
   }
 
   private renderReel(): void {
-    const p = this.st.point;
+    const p = this.st.item;
     const wrap = $("reel-wrap");
     if (!p) { wrap.hidden = true; return; }
     wrap.hidden = false;
-    $("reel-title").textContent = p.claim[this.st.lens];
-    $("reel-receipt").textContent =
-      `Checked against ${p.checked} logged events up to ${clockAt(this.meta, this.st.liveT).text}. Every card is one of them. Select a card to watch it.`;
+    $("reel-title").textContent = p.text;
+    $("reel-receipt").textContent = p.insight
+      ? `${receiptLine(p.insight)}. Evidence: ${p.forEv.length} events for, ${p.againstEv.length} against, each one a logged event. Select a card to watch it.`
+      : `Checked against ${p.checked} logged events up to ${clockAt(this.meta, this.st.liveT).text}. Every card is one of them. Select a card to watch it.`;
     const tf = $("tab-for"), ta = $("tab-against");
     tf.textContent = `For (${p.forEv.length})`;
     ta.textContent = `Against (${p.againstEv.length})`;
@@ -479,7 +713,7 @@ class App {
 
   private playMoment(e: Ev): void {
     this.st.playingCard = e.id;
-    this.stage.focus = this.st.point?.subject ?? e.pl;
+    this.stage.focus = this.st.item?.subject ?? e.pl;
     this.st.t = Math.max(0, e.t - 4);
     this.st.replayEnd = e.t + 3;
     this.st.speed = 1;
@@ -493,13 +727,40 @@ class App {
     $("toasts").innerHTML = "";
     this.setPlaying(true);
     document.querySelectorAll(".card").forEach((c) => c.classList.remove("playing"));
+    this.showTab("live");
     $("stage").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
     this.renderReel();
   }
 }
 
+function esc(s: string): string {
+  return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] as string));
+}
+
+function kindLabel(kind: string): string {
+  return ({ anchor: "Defensive anchor", duel: "Winning the duel", finishing: "Finishing", momentum: "Momentum",
+    score_state: "Score state", recap: "Recap" } as Record<string, string>)[kind] ?? kind;
+}
+
+function sourceName(src: string): string {
+  return ({ "head_to_head.csv": "head-to-head records", "results.csv": "past results", "player_careers.csv": "player careers",
+    "scoring_timeline.csv": "the scoring timeline", "club_records.csv": "club records", "standings.csv": "league tables",
+    "milestones_upcoming.csv": "upcoming milestones" } as Record<string, string>)[src] ?? src;
+}
+
 function surname(name: string): string {
   return name.split(" ").slice(-1)[0];
+}
+
+/** Two or three letters for a simple fictional crest: "Arden Athletic" gives "AA". */
+function initials(name: string): string {
+  const parts = name.split(/\s+/).filter(Boolean);
+  return (parts.length > 1 ? parts.map((p) => p[0]).join("") : name.slice(0, 3)).toUpperCase();
+}
+
+/** Template wording for a lens; the commentator lens reads the casual template unless an insight overrides it. */
+function claimOf(p: Point, lens: Lens): string {
+  return p.claim[lens === "tactical" ? "tactical" : "casual"];
 }
 
 /** Small pitch drawn in the acting team's direction (attacking to the right). */

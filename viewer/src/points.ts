@@ -5,14 +5,16 @@
 import type { Ev, Meta } from "./data";
 import { relX } from "./data";
 
-export type Lens = "casual" | "tactical";
+export type Lens = "casual" | "tactical" | "commentator";
+/** The lenses the templates are written for; the commentator lens falls back to casual wording. */
+export type TextLens = "casual" | "tactical";
 
 export interface Point {
   id: string;
   kind: "anchor" | "duel" | "finishing";
   team: string;
   subject: string | null;
-  claim: Record<Lens, string>;
+  claim: Record<TextLens, string>;
   stat: string;
   forEv: Ev[];
   againstEv: Ev[];

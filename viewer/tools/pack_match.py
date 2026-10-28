@@ -23,6 +23,11 @@ import sys
 SCALE = 300
 ABSENT = -32768
 DEFAULT_COLOURS = {"ARD": "#C8102E", "HVL": "#1D4E89"}
+STATS_KEYS = (
+    "possession", "shots", "shots_on_target", "xg", "big_chances", "passes", "pass_accuracy",
+    "final_third_entries", "box_entries", "corners", "fouls", "tackles", "interceptions", "yellows",
+    "distance_km", "sprints",
+)
 KEEP_EXTRA = {
     "xg", "distance_m", "shot_speed_kmh", "assist_event_id", "assist_type", "defenders_in_lane",
     "one_on_one", "first_time", "counter", "xg_factors", "receiver_id", "length_m", "height",
@@ -95,6 +100,8 @@ def main() -> None:
                     "t": s["elapsed"],
                     "m": {tid: teams[tid]["last_5_min"]["momentum"] for tid in teams},
                     "xg": {tid: round(teams[tid]["xg"], 2) for tid in teams},
+                    # a small stats block per snapshot for the Stats tab comparison rows
+                    "stats": {tid: {k: teams[tid][k] for k in STATS_KEYS if k in teams[tid]} for tid in teams},
                 })
 
     # events, trimmed
