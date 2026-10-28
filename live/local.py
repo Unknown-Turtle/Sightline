@@ -118,10 +118,10 @@ class LiveServer:
         app.router.add_get("/api/health", self.health)
 
         async def on_start(_app):
-            _app["replay"] = asyncio.create_task(self.run_replay())
+            self._task = asyncio.create_task(self.run_replay())
 
         async def on_stop(_app):
-            _app["replay"].cancel()
+            self._task.cancel()
             for ws in list(self.clients):
                 await ws.close()
 
