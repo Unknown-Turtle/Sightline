@@ -7,6 +7,7 @@ import type { Point } from "./points";
 import type { Stage } from "./stage";
 import { Personal } from "./personal";
 import { Ratings } from "./ratings";
+import { Claims } from "./claims";
 
 export interface Host {
   meta: Meta;
@@ -65,12 +66,15 @@ export async function loadData<T>(name: string): Promise<{ data: T; sample: bool
 export class Extras {
   readonly personal: Personal;
   readonly ratings: Ratings;
+  readonly claims: Claims;
+  private lastLens = "";
   private byId = new Map<string, Ev>();
 
   constructor(readonly host: Host) {
     for (const e of host.events) this.byId.set(e.id, e);
     this.personal = new Personal(this);
     this.ratings = new Ratings(this);
+    this.claims = new Claims(this);
   }
 
   ev(id: string): Ev | undefined {
@@ -90,6 +94,11 @@ export class Extras {
     this.host.stage.bias = pf;
     this.personal.tick(t);
     this.ratings.tick(t);
+    const lens = this.host.lens();
+    if (lens !== this.lastLens) {
+      this.lastLens = lens;
+      this.claims.render();
+    }
   }
 
   /** Reorder, filter and extend the detected points. */

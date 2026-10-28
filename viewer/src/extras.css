@@ -108,3 +108,4 @@
 
 /* Arabic sets dir="rtl" on the page; the pitch, clock and timeline keep match orientation */
 [dir="rtl"] .scorebug, [dir="rtl"] .stage, [dir="rtl"] .timeline, [dir="rtl"] .controls, [dir="rtl"] .card canvas { direction: ltr; }
+.x-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

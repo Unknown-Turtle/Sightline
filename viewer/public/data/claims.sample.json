@@ -1,0 +1,317 @@
+{
+ "match_id": "m_seed587",
+ "note": "Precomputed offline examples at 72:36 for the claim checker; numbers come from events.json up to that time.",
+ "examples": [
+  {
+   "claim": "Hollow Vale have lost the momentum",
+   "t": 4539.0,
+   "lens": "casual",
+   "verdict": "not_supported",
+   "summary": {
+    "casual": "No. Hollow Vale are still getting forward about as often as Arden in the last ten minutes, and they lead 2-0.",
+    "tactical": "Hollow Vale final-third entries: 7 in the last 10 min vs 9.6 per 10 min across the match. Lower than their average, but level with Arden (7)."
+   },
+   "tests": [
+    {
+     "name": "final-third entries, last 10 min vs match",
+     "value": "7 vs 9.6 per 10 min",
+     "passes": false
+    },
+    {
+     "name": "Arden entries in the same window",
+     "value": "7 vs 7",
+     "passes": false
+    }
+   ],
+   "evidence_for": [
+    "e_001419",
+    "e_001519",
+    "e_001533",
+    "e_001620",
+    "e_001624",
+    "e_001631",
+    "e_001640"
+   ],
+   "evidence_against": [
+    "e_001464",
+    "e_001526",
+    "e_001544",
+    "e_001546",
+    "e_001549",
+    "e_001563",
+    "e_001582"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 4,
+    "retries": 0
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 0,
+    "mode": "fallback"
+   }
+  },
+  {
+   "claim": "Arden are wasting their chances",
+   "t": 4539.0,
+   "lens": "casual",
+   "verdict": "partly",
+   "summary": {
+    "casual": "Partly. Arden have no goals, but their 7 shots were mostly hopeful ones.",
+    "tactical": "Arden: 0 goals from 0.65 xG on 7 shots. The gap to expectation is 0.65, which is small."
+   },
+   "tests": [
+    {
+     "name": "goals vs xG",
+     "value": "0 vs 0.65",
+     "passes": true
+    },
+    {
+     "name": "gap of at least 0.8 goals",
+     "value": "0.65",
+     "passes": false
+    }
+   ],
+   "evidence_for": [
+    "e_000494",
+    "e_001004"
+   ],
+   "evidence_against": [
+    "e_000448",
+    "e_000506",
+    "e_001104",
+    "e_001386",
+    "e_001535"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 4,
+    "retries": 0
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 0,
+    "mode": "fallback"
+   }
+  },
+  {
+   "claim": "Hollow Vale have had far more of the ball",
+   "t": 4539.0,
+   "lens": "casual",
+   "verdict": "supported",
+   "summary": {
+    "casual": "Yes. Hollow Vale have made more passes and found a teammate more often.",
+    "tactical": "Passes: Hollow Vale 486, Arden 385 (56% share). Accuracy 88.7% vs 82.1%."
+   },
+   "tests": [
+    {
+     "name": "pass share",
+     "value": "56%",
+     "passes": true
+    },
+    {
+     "name": "pass accuracy",
+     "value": "88.7% vs 82.1%",
+     "passes": true
+    }
+   ],
+   "evidence_for": [
+    "e_001551",
+    "e_001560",
+    "e_001563",
+    "e_001565",
+    "e_001585",
+    "e_001595",
+    "e_001603",
+    "e_001612"
+   ],
+   "evidence_against": [
+    "e_001346",
+    "e_001384",
+    "e_001388",
+    "e_001416",
+    "e_001445",
+    "e_001480",
+    "e_001506",
+    "e_001615"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 4,
+    "retries": 0
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 0,
+    "mode": "fallback"
+   }
+  },
+  {
+   "claim": "Tremblay is having a great game",
+   "t": 4539.0,
+   "lens": "casual",
+   "verdict": "supported",
+   "summary": {
+    "casual": "Yes. Tremblay has been Arden's busiest defender and is rated 7.1.",
+    "tactical": "Rhys Tremblay: 22 defensive actions won, 4 lost. Rating 7.1."
+   },
+   "tests": [
+    {
+     "name": "defensive actions won vs lost",
+     "value": "22 vs 4",
+     "passes": true
+    },
+    {
+     "name": "rating above 7.0",
+     "value": "7.1",
+     "passes": true
+    }
+   ],
+   "evidence_for": [
+    "e_000727",
+    "e_000760",
+    "e_001235",
+    "e_001318",
+    "e_001468",
+    "e_001507",
+    "e_001509",
+    "e_001570"
+   ],
+   "evidence_against": [
+    "e_000569",
+    "e_001311",
+    "e_001399",
+    "e_001587"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 4,
+    "retries": 0
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 0,
+    "mode": "fallback"
+   }
+  },
+  {
+   "claim": "Hollow Vale have taken way more shots",
+   "t": 4539.0,
+   "lens": "casual",
+   "verdict": "supported",
+   "summary": {
+    "casual": "Yes. Hollow Vale have had 29 shots to Arden's 7.",
+    "tactical": "Shots 29 vs 7; xG 1.39 vs 0.65."
+   },
+   "tests": [
+    {
+     "name": "shots",
+     "value": "29 vs 7",
+     "passes": true
+    },
+    {
+     "name": "xG",
+     "value": "1.39 vs 0.65",
+     "passes": true
+    }
+   ],
+   "evidence_for": [
+    "e_001189",
+    "e_001193",
+    "e_001268",
+    "e_001332",
+    "e_001357",
+    "e_001401",
+    "e_001528",
+    "e_001552"
+   ],
+   "evidence_against": [
+    "e_000448",
+    "e_000494",
+    "e_000506",
+    "e_001004",
+    "e_001104",
+    "e_001386",
+    "e_001535"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 4,
+    "retries": 0
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 0,
+    "mode": "fallback"
+   }
+  },
+  {
+   "claim": "The Arden keeper has kept them in it",
+   "t": 4539.0,
+   "lens": "casual",
+   "verdict": "partly",
+   "summary": {
+    "casual": "Partly. The Arden keeper has made 6 saves, but Hollow Vale's chances were mostly low quality.",
+    "tactical": "Saves: 6. Hollow Vale xG 1.39 for 2 goals, so the keeper has conceded roughly what was expected."
+   },
+   "tests": [
+    {
+     "name": "saves made",
+     "value": "6",
+     "passes": true
+    },
+    {
+     "name": "goals conceded vs xG faced",
+     "value": "2 vs 1.39",
+     "passes": false
+    }
+   ],
+   "evidence_for": [
+    "e_000216",
+    "e_000606",
+    "e_000764",
+    "e_000952",
+    "e_001269",
+    "e_001553"
+   ],
+   "evidence_against": [
+    "e_000643",
+    "e_001357"
+   ],
+   "check": {
+    "passed": true,
+    "numbers_checked": 4,
+    "retries": 0
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 0,
+    "mode": "fallback"
+   }
+  },
+  {
+   "claim": "The referee is favouring Arden",
+   "t": 4539.0,
+   "lens": "casual",
+   "verdict": "out_of_scope",
+   "summary": {
+    "casual": "That is an opinion the match data cannot test. Sightline can check fouls and cards, not intent.",
+    "tactical": "Out of scope: refereeing bias is not measurable from logged events."
+   },
+   "tests": [],
+   "evidence_for": [],
+   "evidence_against": [],
+   "check": {
+    "passed": true,
+    "numbers_checked": 0,
+    "retries": 0
+   },
+   "receipt": {
+    "model": null,
+    "latency_ms": 0,
+    "mode": "fallback"
+   }
+  }
+ ]
+}
