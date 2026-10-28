@@ -49,7 +49,7 @@ class Foundry:
         if self._client is not None:
             return self._client
         from openai import AzureOpenAI
-        kwargs = {"azure_endpoint": self.endpoint, "api_version": API_VERSION, "timeout": TIMEOUT_S, "max_retries": 0}
+        kwargs = {"azure_endpoint": self.endpoint, "api_version": API_VERSION, "timeout": TIMEOUT_S, "max_retries": 6}
         if self.api_key:
             kwargs["api_key"] = self.api_key
         else:

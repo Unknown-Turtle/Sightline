@@ -1,12 +1,12 @@
 {
  "match_id": "m_seed587",
- "generated_at": "2026-10-28T04:01:30Z",
- "mode": "fallback",
- "model": null,
+ "generated_at": "2026-10-28T05:00:19Z",
+ "mode": "live",
+ "model": "gpt-4.1-mini",
  "lang": "ar",
  "source": "insights.json",
- "translation_mode": "fallback",
- "translation_model": null,
+ "translation_mode": "live",
+ "translation_model": "gpt-4.1-mini",
  "items": [
   {
    "id": "i_0001",
@@ -17,9 +17,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 78 after 64 in the previous window, 5 final-third entries and 1 shot in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale تدفع حقًا إلى الأمام في وقت مبكر من المباراة مع الكثير من الهجمات وتسديدة على المرمى.",
+    "tactical": "زادت زخم Hollow Vale إلى 78 من 64، مدعومًا بخمس دخول إلى الثلث الأخير وتسديدة واحدة مع أهداف متوقعة قدرها 0.04 في الدقائق الخمس الأخيرة.",
+    "commentator": "أطول سلسلة بدون هزيمة لـ Hollow Vale في مباريات الدوري على مدار المواسم الخمسة الماضية هي 13."
    },
    "evidence_for": [
     "e_000064",
@@ -44,33 +44,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 8,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 2568,
+    "tokens_in": 1004,
+    "tokens_out": 97,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 4,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -82,9 +80,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "It is level at 0-0.",
-    "tactical": "Arden Athletic 0-0 Hollow Vale after 5 minutes, 0 goals so far.",
-    "commentator": "Arden Athletic and Hollow Vale have met 10 times in the last five seasons: 5 Arden Athletic wins, 2 draws and 3 Hollow Vale wins."
+    "casual": "المباراة بدأت للتو والنتيجة لا تزال 0-0 بين Arden Athletic و Hollow Vale.",
+    "tactical": "بعد خمس دقائق من البداية، لا تزال المباراة بدون أهداف مع استضافة Arden Athletic لـ Hollow Vale، وهي مباراة شهدت فوز Arden Athletic في المنزل أكثر في المواسم الأخيرة.",
+    "commentator": "التقى Arden Athletic و Hollow Vale عشر مرات مؤخراً، وفاز Arden Athletic في نصف تلك اللقاءات."
    },
    "evidence_for": [],
    "evidence_against": [],
@@ -107,33 +105,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 11,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 7,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1318,
+    "tokens_in": 715,
+    "tokens_out": 97,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 2,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -145,9 +141,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 89 after 90 in the previous window, 5 final-third entries and 2 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale تحافظ على الضغط مع عدة هجمات وتسديدات في الدقائق القليلة الماضية.",
+    "tactical": "زخم Hollow Vale لا يزال مرتفعًا عند 89، مع خمس دخول إلى الثلث الأخير وتسديدتين يولدان قيمة أهداف متوقعة تبلغ 0.28 في الدقائق الخمس الأخيرة، بينما زخم Arden Athletic هو فقط 11.",
+    "commentator": "Hollow Vale يظهر زخمًا قويًا في وقت مبكر، بناءً على تعادله الأخير 1-1 مع Arden Athletic."
    },
    "evidence_for": [
     "e_000117",
@@ -172,33 +168,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 8,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1334,
+    "tokens_in": 1017,
+    "tokens_out": 98,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 5,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -210,9 +204,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 63 after 70 in the previous window, 1 final-third entry and 1 shot in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "يستمر Hollow Vale في الضغط بتسديدة وتحرك نحو المنطقة الهجومية في الدقائق الخمس الأخيرة.",
+    "tactical": "زخم Hollow Vale يبلغ 63، منخفضًا من 70، مع دخول واحد إلى الثلث الأخير وتسديدة واحدة تولد قيمة أهداف متوقعة تبلغ 0.02 في الدقائق الخمس الأخيرة، بينما زخم Arden Athletic هو 37.",
+    "commentator": "أطول سلسلة عدم هزيمة لـ Hollow Vale خلال المواسم الخمسة الماضية هي 13 مباراة في الدوري."
    },
    "evidence_for": [
     "e_000263",
@@ -233,33 +227,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 10,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 0,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1318,
+    "tokens_in": 757,
+    "tokens_out": 102,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 5,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -271,9 +263,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 87 after 84 in the previous window, 7 final-third entries and 3 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale تدفع حقًا إلى الأمام الآن مع الكثير من الهجمات والتسديدات في الدقائق القليلة الماضية.",
+    "tactical": "زادت زخم Hollow Vale إلى 87 من 84، مدفوعة بسبع دخوليات إلى الثلث الأخير وثلاث تسديدات تولد قيمة أهداف متوقعة قدرها 0.08 في الدقائق الخمس الماضية.",
+    "commentator": "Hollow Vale يبني الزخم هنا، ساعيًا لتمديد أطول سلسلة عدم هزيمة له من المواسم الأخيرة."
    },
    "evidence_for": [
     "e_000335",
@@ -301,33 +293,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1231,
+    "tokens_in": 1209,
+    "tokens_out": 95,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -339,9 +329,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 9 defensive actions, 6 more than any teammate, with 0 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay يتقدم حقًا من أجل Arden Athletic مع العديد من التصديات الدفاعية حتى الآن.",
+    "tactical": "Tremblay يقود Arden Athletic بتسع تحركات دفاعية، أي ستة أكثر من أقرب زميل له، مما يظهر هيمنة دفاعية قوية في الثلث الخاص بهم ومنطقة الجزاء.",
+    "commentator": "Rhys Tremblay، مع 150 ظهورًا في الدوري وسجل قوي، يثبت أنه حاسم في الدفاع لـ Arden Athletic اليوم."
    },
    "evidence_for": [
     "e_000164",
@@ -364,33 +354,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 6,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 2336,
+    "tokens_in": 1112,
+    "tokens_out": 87,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 1,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -402,9 +390,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic are on top right now and pushing the other side back.",
-    "tactical": "Arden Athletic momentum 86 after 80 in the previous window, 4 final-third entries and 3 shots in the last five minutes.",
-    "commentator": "Arden Athletic's longest unbeaten run over the last five seasons is 16 (league matches)."
+    "casual": "Arden Athletic في وضع هجومي قوي الآن مع الكثير من الهجمات والتسديدات في آخر خمس دقائق.",
+    "tactical": "زادت زخم Arden Athletic إلى 86 من 80، مدفوعة بأربع دخوليات في الثلث الأخير وثلاث تسديدات تولد أهداف متوقعة بقيمة 0.41 في آخر خمس دقائق.",
+    "commentator": "Arden Athletic يظهر زخمًا قويًا هنا، مستفيدًا من الضغط الهجومي الأخير مع عدة تسديدات على المرمى."
    },
    "evidence_for": [
     "e_000447",
@@ -435,28 +423,26 @@
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1493,
+    "tokens_in": 1101,
+    "tokens_out": 98,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -468,9 +454,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 11 defensive actions, 8 more than any teammate, with 0 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay يثبت نفسه بقوة مع Arden Athletic مع العديد من التدخلات الدفاعية حتى الآن.",
+    "tactical": "Tremblay يتصدر Arden Athletic بـ 11 تدخل دفاعي، متفوقًا على أقرب زميل له بفارق 8، مما يظهر سيطرة دفاعية قوية.",
+    "commentator": "Rhys Tremblay كان صخرة لـ Arden Athletic، جالبًا الخبرة من 150 مباراة في الدوري وحضور دفاعي قوي اليوم."
    },
    "evidence_for": [
     "e_000164",
@@ -495,33 +481,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1641,
+    "tokens_in": 1233,
+    "tokens_out": 91,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -533,9 +517,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 96 after 94 in the previous window, 9 final-third entries and 2 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale is really pushing forward with lots of attacks and a couple of shots on goal recently.",
+    "tactical": "Hollow Vale's momentum has increased to 96 from 94, with 9 final-third entries and 2 shots generating an expected goals value of 0.04 in the last 5 minutes.",
+    "commentator": "Hollow Vale is building momentum here, looking to extend their longest unbeaten run from recent seasons."
    },
    "evidence_for": [
     "e_000533",
@@ -564,32 +548,32 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1323,
+    "tokens_in": 1259,
+    "tokens_out": 96,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
-    "retries": 0,
+    "retries": 1,
     "issues": [
-     "fallback mode: English text kept"
+     "transport: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)>"
     ]
    }
   },
@@ -602,9 +586,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 12 defensive actions, 9 more than any teammate, with 1 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay يبرز كثيرًا مع Arden Athletic من خلال العديد من التصديات الدفاعية حتى الآن في المباراة.",
+    "tactical": "Rhys Tremblay قام بـ 12 تصديًا دفاعيًا، وهو أكثر بـ 9 من أقرب زميل له، مما يبرز دوره الأساسي في الهيكل الدفاعي لـ Arden Athletic.",
+    "commentator": "Rhys Tremblay، الذي يملك 150 ظهورًا في الدوري وتاريخًا قويًا مع Arden Athletic، يثبت خبرته اليوم."
    },
    "evidence_for": [
     "e_000164",
@@ -632,33 +616,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1213,
+    "tokens_in": 1355,
+    "tokens_out": 98,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -670,9 +652,9 @@
    "team": "HVL",
    "subject": "HVL_09",
    "text": {
-    "casual": "Garrow keeps getting the better of the defender in front of him.",
-    "tactical": "Bruno Garrow: 4 of 4 take-ons won, 2 of them against Jonah Penhallow.",
-    "commentator": "Bruno Garrow is 2 assists away from 20 career league assists, standing on 18."
+    "casual": "Bruno Garrow has been brilliant in taking on defenders, winning every challenge so far in the match.",
+    "tactical": "Bruno Garrow has completed all of his take-ons, including two wins against Jonah Penhallow, showing strong individual attacking threat.",
+    "commentator": "Bruno Garrow is just two assists away from reaching twenty career league assists."
    },
    "evidence_for": [
     "e_000054",
@@ -695,32 +677,39 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 6,
-    "retries": 0,
+    "numbers_checked": 2,
+    "retries": 2,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 3908,
+    "tokens_in": 2697,
+    "tokens_out": 284,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 3
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
-    "retries": 0,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Bruno Garrow",
+     "casual: name dropped: Garrow",
+     "tactical: name dropped: Jonah Penhallow",
+     "tactical: name dropped: Garrow",
+     "tactical: name dropped: Bruno Garrow",
+     "tactical: name dropped: Penhallow",
+     "commentator: name dropped: Bruno Garrow",
+     "commentator: name dropped: Garrow"
     ]
    }
   },
@@ -733,9 +722,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 96 after 94 in the previous window, 10 final-third entries and 3 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale is really pushing forward with lots of attacks and shots in the last few minutes.",
+    "tactical": "Hollow Vale's momentum has risen to 96 with 10 final-third entries and 3 shots generating an expected goals value of 0.14 in the last 5 minutes, while Arden Athletic's momentum remains very low at 4.",
+    "commentator": "Hollow Vale's momentum is surging now, building on their strong recent run against Arden Athletic."
    },
    "evidence_for": [
     "e_000533",
@@ -767,32 +756,46 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 3499,
+    "tokens_in": 1451,
+    "tokens_out": 99,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
+    "passed": false,
+    "numbers_checked": 6,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Vale",
+     "casual: name dropped: Hollow Vale",
+     "casual: name dropped: Hollow",
+     "tactical: name dropped: Vale",
+     "tactical: name dropped: Hollow Vale",
+     "tactical: name dropped: Arden",
+     "tactical: name dropped: Arden Athletic",
+     "tactical: name dropped: Hollow",
+     "tactical: name dropped: Athletic",
+     "commentator: name dropped: Vale",
+     "commentator: name dropped: Hollow Vale",
+     "commentator: name dropped: Arden",
+     "commentator: name dropped: Arden Athletic",
+     "commentator: name dropped: Hollow",
+     "commentator: name dropped: Athletic"
     ]
    }
   },
@@ -805,9 +808,9 @@
    "team": "HVL",
    "subject": "HVL_09",
    "text": {
-    "casual": "Garrow keeps getting the better of the defender in front of him.",
-    "tactical": "Bruno Garrow: 5 of 5 take-ons won, 2 of them against Jonah Penhallow.",
-    "commentator": "Bruno Garrow is 2 assists away from 20 career league assists, standing on 18."
+    "casual": "Bruno Garrow has won all his take-ons so far, showing great skill against the defenders.",
+    "tactical": "Bruno Garrow has completed five take-ons with a 100 percent success rate, including two against Jonah Penhallow, demonstrating his effectiveness in advancing play.",
+    "commentator": "Bruno Garrow is just two assists away from reaching 20 career league assists, currently standing on 18."
    },
    "evidence_for": [
     "e_000054",
@@ -832,31 +835,31 @@
    "check": {
     "passed": true,
     "numbers_checked": 6,
-    "retries": 0,
+    "retries": 1,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 14319,
+    "tokens_in": 1907,
+    "tokens_out": 175,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 2
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
     "retries": 0,
     "issues": [
-     "fallback mode: English text kept"
+     "transport: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)>"
     ]
    }
   },
@@ -869,9 +872,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale lead 1-0.",
-    "tactical": "Arden Athletic 0-1 Hollow Vale after 30 minutes, 1 goal so far.",
-    "commentator": "Jude Saltash had scored 1 league goal against Arden Athletic in the five recorded seasons before today."
+    "casual": "Hollow Vale يتقدم على Arden Athletic بهدف واحد بعد أن سجل Jude Saltash في الشوط الأول.",
+    "tactical": "Hollow Vale تأخذ تقدماً بهدف واحد عند الدقيقة 30 بفضل تسجيل Jude Saltash داخل منطقة الجزاء، محافظين على فارق ضيق.",
+    "commentator": "Jude Saltash قد سجل سابقاً ضد Arden Athletic في مباريات الدوري، مضيفاً إلى رصيده اليوم."
    },
    "evidence_for": [
     "e_000644"
@@ -896,33 +899,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 8,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 17,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 6023,
+    "tokens_in": 750,
+    "tokens_out": 89,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 1,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -934,9 +935,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 100 after 99 in the previous window, 7 final-third entries and 2 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale تدفع حقًا إلى الأمام الآن مع الكثير من الهجمات والتسديدات في الدقائق القليلة الماضية.",
+    "tactical": "زادت زخم Hollow Vale إلى 100 من 99، مع سبع دخول إلى الثلث الأخير وتسديدتين يولدان قيمة الأهداف المتوقعة 0.17 في الدقائق الخمس الأخيرة.",
+    "commentator": "أطول سلسلة عدم هزيمة لـ Hollow Vale خلال المواسم الخمسة الماضية هي 13 مباراة في الدوري، وهو رقم قياسي سيسعون لتمديده اليوم."
    },
    "evidence_for": [
     "e_000632",
@@ -962,33 +963,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 8,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 4209,
+    "tokens_in": 1079,
+    "tokens_out": 102,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 4,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1000,9 +999,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 15 defensive actions, 11 more than any teammate, with 1 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay is really stepping up for Arden Athletic with lots of defensive plays so far this match.",
+    "tactical": "Tremblay leads Arden Athletic's defense with 15 actions, outpacing his nearest teammate by 11, despite one lost tackle in their own box.",
+    "commentator": "Rhys Tremblay, with 150 league appearances and a solid defensive presence today, continues to be a key player for Arden Athletic."
    },
    "evidence_for": [
     "e_000164",
@@ -1033,32 +1032,32 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 6844,
+    "tokens_in": 1538,
+    "tokens_out": 94,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
-    "retries": 0,
+    "retries": 1,
     "issues": [
-     "fallback mode: English text kept"
+     "transport: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)>"
     ]
    }
   },
@@ -1071,9 +1070,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 16 defensive actions, 11 more than any teammate, with 1 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay كان صخرة في الدفاع لفريق Arden Athletic مع الكثير من الإجراءات الدفاعية الحاسمة في هذا الشوط.",
+    "tactical": "Tremblay يتصدر فريق Arden Athletic بـ 16 إجراءً دفاعيًا، متفوقًا على أقرب زميل له بـ 11، مما يظهر دوره الحاسم في هيكلهم الدفاعي.",
+    "commentator": "Rhys Tremblay، الذي انضم إلى Arden Athletic من Stonebrook Harriers، خاض 150 مباراة في الدوري مع 2 هدف و 13 تمريرة حاسمة."
    },
    "evidence_for": [
     "e_000164",
@@ -1105,33 +1104,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 5,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 9153,
+    "tokens_in": 1598,
+    "tokens_out": 106,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 5,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1143,9 +1140,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 74 after 81 in the previous window, 3 final-third entries and 3 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "لقد كان Hollow Vale يدفع بقوة مؤخرًا مع ثلاث تسديدات ودخول واحد إلى الثلث الأخير في آخر خمس دقائق.",
+    "tactical": "زخم Hollow Vale يقف عند 74، منخفضًا من 81، مع ثلاث دخوليات إلى الثلث الأخير وثلاث تسديدات تولد قيمة أهداف متوقعة تبلغ 0.12 في آخر خمس دقائق.",
+    "commentator": "أطول سلسلة بدون هزيمة لـ Hollow Vale خلال المواسم الخمسة الماضية هي 13 مباراة في الدوري."
    },
    "evidence_for": [
     "e_000757",
@@ -1168,33 +1165,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 11,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 9698,
+    "tokens_in": 900,
+    "tokens_out": 101,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 4,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -1206,9 +1201,9 @@
    "team": "HVL",
    "subject": "HVL_09",
    "text": {
-    "casual": "Garrow keeps getting the better of the defender in front of him.",
-    "tactical": "Bruno Garrow: 6 of 6 take-ons won, 3 of them against Callum Takeda.",
-    "commentator": "Bruno Garrow is 2 assists away from 20 career league assists, standing on 18."
+    "casual": "Bruno Garrow has successfully taken on every defender he faced so far, including some tough challenges against Callum Takeda.",
+    "tactical": "Bruno Garrow has completed all six of his take-ons, with half of these wins coming against Callum Takeda, showing strong individual attacking performance.",
+    "commentator": "Bruno Garrow is just two assists away from reaching 20 career league assists, highlighting his creative impact this season."
    },
    "evidence_for": [
     "e_000054",
@@ -1233,32 +1228,41 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 6,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 5103,
+    "tokens_in": 995,
+    "tokens_out": 96,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
+    "passed": false,
+    "numbers_checked": 1,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Bruno Garrow",
+     "casual: name dropped: Garrow",
+     "casual: name dropped: Takeda",
+     "casual: name dropped: Callum Takeda",
+     "tactical: name dropped: Bruno Garrow",
+     "tactical: name dropped: Garrow",
+     "tactical: name dropped: Takeda",
+     "tactical: name dropped: Callum Takeda",
+     "commentator: name dropped: Bruno Garrow",
+     "commentator: name dropped: Garrow"
     ]
    }
   },
@@ -1271,9 +1275,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 16 defensive actions, 10 more than any teammate, with 1 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay كان صخرة في الدفاع لفريق Arden Athletic مع الكثير من اللقطات الدفاعية الحاسمة حتى الآن.",
+    "tactical": "Tremblay يتصدر Arden Athletic بـ 16 إجراءً دفاعيًا، بفارق 10 عن أقرب زميل له، وفقد إجراءً واحدًا فقط، مما يظهر موثوقية دفاعية قوية.",
+    "commentator": "Rhys Tremblay، مع 150 ظهورًا في الدوري وسجل دفاعي قوي، يواصل تثبيت خط دفاع Arden Athletic."
    },
    "evidence_for": [
     "e_000164",
@@ -1305,33 +1309,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 6091,
+    "tokens_in": 1598,
+    "tokens_out": 95,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1343,9 +1345,9 @@
    "team": "HVL",
    "subject": "HVL_09",
    "text": {
-    "casual": "Garrow keeps getting the better of the defender in front of him.",
-    "tactical": "Bruno Garrow: 8 of 8 take-ons won, 5 of them against Callum Takeda.",
-    "commentator": "Bruno Garrow is 2 assists away from 20 career league assists, standing on 18."
+    "casual": "Bruno Garrow has been unstoppable today, winning every challenge against defenders, including five against Callum Takeda.",
+    "tactical": "Bruno Garrow completed all 8 of his take-ons with a 100 percent success rate, notably winning 5 duels against Callum Takeda, showing dominance in both midfield and attacking zones.",
+    "commentator": "Bruno Garrow is just two assists away from reaching 20 career league assists, a milestone well within his reach."
    },
    "evidence_for": [
     "e_000054",
@@ -1377,27 +1379,32 @@
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 10267,
+    "tokens_in": 1113,
+    "tokens_out": 108,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
+    "passed": false,
+    "numbers_checked": 4,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Bruno Garrow",
+     "casual: name dropped: Garrow",
+     "tactical: name dropped: Bruno Garrow",
+     "tactical: name dropped: Garrow",
+     "commentator: name dropped: Bruno Garrow",
+     "commentator: name dropped: Garrow"
     ]
    }
   },
@@ -1410,9 +1417,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 16 defensive actions, 9 more than any teammate, with 1 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay كان صخرة في الدفاع لفريق Arden Athletic مع العديد من التحركات الدفاعية الحاسمة حتى الآن في هذه المباراة.",
+    "tactical": "Tremblay يتصدر فريق Arden Athletic بـ 16 إجراءً دفاعيًا، متفوقًا على زميله التالي الأفضل بفارق 9، مما يظهر دوره الحاسم في الدفاع.",
+    "commentator": "Rhys Tremblay، مع 150 ظهورًا في الدوري وحضور دفاعي قوي، يواصل تثبيت خط دفاع Arden Athletic اليوم."
    },
    "evidence_for": [
     "e_000164",
@@ -1444,33 +1451,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 6172,
+    "tokens_in": 1598,
+    "tokens_out": 94,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1482,9 +1487,9 @@
    "team": "HVL",
    "subject": "HVL_09",
    "text": {
-    "casual": "Garrow keeps getting the better of the defender in front of him.",
-    "tactical": "Bruno Garrow: 8 of 8 take-ons won, 5 of them against Callum Takeda.",
-    "commentator": "Bruno Garrow is 2 assists away from 20 career league assists, standing on 18."
+    "casual": "Bruno Garrow has been brilliant in beating defenders today, winning all his take-ons so far.",
+    "tactical": "Bruno Garrow has completed all eight of his take-ons with a perfect success rate, including five wins against Callum Takeda.",
+    "commentator": "Bruno Garrow is just two assists away from reaching twenty career league assists."
    },
    "evidence_for": [
     "e_000054",
@@ -1511,32 +1516,39 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 6,
-    "retries": 0,
+    "numbers_checked": 3,
+    "retries": 1,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 15926,
+    "tokens_in": 2259,
+    "tokens_out": 185,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 2
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
-    "retries": 0,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Bruno Garrow",
+     "casual: name dropped: Garrow",
+     "tactical: name dropped: Bruno Garrow",
+     "tactical: name dropped: Garrow",
+     "tactical: name dropped: Takeda",
+     "tactical: name dropped: Callum Takeda",
+     "commentator: name dropped: Bruno Garrow",
+     "commentator: name dropped: Garrow"
     ]
    }
   },
@@ -1549,9 +1561,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale lead 1-0.",
-    "tactical": "Arden Athletic 0-1 Hollow Vale after 45 minutes, 1 goal so far.",
-    "commentator": "Jude Saltash had scored 1 league goal against Arden Athletic in the five recorded seasons before today."
+    "casual": "Hollow Vale يتقدم على Arden Athletic بهدف واحد في الشوط الأول بفضل هدف Jude Saltash في الشوط الأول.",
+    "tactical": "في الشوط الأول، Hollow Vale يتقدم على Arden Athletic 1-0 مع الهدف الوحيد الذي سجله Jude Saltash داخل منطقة الجزاء في الدقيقة 30.",
+    "commentator": "Jude Saltash قد سجل الآن ضد Arden Athletic من قبل، مضيفًا إلى رصيده في هذه المباراة."
    },
    "evidence_for": [
     "e_000644"
@@ -1576,33 +1588,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 8,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 7003,
+    "tokens_in": 750,
+    "tokens_out": 89,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1614,9 +1624,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Half time: Arden Athletic 0-1 Hollow Vale. Hollow Vale lead. The goals: Jude Saltash on 30 minutes. Tremblay has been the rock at the back for Arden Athletic. Garrow keeps beating his man.",
-    "tactical": "Half time: Arden Athletic 0-1 Hollow Vale. Hollow Vale lead. Expected goals: Arden Athletic 0.56 from 4 shots, Hollow Vale 0.91 from 18 shots. Big chances: Arden Athletic 1, Hollow Vale 0. Rhys Tremblay leads the defensive actions with 16, 9 clear of any teammate. Bruno Garrow has won 8 of 8 take-ons.",
-    "commentator": "Half time: Arden Athletic 0-1 Hollow Vale. Hollow Vale lead. Tremblay has been the rock at the back for Arden Athletic."
+    "casual": "تتقدم Hollow Vale على Arden Athletic بهدف واحد في الشوط الأول. Hollow Vale أطلقت العديد من التسديدات حتى الآن.",
+    "tactical": "في الشوط الأول، تتقدم Hollow Vale 1-0 مع أفضلية في الأهداف المتوقعة 0.91 مقابل 0.56، متفوقة في التسديدات 18 مقابل 4. Rhys Tremblay يتصدر الدفاع بـ 16 إجراءً، وBruno Garrow لديه سجل مثالي في المواجهات الفردية، حيث فاز بجميع الـ 8.",
+    "commentator": "هدف Jude Saltash في الدقيقة 30 منح Hollow Vale التقدم في الشوط الأول ضد Arden Athletic."
    },
    "evidence_for": [
     "e_000644"
@@ -1641,15 +1651,15 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 17,
+    "numbers_checked": 10,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 4384,
+    "tokens_in": 1224,
+    "tokens_out": 125,
     "agents": [
      "analyst",
      "trivia",
@@ -1657,18 +1667,16 @@
      "checker",
      "recap"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 9,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1680,9 +1688,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 62 after 63 in the previous window, 6 final-third entries and 3 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale تحافظ على الضغط مع عدة هجمات وتسديدات في الدقائق القليلة الماضية.",
+    "tactical": "Hollow Vale تحافظ على الزخم عند 62 مع ستة دخول إلى الثلث الأخير وثلاث تسديدات تولد أهداف متوقعة بقيمة 0.14 خلال الدقائق الخمس الماضية، مقارنة بزخم Arden Athletic البالغ 38.",
+    "commentator": "أطول سلسلة بدون هزيمة لـ Hollow Vale خلال المواسم الخمسة الماضية هي 13 مباراة في الدوري، مما يظهر صمودهم في المباريات الحاسمة."
    },
    "evidence_for": [
     "e_001026",
@@ -1709,33 +1717,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 8,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 7900,
+    "tokens_in": 1147,
+    "tokens_out": 95,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 4,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1747,9 +1753,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 16 defensive actions, 8 more than any teammate, with 1 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay يبرز حقًا لفريق Arden Athletic مع الكثير من العمل الدفاعي حتى الآن في المباراة.",
+    "tactical": "Tremblay أكمل 16 إجراءً دفاعيًا، وهو 8 أكثر من زميله التالي الأفضل، مما يظهر سيطرته في الدفاع.",
+    "commentator": "Rhys Tremblay، الذي خاض 150 مباراة في الدوري وانضم من Stonebrook Harriers، يثبت أنه حيوي في الدفاع اليوم."
    },
    "evidence_for": [
     "e_000164",
@@ -1781,33 +1787,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 6358,
+    "tokens_in": 1598,
+    "tokens_out": 91,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1819,9 +1823,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 83 after 80 in the previous window, 3 final-third entries and 2 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale تدفع حقًا إلى الأمام الآن مع عدة هجمات وتسديدات في الدقائق القليلة الماضية.",
+    "tactical": "زادت زخم Hollow Vale إلى 83 من 80، مع ثلاث دخول إلى الثلث الأخير وتسديدتين تولدان قيمة أهداف متوقعة تبلغ 0.15 في الدقائق الخمس الأخيرة، بينما زخم Arden Athletic هو فقط 17.",
+    "commentator": "يُظهر Hollow Vale زخمًا قويًا هنا، مستفيدًا من هجماتهم وتسديداتهم الأخيرة للحفاظ على الضغط على Arden Athletic."
    },
    "evidence_for": [
     "e_001230",
@@ -1850,28 +1854,26 @@
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 10619,
+    "tokens_in": 959,
+    "tokens_out": 104,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 4,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1883,9 +1885,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 17 defensive actions, 8 more than any teammate, with 1 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay يرفع مستواه حقًا لفريق Arden Athletic مع الكثير من العمل الدفاعي حتى الآن في المباراة.",
+    "tactical": "Tremblay يتصدر فريق Arden Athletic بـ 17 إجراءً دفاعيًا، بفارق 8 عن زميله التالي الأفضل، مما يظهر دوره الرئيسي في الدفاع.",
+    "commentator": "Rhys Tremblay، مع 150 ظهورًا في الدوري وحضور دفاعي قوي اليوم، يواصل كونه حجر الزاوية لفريق Arden Athletic."
    },
    "evidence_for": [
     "e_000164",
@@ -1918,33 +1920,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 4547,
+    "tokens_in": 1659,
+    "tokens_out": 92,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -1956,9 +1956,9 @@
    "team": "HVL",
    "subject": "HVL_04",
    "text": {
-    "casual": "Byrne keeps getting the better of the defender in front of him.",
-    "tactical": "Santi Byrne: 4 of 4 take-ons won, 4 of them against Finn Castellan.",
-    "commentator": "Santi Byrne is 2 goals away from 10 career league goals, standing on 8."
+    "casual": "Santi Byrne has successfully beaten his opponent every time he tried to take the ball past him in midfield so far this game.",
+    "tactical": "Santi Byrne has a perfect take-on record with four successful take-ons out of four attempts, all against Finn Castellan in midfield.",
+    "commentator": "Santi Byrne is closing in on double digits for career league goals, currently standing on eight."
    },
    "evidence_for": [
     "e_000581",
@@ -1986,32 +1986,32 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 6,
-    "retries": 0,
+    "numbers_checked": 3,
+    "retries": 1,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 15480,
+    "tokens_in": 1857,
+    "tokens_out": 177,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 2
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
-    "retries": 0,
+    "retries": 1,
     "issues": [
-     "fallback mode: English text kept"
+     "transport: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)>"
     ]
    }
   },
@@ -2024,9 +2024,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 91 after 88 in the previous window, 7 final-third entries and 3 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale is really pushing forward now with lots of attacks and shots in the last few minutes.",
+    "tactical": "Hollow Vale's momentum has risen from 88 to 91, supported by seven final-third entries and three shots generating an expected goals value of 0.12 in the last five minutes.",
+    "commentator": "Hollow Vale's longest unbeaten run in league matches over the last five seasons is 13, showing their resilience."
    },
    "evidence_for": [
     "e_001266",
@@ -2053,32 +2053,40 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 8,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 6238,
+    "tokens_in": 1147,
+    "tokens_out": 98,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
+    "passed": false,
+    "numbers_checked": 4,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Vale",
+     "casual: name dropped: Hollow Vale",
+     "casual: name dropped: Hollow",
+     "tactical: name dropped: Vale",
+     "tactical: name dropped: Hollow Vale",
+     "tactical: name dropped: Hollow",
+     "commentator: name dropped: Vale",
+     "commentator: name dropped: Hollow Vale",
+     "commentator: name dropped: Hollow"
     ]
    }
   },
@@ -2091,9 +2099,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 18 defensive actions, 9 more than any teammate, with 2 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay is really stepping up for Arden Athletic with lots of defensive actions so far this match.",
+    "tactical": "Rhys Tremblay leads Arden Athletic with 18 defensive actions, a margin of 9 over his next best teammate, despite losing possession twice.",
+    "commentator": "Rhys Tremblay, who joined Arden Athletic from Stonebrook Harriers and has made 150 league appearances, is showing his experience with a dominant defensive display."
    },
    "evidence_for": [
     "e_000164",
@@ -2128,32 +2136,32 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 3,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 6357,
+    "tokens_in": 1783,
+    "tokens_out": 96,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
-    "retries": 0,
+    "retries": 1,
     "issues": [
-     "fallback mode: English text kept"
+     "transport: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)>"
     ]
    }
   },
@@ -2166,9 +2174,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale lead 2-0.",
-    "tactical": "Arden Athletic 0-2 Hollow Vale after 59 minutes, 2 goals so far.",
-    "commentator": "Bruno Garrow is 2 assists away from 20 career league assists, standing on 18."
+    "casual": "Hollow Vale تتقدم على Arden Athletic بهدفين مع تسجيل هدف من Jude Saltash وآخر من Bruno Garrow.",
+    "tactical": "Hollow Vale حققت تقدمًا بهدفين مع أهداف من Jude Saltash و Bruno Garrow، كلاهما سجلا داخل الصندوق، مما يضعهم في موقف قوي في هذه المرحلة.",
+    "commentator": "هدف Bruno Garrow يضعه على بعد تمريرتين حاسمتين فقط من الوصول إلى عشرين تمريرة حاسمة في مسيرته بالدوري."
    },
    "evidence_for": [
     "e_000644",
@@ -2194,33 +2202,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 9,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 11259,
+    "tokens_in": 810,
+    "tokens_out": 101,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
     "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -2232,9 +2238,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 18 defensive actions, 9 more than any teammate, with 3 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay يرفع مستواه حقًا مع الكثير من العمل الدفاعي لفريق Arden Athletic حتى الآن في هذه المباراة.",
+    "tactical": "Tremblay يتصدر فريق Arden Athletic بـ 18 إجراءً دفاعيًا، متفوقًا على زميله التالي الأفضل بفارق 9، على الرغم من 3 إجراءات مفقودة.",
+    "commentator": "Rhys Tremblay، الذي خاض 150 مباراة في الدوري وانضم من Stonebrook Harriers، يظهر خبرته من خلال عمل دفاعي قوي اليوم."
    },
    "evidence_for": [
     "e_000164",
@@ -2270,33 +2276,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 4,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 4313,
+    "tokens_in": 1844,
+    "tokens_out": 95,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 4,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -2308,9 +2312,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 21 defensive actions, 11 more than any teammate, with 3 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay يبرز حقًا لفريق Arden Athletic مع الكثير من العمل الدفاعي الليلة.",
+    "tactical": "Tremblay يتصدر فريق Arden Athletic بـ 21 إجراءً دفاعيًا، متفوقًا على زميله التالي الأفضل بفارق 11، مع فقدان الاستحواذ فقط 3 مرات.",
+    "commentator": "Rhys Tremblay، الذي خاض 150 مباراة في الدوري وانضم من Stonebrook Harriers، يظهر خبرته من خلال عمل دفاعي قوي الليلة."
    },
    "evidence_for": [
     "e_000164",
@@ -2349,33 +2353,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 4,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 11185,
+    "tokens_in": 2026,
+    "tokens_out": 94,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 4,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -2387,9 +2389,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 63 after 61 in the previous window, 1 final-third entry and 1 shot in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale في صعود، مع زخمهم الذي يتجاوز المستوى الرئيسي بقليل وتسديدة على المرمى في آخر خمس دقائق.",
+    "tactical": "زخم Hollow Vale ارتفع من 61 إلى 63، متجاوزًا عتبة 60، مع دخول واحد إلى الثلث الأخير وتسديدة واحدة تولد قيمة أهداف متوقعة قدرها 0.04 في آخر خمس دقائق.",
+    "commentator": "Hollow Vale يظهر زخمًا قويًا هنا، متجاوزًا العتبة الرئيسية مع بعض التحركات الهجومية الواعدة."
    },
    "evidence_for": [
     "e_001464",
@@ -2410,33 +2412,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 8,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 12113,
+    "tokens_in": 759,
+    "tokens_out": 104,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 4,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -2448,9 +2448,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 22 defensive actions, 12 more than any teammate, with 4 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "كان Rhys Tremblay مدافعًا رئيسيًا لفريق Arden Athletic، حيث قام بالعديد من التدخلات الدفاعية المهمة اليوم.",
+    "tactical": "يقود Rhys Tremblay فريق Arden Athletic بـ 22 تدخلًا دفاعيًا، متفوقًا على زميله التالي الأفضل بفارق 12، على الرغم من فقدانه الكرة أربع مرات.",
+    "commentator": "يواصل Rhys Tremblay، الذي يملك 150 ظهورًا في الدوري وسجلًا قويًا، أن يكون صخرة دفاعية لفريق Arden Athletic."
    },
    "evidence_for": [
     "e_000164",
@@ -2491,33 +2491,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 4,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1412,
+    "tokens_in": 2148,
+    "tokens_out": 93,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -2529,9 +2527,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 70 after 70 in the previous window, 6 final-third entries and 2 shots in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale is keeping up the pressure with lots of attacks and shots in the last few minutes.",
+    "tactical": "Hollow Vale maintains a momentum score of 70 with six final-third entries and two shots generating an expected goals value of 0.08 over the last five minutes.",
+    "commentator": "Hollow Vale's longest unbeaten run in league matches over the last five seasons is thirteen."
    },
    "evidence_for": [
     "e_001526",
@@ -2557,32 +2555,40 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 4064,
+    "tokens_in": 1084,
+    "tokens_out": 88,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
+    "passed": false,
+    "numbers_checked": 2,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Vale",
+     "casual: name dropped: Hollow Vale",
+     "casual: name dropped: Hollow",
+     "tactical: name dropped: Vale",
+     "tactical: name dropped: Hollow Vale",
+     "tactical: name dropped: Hollow",
+     "commentator: name dropped: Vale",
+     "commentator: name dropped: Hollow Vale",
+     "commentator: name dropped: Hollow"
     ]
    }
   },
@@ -2595,9 +2601,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 70 after 70 in the previous window, 5 final-third entries and 1 shot in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale تحافظ على الضغط مع عدة هجمات في الدقائق القليلة الماضية وتسديدة على المرمى.",
+    "tactical": "Hollow Vale تحافظ على الزخم عند 70 مع خمس دخولات إلى الثلث النهائي وتسديدة واحدة تولد قيمة أهداف متوقعة تبلغ 0.06 في الدقائق الخمس الأخيرة، متفوقة على زخم Arden Athletic البالغ 59.",
+    "commentator": "Hollow Vale تظهر زخمًا قويًا هنا، مستفيدة من دخولاتها الأخيرة إلى الثلث النهائي وتسديدة على المرمى."
    },
    "evidence_for": [
     "e_001544",
@@ -2621,33 +2627,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 2349,
+    "tokens_in": 954,
+    "tokens_out": 100,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -2659,9 +2663,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale lead 2-1.",
-    "tactical": "Arden Athletic 1-2 Hollow Vale after 72 minutes, 3 goals so far.",
-    "commentator": "Bruno Garrow is 2 assists away from 20 career league assists, standing on 18."
+    "casual": "Hollow Vale are leading Arden Athletic by two goals to one with the match well into the second half.",
+    "tactical": "Hollow Vale hold a one-goal advantage at 2-1, with goals from Saltash and Garrow, while Tolland scored for Arden Athletic.",
+    "commentator": "Jonah Tolland has now scored against Hollow Vale again, adding to his previous league goal tally versus them."
    },
    "evidence_for": [
     "e_000644",
@@ -2689,32 +2693,51 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 9,
+    "numbers_checked": 5,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1867,
+    "tokens_in": 881,
+    "tokens_out": 95,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
+    "passed": false,
+    "numbers_checked": 2,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Vale",
+     "casual: name dropped: Hollow Vale",
+     "casual: name dropped: Arden",
+     "casual: name dropped: Arden Athletic",
+     "casual: name dropped: Hollow",
+     "casual: name dropped: Athletic",
+     "tactical: name dropped: Vale",
+     "tactical: name dropped: Hollow Vale",
+     "tactical: name dropped: Arden",
+     "tactical: name dropped: Saltash",
+     "tactical: name dropped: Hollow",
+     "tactical: name dropped: Athletic",
+     "tactical: name dropped: Arden Athletic",
+     "tactical: name dropped: Tolland",
+     "tactical: name dropped: Garrow",
+     "commentator: name dropped: Jonah Tolland",
+     "commentator: name dropped: Vale",
+     "commentator: name dropped: Hollow Vale",
+     "commentator: name dropped: Hollow",
+     "commentator: name dropped: Tolland"
     ]
    }
   },
@@ -2727,9 +2750,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 23 defensive actions, 13 more than any teammate, with 4 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay يتقدم حقًا من أجل Arden Athletic مع العديد من الإجراءات الدفاعية، أكثر بكثير من أي شخص آخر في الفريق.",
+    "tactical": "Rhys Tremblay أكمل 23 إجراءً دفاعيًا، متفوقًا على زميله التالي الأفضل بفارق 13، على الرغم من فقدان الاستحواذ أربع مرات فقط.",
+    "commentator": "Rhys Tremblay، مع 150 ظهورًا في الدوري وسجل قوي من الأهداف والتمريرات الحاسمة، يظل لاعبًا رئيسيًا لـ Arden Athletic."
    },
    "evidence_for": [
     "e_000164",
@@ -2771,33 +2794,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 4,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1840,
+    "tokens_in": 2209,
+    "tokens_out": 106,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -2809,9 +2830,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic are on top right now and pushing the other side back.",
-    "tactical": "Arden Athletic momentum 82 after 82 in the previous window, 5 final-third entries and 1 shot in the last five minutes.",
-    "commentator": "Arden Athletic's longest unbeaten run over the last five seasons is 16 (league matches)."
+    "casual": "يواصل فريق Arden Athletic الضغط بوتيرة ثابتة والعديد من الهجمات في الدقائق الخمس الأخيرة.",
+    "tactical": "يحافظ فريق Arden Athletic على درجة زخم تبلغ 82 مع خمس دخول في الثلث الأخير وتسديدة واحدة تولد قيمة أهداف متوقعة تبلغ 0.46 في الدقائق الخمس الأخيرة، بينما زخم فريق Hollow Vale هو 18.",
+    "commentator": "أطول سلسلة عدم هزيمة لفريق Arden Athletic في مباريات الدوري خلال المواسم الخمسة الماضية هي 16."
    },
    "evidence_for": [
     "e_001631",
@@ -2834,33 +2855,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 9,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 4437,
+    "tokens_in": 889,
+    "tokens_out": 94,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 4,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -2872,9 +2891,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic are on top right now and pushing the other side back.",
-    "tactical": "Arden Athletic momentum 82 after 82 in the previous window, 5 final-third entries and 2 shots in the last five minutes.",
-    "commentator": "Arden Athletic's longest unbeaten run over the last five seasons is 16 (league matches)."
+    "casual": "Arden Athletic في موقع الهجوم الآن، يحافظ على زخم قوي مع عدة هجمات وتسديدات في الدقائق القليلة الماضية.",
+    "tactical": "Arden Athletic يحافظ على درجة الزخم 82، مع خمس دخولات إلى الثلث الأخير وتسديدتين تولدان مجموع أهداف متوقعة 0.97 في الدقائق الخمس الأخيرة، مما يدل على ضغط هجومي مستمر.",
+    "commentator": "زخم Arden Athletic لا يزال صلبًا عند 82، دون أي علامات على التراجع بينما يواصلون الدفع بلا هوادة."
    },
    "evidence_for": [
     "e_001631",
@@ -2898,33 +2917,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1677,
+    "tokens_in": 955,
+    "tokens_out": 104,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 3,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -2936,9 +2953,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "It is level at 2-2. Arden Athletic have come back from 2 down.",
-    "tactical": "Arden Athletic 2-2 Hollow Vale after 77 minutes, 4 goals so far.",
-    "commentator": "In the last five seasons Arden Athletic trailed by 2 or more at half time 13 times and avoided defeat in 5 of them."
+    "casual": "التعادل قائم عند 2-2، مع عودة قوية من Arden Athletic بعد أن كانوا متأخرين بهدفين.",
+    "tactical": "تمكن Arden Athletic من التعادل 2-2 بعد التأخر بهدفين، حيث سجل Finn Castellan الهدف الأخير داخل المنطقة في الدقيقة 77 لإكمال العودة.",
+    "commentator": "Finn Castellan، الذي سجل مرتين ضد Hollow Vale في المواسم السابقة، سجل للتو مرة أخرى ليعادل المباراة لـ Arden Athletic."
    },
    "evidence_for": [
     "e_000644",
@@ -2966,33 +2983,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 11,
+    "numbers_checked": 7,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 2326,
+    "tokens_in": 978,
+    "tokens_out": 99,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 5,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -3004,9 +3019,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic are on top right now and pushing the other side back.",
-    "tactical": "Arden Athletic momentum 76 after 94 in the previous window, 3 final-third entries and 1 shot in the last five minutes.",
-    "commentator": "Arden Athletic's longest unbeaten run over the last five seasons is 16 (league matches)."
+    "casual": "لقد كان فريق Arden Athletic يدفع بقوة في الآونة الأخيرة، مع عدد جيد من الهجمات وهدف حديث من Finn Castellan.",
+    "tactical": "انخفض زخم فريق Arden Athletic من 94 إلى 76، مع ثلاث دخوليات في الثلث الأخير وتسديدة واحدة أنتجت قيمة أهداف متوقعة تبلغ 0.51 في الدقائق الخمس الأخيرة، مما يشير إلى ضغط هجومي مستمر.",
+    "commentator": "تذكر، أطول سلسلة عدم هزيمة لفريق Arden Athletic في السنوات الأخيرة هي ستة عشر مباراة في الدوري."
    },
    "evidence_for": [
     "e_001783",
@@ -3027,33 +3042,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1449,
+    "tokens_in": 755,
+    "tokens_out": 94,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 3,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -3065,9 +3078,9 @@
    "team": "HVL",
    "subject": null,
    "text": {
-    "casual": "Hollow Vale are on top right now and pushing the other side back.",
-    "tactical": "Hollow Vale momentum 65 after 64 in the previous window, 2 final-third entries and 1 shot in the last five minutes.",
-    "commentator": "Hollow Vale's longest unbeaten run over the last five seasons is 13 (league matches)."
+    "casual": "Hollow Vale تحافظ على الضغط مع زخم قوي في الدقائق القليلة الأخيرة من المباراة.",
+    "tactical": "زخم Hollow Vale ارتفع إلى 65 من 64، متجاوزًا عتبة 60، مع 2 دخول في الثلث الأخير و1 تسديدة ساهمت في قيمة الأهداف المتوقعة 0.03 في آخر 5 دقائق.",
+    "commentator": "Hollow Vale يظهر زخمًا رائعًا هنا، يبني على جهوده السابقة مع تسديدة من Ravi Abara كانت قريبة من الهدف."
    },
    "evidence_for": [
     "e_001871"
@@ -3092,28 +3105,26 @@
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 0,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1592,
+    "tokens_in": 694,
+    "tokens_out": 107,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 7,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -3125,9 +3136,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 23 defensive actions, 12 more than any teammate, with 4 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "كان Rhys Tremblay في كل مكان على الملعب يقوم بالعديد من الأدوار الدفاعية لفريق Arden Athletic الليلة.",
+    "tactical": "يتصدر Tremblay فريق Arden Athletic بـ 23 إجراءً دفاعيًا، بفارق 12 عن زميله التالي الأفضل، على الرغم من فقدانه 4 إجراءات.",
+    "commentator": "يواصل Rhys Tremblay، الذي لديه 150 ظهورًا في الدوري وسجل قوي، تثبيت دفاع Arden Athletic الليلة."
    },
    "evidence_for": [
     "e_000164",
@@ -3169,33 +3180,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 5,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1405,
+    "tokens_in": 2211,
+    "tokens_out": 87,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 4,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -3207,9 +3216,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic lead 3-2. Arden Athletic have come back from 2 down.",
-    "tactical": "Arden Athletic 3-2 Hollow Vale after 91 minutes, 5 goals so far.",
-    "commentator": "In the last five seasons Arden Athletic trailed by 2 or more at half time 13 times and avoided defeat in 5 of them."
+    "casual": "عاد فريق Arden Athletic من التأخر ليتقدم 3-2 ضد Hollow Vale في أواخر المباراة.",
+    "tactical": "قلب فريق Arden Athletic تأخره بهدفين إلى فوز بثلاثة أهداف سجلها في آخر 20 دقيقة، مما أظهر صلابة وفعالية في اللعب الهجومي داخل المنطقة.",
+    "commentator": "هدف Teodor Rennick اليوم يضيف إلى رصيده السابق في الدوري ضد Hollow Vale، مما يجعل هذه المباراة لا تُنسى بالنسبة له."
    },
    "evidence_for": [
     "e_001651",
@@ -3239,33 +3248,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 11,
+    "numbers_checked": 5,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 4279,
+    "tokens_in": 1051,
+    "tokens_out": 87,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 3,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -3277,9 +3284,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic are making the most of very little.",
-    "tactical": "Arden Athletic: 3 goals from 1.94 expected goals across 10 shots.",
-    "commentator": "Arden Athletic's record scorer over the last five seasons is 71 (ARD_H09 Callum Varga)."
+    "casual": "سجل Arden Athletic ثلاثة أهداف من عشرة تسديدات، متفوقين على المتوقع اليوم.",
+    "tactical": "حول Arden Athletic ثلاثة أهداف من إجمالي الأهداف المتوقعة 1.94 عبر عشرة تسديدات، منهين بأداء أفضل من المتوقع مع فرصة جيدة واحدة ضاعت.",
+    "commentator": "لدى Arden Athletic سجل قوي مؤخراً ضد Hollow Vale، حيث فازوا في نصف مواجهاتهم العشر الأخيرة."
    },
    "evidence_for": [
     "e_001650",
@@ -3303,33 +3310,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 5,
+    "numbers_checked": 7,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1940,
+    "tokens_in": 910,
+    "tokens_out": 82,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 1,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -3341,9 +3346,9 @@
    "team": "ARD",
    "subject": "ARD_05",
    "text": {
-    "casual": "Tremblay is holding the Arden Athletic defence together.",
-    "tactical": "Rhys Tremblay: 23 defensive actions, 11 more than any teammate, with 4 lost.",
-    "commentator": "Rhys Tremblay has 150 league appearances, 2 goals and 13 assists over the five recorded seasons, having joined Arden Athletic from Stonebrook Harriers."
+    "casual": "Rhys Tremblay كان صخرة في الدفاع لفريق Arden Athletic، حيث قام بالعديد من الأدوار الدفاعية أكثر من أي لاعب آخر في فريقه.",
+    "tactical": "Rhys Tremblay يتصدر فريق Arden Athletic بـ 23 إجراءً دفاعيًا، متفوقًا على زميله التالي الأفضل بـ 11، مع فقدان الكرة فقط 4 مرات.",
+    "commentator": "Rhys Tremblay، مع 150 ظهورًا في الدوري وحضور ثابت في فريق Arden Athletic، يواصل إظهار سبب كونه حيويًا جدًا في دفاعهم."
    },
    "evidence_for": [
     "e_000164",
@@ -3385,33 +3390,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 4,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 5,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 2272,
+    "tokens_in": 2211,
+    "tokens_out": 106,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "numbers_checked": 4,
+    "retries": 1,
+    "issues": []
    }
   },
   {
@@ -3423,9 +3426,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic are on top right now and pushing the other side back.",
-    "tactical": "Arden Athletic momentum 81 after 73 in the previous window, 6 final-third entries and 1 shot in the last five minutes.",
-    "commentator": "Arden Athletic's longest unbeaten run over the last five seasons is 16 (league matches)."
+    "casual": "Arden Athletic have been pushing hard in the final minutes, making several attacks and taking a shot on goal.",
+    "tactical": "Arden Athletic's momentum has increased to 81 from 73, with six final-third entries and one shot yielding an expected goals value of 0.32 in the last five minutes.",
+    "commentator": "Arden Athletic are showing real urgency here, building on their momentum with multiple entries into the final third late in the game."
    },
    "evidence_for": [
     "e_001994",
@@ -3450,32 +3453,32 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 7,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 4191,
+    "tokens_in": 1025,
+    "tokens_out": 96,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
     "retries": 0,
     "issues": [
-     "fallback mode: English text kept"
+     "transport: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)>"
     ]
    }
   },
@@ -3488,9 +3491,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic lead 3-2. Arden Athletic have come back from 2 down.",
-    "tactical": "Arden Athletic 3-2 Hollow Vale after 96 minutes, 5 goals so far.",
-    "commentator": "In the last five seasons Arden Athletic trailed by 2 or more at half time 13 times and avoided defeat in 5 of them."
+    "casual": "عاد فريق Arden Athletic من التأخر ليتقدم 3-2 ضد Hollow Vale في اللحظات الأخيرة من المباراة.",
+    "tactical": "تغلب فريق Arden Athletic على تأخره بهدفين بأهداف من Tolland وCastellan وRennick ليأخذ تقدماً بهدف واحد في الدقيقة 96.",
+    "commentator": "Teodor Rennick، الذي كان لديه هدف واحد فقط في الدوري ضد Hollow Vale قبل اليوم، سجل للتو الهدف الحاسم لفريق Arden Athletic."
    },
    "evidence_for": [
     "e_001651",
@@ -3520,33 +3523,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 11,
+    "numbers_checked": 6,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 3,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 3070,
+    "tokens_in": 1051,
+    "tokens_out": 95,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 3,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -3558,9 +3559,9 @@
    "team": "HVL",
    "subject": "HVL_09",
    "text": {
-    "casual": "Garrow keeps getting the better of the defender in front of him.",
-    "tactical": "Bruno Garrow: 8 of 8 take-ons won, 5 of them against Callum Takeda.",
-    "commentator": "Bruno Garrow is 2 assists away from 20 career league assists, standing on 18."
+    "casual": "Bruno Garrow has been unstoppable today, winning every attempt to beat his opponent, including several against Callum Takeda.",
+    "tactical": "Bruno Garrow achieved a perfect take-on success rate, winning all eight duels, with five victories specifically against Callum Takeda.",
+    "commentator": "Bruno Garrow is just two assists away from reaching 20 career league assists, currently standing on 18."
    },
    "evidence_for": [
     "e_000054",
@@ -3587,32 +3588,41 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 6,
-    "retries": 0,
+    "numbers_checked": 5,
+    "retries": 1,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 3492,
+    "tokens_in": 2283,
+    "tokens_out": 184,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 2
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
-    "numbers_checked": 0,
-    "retries": 0,
+    "passed": false,
+    "numbers_checked": 2,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Bruno Garrow",
+     "casual: name dropped: Garrow",
+     "casual: name dropped: Takeda",
+     "casual: name dropped: Callum Takeda",
+     "tactical: name dropped: Bruno Garrow",
+     "tactical: name dropped: Garrow",
+     "tactical: name dropped: Takeda",
+     "tactical: name dropped: Callum Takeda",
+     "commentator: name dropped: Bruno Garrow",
+     "commentator: name dropped: Garrow"
     ]
    }
   },
@@ -3625,9 +3635,9 @@
    "team": "HVL",
    "subject": "HVL_04",
    "text": {
-    "casual": "Byrne keeps getting the better of the defender in front of him.",
-    "tactical": "Santi Byrne: 4 of 4 take-ons won, 4 of them against Finn Castellan.",
-    "commentator": "Santi Byrne is 2 goals away from 10 career league goals, standing on 8."
+    "casual": "Santi Byrne has been unstoppable today, winning every challenge against his marker Finn Castellan.",
+    "tactical": "Santi Byrne completed all four of his take-ons, all against Finn Castellan, maintaining a perfect success rate in midfield duels.",
+    "commentator": "Santi Byrne is closing in on a career milestone with eight goals and eighteen assists in league play."
    },
    "evidence_for": [
     "e_000581",
@@ -3655,32 +3665,41 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 6,
+    "numbers_checked": 2,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 2223,
+    "tokens_in": 914,
+    "tokens_out": 81,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
    "translated": false,
    "translation_check": {
-    "passed": true,
+    "passed": false,
     "numbers_checked": 0,
-    "retries": 0,
+    "retries": 2,
     "issues": [
-     "fallback mode: English text kept"
+     "casual: name dropped: Santi Byrne",
+     "casual: name dropped: Finn Castellan",
+     "casual: name dropped: Castellan",
+     "casual: name dropped: Byrne",
+     "tactical: name dropped: Santi Byrne",
+     "tactical: name dropped: Finn Castellan",
+     "tactical: name dropped: Castellan",
+     "tactical: name dropped: Byrne",
+     "commentator: name dropped: Santi Byrne",
+     "commentator: name dropped: Byrne"
     ]
    }
   },
@@ -3693,9 +3712,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Arden Athletic are making the most of very little.",
-    "tactical": "Arden Athletic: 3 goals from 1.94 expected goals across 10 shots.",
-    "commentator": "Arden Athletic's record scorer over the last five seasons is 71 (ARD_H09 Callum Varga)."
+    "casual": "سجل Arden Athletic ثلاثة أهداف من عشرة تسديدات، متفوقين على التوقعات الليلة.",
+    "tactical": "حول Arden Athletic ثلاثة أهداف من إجمالي الأهداف المتوقعة 1.94 عبر عشرة تسديدات، مع فرق إيجابي بين الأهداف والأهداف المتوقعة بمقدار 1.06 مما يشير إلى إنهاء فعال.",
+    "commentator": "تفوق Arden Athletic على حصتهم المتوقعة من الأهداف بثلاثة أهداف من عشرة تسديدات فقط هذا المساء."
    },
    "evidence_for": [
     "e_001650",
@@ -3719,33 +3738,31 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 5,
+    "numbers_checked": 8,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 1,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 1670,
+    "tokens_in": 910,
+    "tokens_out": 83,
     "agents": [
      "analyst",
      "trivia",
      "narrator",
      "checker"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 2,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   },
   {
@@ -3757,9 +3774,9 @@
    "team": "ARD",
    "subject": null,
    "text": {
-    "casual": "Full time: Arden Athletic 3-2 Hollow Vale. Arden Athletic win. Arden Athletic came back from 2 down. The goals: Jude Saltash on 30 minutes, Bruno Garrow on 59 minutes, Jonah Tolland on 72 minutes, Finn Castellan on 77 minutes, Teodor Rennick on 91 minutes. Tremblay has been the rock at the back for Arden Athletic. Arden Athletic have had the upper hand recently.",
-    "tactical": "Full time: Arden Athletic 3-2 Hollow Vale. Arden Athletic win. Arden Athletic came back from 2 down. Expected goals: Arden Athletic 1.94 from 10 shots, Hollow Vale 1.48 from 33 shots. Big chances: Arden Athletic 3, Hollow Vale 0. Rhys Tremblay leads the defensive actions with 23, 11 clear of any teammate. Arden Athletic momentum sits at 81 with 6 final-third entries in the last five minutes.",
-    "commentator": "Full time: Arden Athletic 3-2 Hollow Vale. Arden Athletic win. Arden Athletic came back from 2 down. Tremblay has been the rock at the back for Arden Athletic."
+    "casual": "قدم نادي Arden Athletic عودة مثيرة للفوز 3-2 ضد Hollow Vale بعد أن كان متأخراً بهدفين.",
+    "tactical": "على الرغم من قلة التسديدات وتوقعات الأهداف المنخفضة، استغل نادي Arden Athletic ثلاث فرص كبيرة وزاد الزخم إلى 81 في الدقائق الخمس الأخيرة، مؤمناً فوزاً بالعودة.",
+    "commentator": "التقى ناديا Arden Athletic و Hollow Vale عشر مرات في المواسم الأخيرة، وفاز نادي Arden Athletic في نصف تلك اللقاءات."
    },
    "evidence_for": [
     "e_001651",
@@ -3789,15 +3806,15 @@
    ],
    "check": {
     "passed": true,
-    "numbers_checked": 25,
+    "numbers_checked": 7,
     "retries": 0,
     "issues": []
    },
    "receipt": {
-    "model": null,
-    "latency_ms": 2,
-    "tokens_in": 0,
-    "tokens_out": 0,
+    "model": "gpt-4.1-mini-2025-04-14",
+    "latency_ms": 2289,
+    "tokens_in": 1916,
+    "tokens_out": 96,
     "agents": [
      "analyst",
      "trivia",
@@ -3805,21 +3822,18 @@
      "checker",
      "recap"
     ],
-    "mode": "fallback",
-    "source": "template",
-    "llm_calls": 0
+    "mode": "live",
+    "source": "llm",
+    "llm_calls": 1
    },
-   "translated": false,
+   "translated": true,
    "translation_check": {
     "passed": true,
-    "numbers_checked": 0,
+    "numbers_checked": 3,
     "retries": 0,
-    "issues": [
-     "fallback mode: English text kept"
-    ]
+    "issues": []
    }
   }
  ],
- "translated": false,
- "note": "No Foundry configuration: English text kept, translated is false on every item."
+ "translated": false
 }
