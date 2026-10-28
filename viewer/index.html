@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Sightline Match Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <header class="bar">
+        <div class="scorebug" aria-live="polite">
+          <span class="team home"><i class="chip" id="home-chip"></i><b id="home-name">Home</b></span>
+          <span class="score"><b id="home-score">0</b><span class="dash">-</span><b id="away-score">0</b></span>
+          <span class="team away"><b id="away-name">Away</b><i class="chip" id="away-chip"></i></span>
+          <span class="clock" id="clock">00:00</span>
+        </div>
+        <div class="context" id="context"></div>
+      </header>
+
+      <main class="layout">
+        <section class="stage-wrap" aria-label="Match view">
+          <div class="stage" id="stage">
+            <canvas id="canvas"></canvas>
+            <div class="overlay" id="overlay"></div>
+            <div class="toasts" id="toasts" aria-live="polite"></div>
+            <div class="replay-badge" id="replay-badge" hidden>Replay</div>
+            <div class="loading" id="loading">Loading match</div>
+          </div>
+          <div class="controls">
+            <button class="btn play" id="play" aria-label="Play">Play</button>
+            <div class="seg" role="group" aria-label="Playback speed">
+              <button class="seg-btn" data-speed="1">1x</button>
+              <button class="seg-btn" data-speed="4">4x</button>
+              <button class="seg-btn on" data-speed="12">12x</button>
+              <button class="seg-btn" data-speed="40">40x</button>
+            </div>
+            <div class="seg" role="group" aria-label="Camera">
+              <button class="seg-btn on" data-cam="broadcast">Broadcast</button>
+              <button class="seg-btn" data-cam="tactical">Tactical</button>
+            </div>
+            <div class="seg lens" role="group" aria-label="Lens">
+              <button class="seg-btn on" data-lens="casual">Casual</button>
+              <button class="seg-btn" data-lens="tactical">Tactical</button>
+            </div>
+          </div>
+          <div class="timeline" id="timeline">
+            <svg id="momentum" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <div class="markers" id="markers"></div>
+            <input type="range" id="scrub" min="0" max="1000" step="0.1" value="0" aria-label="Match time" />
+            <div class="timeline-labels"><span>Kick-off</span><span>Half time</span><span>Full time</span></div>
+          </div>
+        </section>
+
+        <aside class="rail" aria-label="What is happening">
+          <h2 class="rail-title">What's happening</h2>
+          <p class="rail-sub" id="rail-sub">Points update as the match plays.</p>
+          <ol class="points" id="points"></ol>
+        </aside>
+      </main>
+
+      <section class="reel-wrap" id="reel-wrap" hidden aria-label="Evidence">
+        <div class="reel-head">
+          <div class="reel-claim">
+            <h3 id="reel-title"></h3>
+            <p id="reel-receipt" class="receipt"></p>
+          </div>
+          <div class="seg" role="tablist" aria-label="Evidence side">
+            <button class="seg-btn on" id="tab-for" role="tab" aria-selected="true">For</button>
+            <button class="seg-btn" id="tab-against" role="tab" aria-selected="false">Against</button>
+          </div>
+        </div>
+        <div class="reel" id="reel" tabindex="0"></div>
+      </section>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
