@@ -2,7 +2,7 @@
 
 **Explainable match intelligence for the second screen: every insight comes with the numbers behind it and the moments that prove it.**
 
-link
+**Live app:** https://ashy-forest-0337eb50f.6.azurestaticapps.net
 
 **The problem.** Football talk runs on vibes. "They've lost the momentum", "he's having a nightmare", "the centre back is carrying them": pundits and fans make claims in real time with no way to check them. The data exists, but it reaches fans as tables they have to decode themselves, and AI summaries make things worse when they invent numbers.
 
@@ -80,10 +80,10 @@ Everything is synthetic and fictional: clubs, players, matches and the five-seas
 | --- | --- |
 | Synthetic match engine, stats engine, league history (`matchgen/`) | Built and tested |
 | 3D replay viewer with live points and evidence reels (`viewer/`) | Built |
-| Agent layer on Foundry (`agents/`) | Runs live when `FOUNDRY_*` is set; otherwise falls back to templated text and marks `"mode": "fallback"` |
+| Agent layer on Foundry (`agents/`) | Running live on GPT-4.1 mini in Microsoft Foundry: all 56 demo insights written by the model, 0 checker failures. Falls back to checked templates without credentials |
 | Ratings, claim checker, routine detection, translations (`agents/extras/`) | Precomputed files ship with the viewer, so they work with no backend |
 | Live pipeline (Event Hubs, Functions, Web PubSub) | Optional, behind a deploy flag; the demo replays a precomputed match |
-| Azure infrastructure (`infra/`) | Written and reviewed; deployed by the owner from a laptop |
+| Azure infrastructure (`infra/`) | Deployed: Foundry, Static Web Apps, Storage, Application Insights, managed identity |
 
 What is live and what is fallback is always visible in the app: every insight's receipt says `live` or `fallback`.
 
