@@ -67,6 +67,7 @@ class App {
     this.stage.snapCamera();
     this.refreshPoints(true);
     if (this.points[0]) this.selectPoint(this.points[0]);
+    this.booted = true;
     const loop = (now: number) => {
       const real = Math.min(0.1, (now - this.lastFrame) / 1000);
       this.lastFrame = now;
@@ -141,8 +142,15 @@ class App {
     const ta = this.meta.teams.find((t) => t.id === this.away)!;
     $("home-name").textContent = th.name;
     $("away-name").textContent = ta.name;
-    $("home-chip").style.background = th.colour;
-    $("away-chip").style.background = ta.colour;
+    for (const [id, team] of [["home-chip", th], ["away-chip", ta]] as const) {
+      const crest = $(id);
+      crest.style.setProperty("--c", team.colour);
+      crest.textContent = initials(team.name);
+      crest.setAttribute("aria-hidden", "true");
+    }
+    const split = $("mc-split");
+    split.style.setProperty("--home", th.colour);
+    split.style.setProperty("--away", ta.colour);
     const c = this.meta.context;
     const bits: [string, string | number | undefined][] = [
       ["", this.meta.competition],
@@ -227,11 +235,15 @@ class App {
     document.querySelectorAll<HTMLButtonElement>("[data-lens]").forEach((b) =>
       b.addEventListener("click", () => {
         this.st.lens = b.dataset.lens as Lens;
-        this.stage.lens = this.st.lens;
+        // overlays in the commentator lens match casual
+        this.stage.lens = this.st.lens === "tactical" ? "tactical" : "casual";
         this.markOn("[data-lens]", b);
         this.refreshPoints(true);
         if (this.st.point) this.renderReel();
       }),
+    );
+    document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((b) =>
+      b.addEventListener("click", () => this.showTab(b.dataset.tab!)),
     );
     const scrub = $("scrub") as HTMLInputElement;
     scrub.addEventListener("input", () => {
@@ -250,7 +262,74 @@ class App {
   }
 
   private markOn(sel: string, on: HTMLElement): void {
-    document.querySelectorAll(sel).forEach((x) => x.classList.toggle("on", x === on));
+    document.querySelectorAll(sel).forEach((x) => {
+      x.classList.toggle("on", x === on);
+      if (x.hasAttribute("aria-pressed")) x.setAttribute("aria-pressed", String(x === on));
+    });
+  }
+
+  /** Switch the match-centre tab (live, moments, stats, ratings, claims, patterns). */
+  private showTab(name: string): void {
+    document.querySelectorAll<HTMLElement>(".panel[id^='panel-']").forEach((p) => (p.hidden = p.id !== `panel-${name}`));
+    document.querySelectorAll<HTMLElement>(".tab[data-tab]").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.tab === name)));
+    if (name === "live") this.resize();
+    if (name === "stats") this.renderStats(true);
+  }
+
+  // ----------------------------------------------------------------- stats
+  private statsSig = "";
+
+  /** Comparison rows from the latest snapshot at the live time: home left, label centre, away right. */
+  private renderStats(force = false): void {
+    const pts = this.meta.momentum;
+    let snap: (typeof pts)[number] | null = null;
+    for (const p of pts) { if (p.t <= this.st.liveT + 1) snap = p; else break; }
+    const sig = snap ? String(snap.t) : "none";
+    if (!force && sig === this.statsSig) return;
+    this.statsSig = sig;
+    const th = this.meta.teams.find((t) => t.id === this.home)!;
+    const ta = this.meta.teams.find((t) => t.id === this.away)!;
+    const rows: [string, string, (v: number) => string, boolean][] = [
+      ["possession", "Possession", (v) => `${Math.round(v * 100)}%`, true],
+      ["shots", "Shots", (v) => String(v), true],
+      ["shots_on_target", "On target", (v) => String(v), true],
+      ["xg", "Expected goals", (v) => v.toFixed(2), true],
+      ["big_chances", "Big chances", (v) => String(v), true],
+      ["passes", "Passes", (v) => String(v), true],
+      ["pass_accuracy", "Pass accuracy", (v) => `${Math.round(v * 100)}%`, true],
+      ["final_third_entries", "Final-third entries", (v) => String(v), true],
+      ["box_entries", "Box entries", (v) => String(v), true],
+      ["corners", "Corners", (v) => String(v), true],
+      ["tackles", "Tackles", (v) => String(v), true],
+      ["interceptions", "Interceptions", (v) => String(v), true],
+      ["fouls", "Fouls", (v) => String(v), false],
+      ["yellows", "Yellow cards", (v) => String(v), false],
+      ["distance_km", "Distance (km)", (v) => v.toFixed(1), true],
+      ["sprints", "Sprints", (v) => String(v), true],
+    ];
+    const box = $("stats-rows");
+    $("stats-sub").textContent = snap
+      ? `${th.name} against ${ta.name}, as of ${clockAt(this.meta, snap.t).text}`
+      : "Stats appear once the match is under way.";
+    if (!snap || !snap.stats) { box.innerHTML = `<p class="empty">No snapshot yet.</p>`; return; }
+    const hs = snap.stats[this.home] ?? {}, as = snap.stats[this.away] ?? {};
+    box.innerHTML = rows
+      .filter(([k]) => k in hs || k in as)
+      .map(([k, label, fmt, moreIsBetter]) => {
+        const a = Number(hs[k] ?? 0), b = Number(as[k] ?? 0);
+        const total = a + b || 1;
+        const lead = a === b ? null : (a > b) === moreIsBetter ? "home" : "away";
+        const leadColour = lead === "home" ? th.colour : lead === "away" ? ta.colour : "inherit";
+        return `<div class="stat-row" style="--lead:${leadColour}">
+          <span class="v home${lead === "home" ? " lead" : ""}">${fmt(a)}</span>
+          <span class="l">${label}</span>
+          <span class="v away${lead === "away" ? " lead" : ""}">${fmt(b)}</span>
+          <span class="bar" aria-hidden="true">
+            <i class="home" style="--w:${Math.round((a / total) * 100)}%;--c:${th.colour}"></i>
+            <i class="away" style="--w:${Math.round((b / total) * 100)}%;--c:${ta.colour}"></i>
+          </span></div>`;
+      })
+      .join("");
   }
 
   private setPlaying(p: boolean): void {
@@ -375,6 +454,7 @@ class App {
   // ---------------------------------------------------------------- points
   private refreshPoints(force: boolean): void {
     this.lastPointsAt = this.st.liveT;
+    this.renderStats();
     const pts = detectPoints(this.meta, this.events, this.st.liveT);
     $("rail-sub").textContent = `As of ${clockAt(this.meta, this.st.liveT).text}. Points update as the match plays.`;
     const sig = pts.map((p) => `${p.id}:${p.stat}`).join("|") + this.st.lens;
@@ -391,7 +471,7 @@ class App {
       const b = document.createElement("button");
       b.className = "point" + (this.st.point?.id === p.id ? " on" : "");
       const colour = this.meta.teams.find((t) => t.id === p.team)?.colour ?? "#999";
-      b.innerHTML = `<span class="claim">${p.claim[this.st.lens]}</span>
+      b.innerHTML = `<span class="claim">${claimOf(p, this.st.lens)}</span>
         <span class="stat">${p.stat}</span>
         <span class="meta"><i class="who" style="--c:${colour}"></i>${p.forEv.length} moments for, ${p.againstEv.length} against</span>`;
       b.addEventListener("click", () => this.selectPoint(p));
@@ -413,7 +493,10 @@ class App {
     this.stage.focus = p.subject;
     document.querySelectorAll(".point").forEach((el, i) => el.classList.toggle("on", this.points[i]?.id === p.id));
     this.renderReel();
+    if (!$("panel-moments").hidden || !this.booted) return;
+    this.showTab("moments");
   }
+  private booted = false;
 
   private setSide(side: "for" | "against"): void {
     this.st.side = side;
@@ -425,7 +508,7 @@ class App {
     const wrap = $("reel-wrap");
     if (!p) { wrap.hidden = true; return; }
     wrap.hidden = false;
-    $("reel-title").textContent = p.claim[this.st.lens];
+    $("reel-title").textContent = claimOf(p, this.st.lens);
     $("reel-receipt").textContent =
       `Checked against ${p.checked} logged events up to ${clockAt(this.meta, this.st.liveT).text}. Every card is one of them. Select a card to watch it.`;
     const tf = $("tab-for"), ta = $("tab-against");
@@ -493,6 +576,7 @@ class App {
     $("toasts").innerHTML = "";
     this.setPlaying(true);
     document.querySelectorAll(".card").forEach((c) => c.classList.remove("playing"));
+    this.showTab("live");
     $("stage").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
     this.renderReel();
   }
@@ -500,6 +584,17 @@ class App {
 
 function surname(name: string): string {
   return name.split(" ").slice(-1)[0];
+}
+
+/** Two or three letters for a simple fictional crest: "Arden Athletic" gives "AA". */
+function initials(name: string): string {
+  const parts = name.split(/\s+/).filter(Boolean);
+  return (parts.length > 1 ? parts.map((p) => p[0]).join("") : name.slice(0, 3)).toUpperCase();
+}
+
+/** Template wording for a lens; the commentator lens reads the casual template unless an insight overrides it. */
+function claimOf(p: Point, lens: Lens): string {
+  return p.claim[lens === "tactical" ? "tactical" : "casual"];
 }
 
 /** Small pitch drawn in the acting team's direction (attacking to the right). */

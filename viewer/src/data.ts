@@ -2,7 +2,13 @@
 
 export interface PlayerMeta { id: string; name: string; number: number; pos: string; team: string }
 export interface TeamMeta { id: string; name: string; formation: string; colour: string; xi: string[]; bench: string[] }
-export interface MomentumPoint { t: number; m: Record<string, number>; xg: Record<string, number> }
+export interface MomentumPoint {
+  t: number;
+  m: Record<string, number>;
+  xg: Record<string, number>;
+  /** per-team stats block from the snapshot (possession, shots, xg, passes ...), when packed */
+  stats?: Record<string, Record<string, number>>;
+}
 export interface Meta {
   match_id: string;
   competition: string;
