@@ -610,14 +610,34 @@ class App {
     return tr.map((x) => `<span class="trivia"><b>${esc(x.text)}</b> From ${esc(sourceName(x.source))}${x.row ? ` (${esc(x.row)})` : ""}</span>`).join("");
   }
 
-  /** Commentator lens: the score_state insights still to come, as prepared lines. */
+  /** Commentator lens: milestones players are close to, updated live from goals and assists so far.
+   *  (No future events are read, so a replay never spoils the score.) */
+  private milestones: { player_id: string; name: string; club: string; metric: string; current: number; milestone: number }[] | null = null;
   private renderComingUp(): void {
     const box = $("coming");
-    const list = this.insights?.items.filter((i) => i.kind === "score_state" && i.t > this.st.liveT) ?? [];
-    if (this.st.lens !== "commentator" || !list.length) { box.hidden = true; return; }
+    if (this.milestones === null) {
+      this.milestones = [];
+      fetch("data/milestones.json").then((r) => (r.ok ? r.json() : null)).then((d) => { this.milestones = d?.items ?? []; }).catch(() => {});
+    }
+    if (this.st.lens !== "commentator" || !this.milestones.length) { box.hidden = true; return; }
+    const lines: string[] = [];
+    for (const m of this.milestones) {
+      let now = m.current;
+      for (const e of this.events) {
+        if (e.t > this.st.liveT) break;
+        if (m.metric === "goals" && e.type === "goal" && e.pl === m.player_id) now++;
+        if (m.metric === "assists" && e.type === "shot" && e.out === "goal" && e.x.assist_event_id) {
+          const a = this.events.find((x) => x.id === e.x.assist_event_id);
+          if (a?.pl === m.player_id) now++;
+        }
+      }
+      const left = m.milestone - now;
+      if (left <= 0) lines.push(`<li><b>Reached</b> ${esc(m.name)} has ${m.milestone} league ${esc(m.metric)}</li>`);
+      else if (left <= 3) lines.push(`<li><b>${left} to go</b> ${esc(m.name)} is ${left} short of ${m.milestone} league ${esc(m.metric)}</li>`);
+    }
+    if (!lines.length) { box.hidden = true; return; }
     box.hidden = false;
-    box.innerHTML = `<h3>Coming up</h3><ul>${list.slice(0, 4).map((i) =>
-      `<li><b>${esc(i.clock)}</b> ${esc(i.text.commentator || i.text.casual)}</li>`).join("")}</ul>`;
+    box.innerHTML = `<h3>Watch for</h3><ul>${lines.slice(0, 4).join("")}</ul><p class="src">From upcoming milestones in the league history</p>`;
   }
 
   /** Half-time and full-time recaps as a dismissable panel over the stage. */

@@ -12,7 +12,7 @@ import os
 
 from .pipeline import DEFAULT_DATA_DIR
 
-_CANDIDATES = ("check_claim", "handle_claim", "claims", "handle", "check")
+_CANDIDATES = ("handle_claim", "check_claim", "handle", "check")
 _FIELDS = ("match_id", "t", "claim", "lens", "lang")
 
 

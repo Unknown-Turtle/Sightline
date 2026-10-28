@@ -297,3 +297,5 @@ details.receipt-more ul { margin: 4px 0 0; padding-left: 16px; }
   .layout { gap: 10px; }
   .rail, .reel-wrap, .stats-card { padding: 14px; }
 }
+
+#coming .src { color: var(--muted); font-size: 12px; margin: 6px 0 0; }

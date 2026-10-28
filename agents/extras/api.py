@@ -45,3 +45,9 @@ def health():
 def claims(req: ClaimRequest):
     match = get_match(req.match_id)
     return check_claim(match, req.claim, req.t, req.lens, req.lang, _llm)
+
+
+def handle_claim(body: dict) -> dict:
+    """Plain-dict entry point for other callers (the live server and Functions app)."""
+    req = ClaimRequest(**{k: v for k, v in body.items() if k in ClaimRequest.model_fields})
+    return claims(req)
