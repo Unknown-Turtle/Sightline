@@ -32,6 +32,8 @@ export class Claims {
   private out!: HTMLElement;
   private input!: HTMLInputElement;
   private go!: HTMLButtonElement;
+  /** base URL of the claims API; empty means same origin */
+  apiBase = "";
   private last: { r: ClaimResult; offline: string | null } | null = null;
 
   constructor(private x: Extras) {
@@ -88,7 +90,7 @@ export class Claims {
     try {
       const ctl = new AbortController();
       const timer = setTimeout(() => ctl.abort(), TIMEOUT_MS);
-      const r = await fetch("/api/claims", {
+      const r = await fetch(`${this.apiBase}/api/claims`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ match_id: host.meta.match_id, t: host.liveT(), claim, lens: host.lens(), lang: this.x.personal.lang }),

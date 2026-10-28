@@ -1,6 +1,8 @@
 // Extras hub: personalisation and the ratings, claims and patterns panels.
 // main.ts talks to this file only, through the small [extras] hook blocks.
 
+/// <reference types="vite/client" />
+
 import "./extras.css";
 import type { Ev, Meta, Tracking } from "./data";
 import type { Point } from "./points";
@@ -82,6 +84,32 @@ export class Extras {
     this.ratings = new Ratings(this);
     this.claims = new Claims(this);
     this.routines = new Routines(this);
+    void this.startLive();
+  }
+
+  // ------------------------------------------------------------ live mode
+  /** With #live in the URL and src/live.ts present (agent E), feed live ratings, insights and
+   *  snapshots into the extras. The glob is empty when live.ts is missing, so this is a no-op. */
+  private async startLive(): Promise<void> {
+    const load = import.meta.glob("./live.ts")["./live.ts"];
+    if (!load || !/(^#|&)live(=|&|$)/.test(location.hash)) return;
+    try {
+      const mod = (await load()) as { startLive?: (matchId?: string) => LiveLike | null };
+      const client = mod.startLive?.(this.host.meta.match_id);
+      if (!client) return;
+      client.onRating?.((d: any) => {
+        if (d && typeof d.player === "string" && typeof d.t === "number") this.ratings.push(d.player, d);
+      });
+      client.onInsight?.((d: any) => {
+        if (d && typeof d.id === "string" && typeof d.t === "number") this.personal.addInsight(d);
+      });
+      client.onSnapshot?.((d: any) => {
+        if (d && d.teams) this.personal.snapshot = d;
+      });
+      if (client.apiBase) this.claims.apiBase = client.apiBase;
+    } catch (err) {
+      console.warn("[extras] live mode unavailable", err);
+    }
   }
 
   ev(id: string): Ev | undefined {
@@ -126,6 +154,13 @@ export class Extras {
   badge(p: { team: string }): string {
     return this.personal.badge(p);
   }
+}
+
+interface LiveLike {
+  apiBase?: string;
+  onRating?(fn: (d: any) => void): unknown;
+  onInsight?(fn: (d: any) => void): unknown;
+  onSnapshot?(fn: (d: any) => void): unknown;
 }
 
 export function mountExtras(host: Host): Extras {

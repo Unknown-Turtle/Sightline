@@ -57,6 +57,8 @@ export class Personal {
   private frame: HTMLElement;
   /** the insights the app loaded on its own, in English */
   private english: unknown;
+  /** latest live stats snapshot (matchgen StatsEngine shape), used for the pinned stat when present */
+  snapshot: { elapsed?: number; teams: Record<string, Record<string, number>>; players?: Record<string, Record<string, number>> } | null = null;
   private lastSec = -1;
   private track: { dist: Float32Array[]; sprints: Uint16Array[] } | null = null;
 
@@ -231,6 +233,8 @@ export class Personal {
 
   // -------------------------------------------------------------- metrics
   private value(m: string, t: number, pid: string | null, team: string | null): number {
+    const live = this.fromSnapshot(m, pid, team);
+    if (live !== null) return live;
     const { events, meta } = this.x.host;
     const mine = (e: Ev) => (pid ? e.pl === pid : e.team === team);
     if (m === "distance" || m === "sprints") {
@@ -254,6 +258,36 @@ export class Personal {
       else if (m === "defence" && isDefAction(e)) a++;
     }
     return m === "passacc" ? (b ? (100 * a) / b : 0) : a;
+  }
+
+  private fromSnapshot(m: string, pid: string | null, team: string | null): number | null {
+    const row = this.snapshot && (pid ? this.snapshot.players?.[pid] : this.snapshot.teams?.[team ?? ""]);
+    if (!row) return null;
+    const n = (k: string) => Number(row[k] ?? 0);
+    switch (m) {
+      case "distance": return "distance_km" in row ? n("distance_km") : null;
+      case "sprints": return "sprints" in row ? n("sprints") : null;
+      case "xg": return n("xg");
+      case "shots": return n("shots");
+      case "passacc": return n("pass_accuracy") * 100;
+      case "defence": return n("tackles_won") + n("interceptions") + n("clearances") + n("blocks") + n("recoveries");
+    }
+    return null;
+  }
+
+  /** Live mode: add one insight to the rail's file (and the English copy). */
+  addInsight(item: { id: string; t: number }): void {
+    const files = new Set([this.x.host.getInsights(), this.english].filter(Boolean) as { items: { id?: string; t: number }[] }[]);
+    if (!files.size) {
+      const f = { match_id: this.x.host.meta.match_id, generated_at: new Date().toISOString(), mode: "live", model: null, items: [] as { id?: string; t: number }[] };
+      this.english = f;
+      this.x.host.setInsights(f);
+      files.add(f);
+    }
+    for (const f of files) {
+      f.items = [...f.items.filter((i) => i.id !== item.id), item].sort((a, b) => a.t - b.t);
+    }
+    this.x.host.refresh();
   }
 
   /** Cumulative distance and sprint counts per player at one-second steps, built once. */
