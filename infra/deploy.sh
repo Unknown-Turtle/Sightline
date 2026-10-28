@@ -63,6 +63,7 @@ az deployment group create \
   --template-file infra/main.json \
   --parameters \
     foundryLocation="$FOUNDRY_LOCATION" \
+    staticWebAppLocation="${SWA_LOCATION:-eastus2}" \
     modelName="$MODEL_NAME" \
     modelVersion="$MODEL_VERSION" \
     modelSku="$MODEL_SKU" \
