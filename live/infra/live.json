@@ -1,0 +1,336 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.48.1.52935",
+      "templateHash": "2339276269400364456"
+    }
+  },
+  "parameters": {
+    "prefix": {
+      "type": "string",
+      "defaultValue": "sightline",
+      "minLength": 3,
+      "maxLength": 12,
+      "metadata": {
+        "description": "Short prefix for resource names (lowercase letters and digits)."
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "foundryAccountName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Name of an existing Azure AI Foundry (Cognitive Services) account in this resource group. Empty skips the role assignment."
+      }
+    },
+    "eventHubName": {
+      "type": "string",
+      "defaultValue": "match-events",
+      "metadata": {
+        "description": "Event hub the matchgen replay sends to."
+      }
+    },
+    "webPubSubHub": {
+      "type": "string",
+      "defaultValue": "match",
+      "metadata": {
+        "description": "Web PubSub hub the viewers connect to."
+      }
+    },
+    "defaultMatchId": {
+      "type": "string",
+      "defaultValue": "m_seed587",
+      "metadata": {
+        "description": "Match whose match.json the app loads when a client does not name one."
+      }
+    },
+    "corsOrigins": {
+      "type": "array",
+      "defaultValue": [
+        "*"
+      ],
+      "metadata": {
+        "description": "Allowed browser origins for negotiate and claims."
+      }
+    }
+  },
+  "variables": {
+    "suffix": "[uniqueString(resourceGroup().id, parameters('prefix'))]",
+    "storageName": "[take(format('{0}live{1}', parameters('prefix'), variables('suffix')), 24)]",
+    "deployContainer": "app-package",
+    "roles": {
+      "eventHubsDataReceiver": "a638d3c7-ab3a-418d-83e6-5f17a39d4fde",
+      "webPubSubServiceOwner": "12cf5a90-567b-43ae-8102-96cf46c7d9b4",
+      "azureAiUser": "53ca6127-db72-4b80-b1b0-d745d6d5456d",
+      "storageBlobDataOwner": "b7e6dc6d-f1e8-4753-8033-0f988ec8c8f8",
+      "storageQueueDataContributor": "974c5e8b-45b9-4653-ba55-5f855dd0fb88",
+      "storageTableDataContributor": "0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.EventHub/namespaces",
+      "apiVersion": "2024-01-01",
+      "name": "[format('{0}-ehns-{1}', parameters('prefix'), variables('suffix'))]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Basic",
+        "tier": "Basic",
+        "capacity": 1
+      },
+      "properties": {
+        "minimumTlsVersion": "1.2"
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/eventhubs",
+      "apiVersion": "2024-01-01",
+      "name": "[format('{0}/{1}', format('{0}-ehns-{1}', parameters('prefix'), variables('suffix')), parameters('eventHubName'))]",
+      "properties": {
+        "partitionCount": 2,
+        "messageRetentionInDays": 1
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.EventHub/namespaces', format('{0}-ehns-{1}', parameters('prefix'), variables('suffix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.SignalRService/webPubSub",
+      "apiVersion": "2024-03-01",
+      "name": "[format('{0}-wps-{1}', parameters('prefix'), variables('suffix'))]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Free_F1",
+        "tier": "Free",
+        "capacity": 1
+      },
+      "properties": {
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-05-01",
+      "name": "[variables('storageName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "minimumTlsVersion": "TLS1_2",
+        "allowBlobPublicAccess": false,
+        "allowSharedKeyAccess": false
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2023-05-01",
+      "name": "[format('{0}/{1}', variables('storageName'), 'default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-05-01",
+      "name": "[format('{0}/{1}/{2}', variables('storageName'), 'default', variables('deployContainer'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('storageName'), 'default')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2024-04-01",
+      "name": "[format('{0}-plan-{1}', parameters('prefix'), variables('suffix'))]",
+      "location": "[parameters('location')]",
+      "kind": "functionapp",
+      "sku": {
+        "name": "FC1",
+        "tier": "FlexConsumption"
+      },
+      "properties": {
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2024-04-01",
+      "name": "[format('{0}-live-{1}', parameters('prefix'), variables('suffix'))]",
+      "location": "[parameters('location')]",
+      "kind": "functionapp,linux",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format('{0}-plan-{1}', parameters('prefix'), variables('suffix')))]",
+        "httpsOnly": true,
+        "functionAppConfig": {
+          "deployment": {
+            "storage": {
+              "type": "blobContainer",
+              "value": "[format('{0}{1}', reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), '2023-05-01').primaryEndpoints.blob, variables('deployContainer'))]",
+              "authentication": {
+                "type": "SystemAssignedIdentity"
+              }
+            }
+          },
+          "scaleAndConcurrency": {
+            "maximumInstanceCount": 40,
+            "instanceMemoryMB": 2048
+          },
+          "runtime": {
+            "name": "python",
+            "version": "3.11"
+          }
+        },
+        "siteConfig": {
+          "cors": {
+            "allowedOrigins": "[parameters('corsOrigins')]"
+          },
+          "appSettings": [
+            {
+              "name": "AzureWebJobsStorage__accountName",
+              "value": "[variables('storageName')]"
+            },
+            {
+              "name": "AzureWebJobsStorage__credential",
+              "value": "managedidentity"
+            },
+            {
+              "name": "EventHubConnection__fullyQualifiedNamespace",
+              "value": "[format('{0}.servicebus.windows.net', format('{0}-ehns-{1}', parameters('prefix'), variables('suffix')))]"
+            },
+            {
+              "name": "EventHubConnection__credential",
+              "value": "managedidentity"
+            },
+            {
+              "name": "EVENTHUB_NAME",
+              "value": "[parameters('eventHubName')]"
+            },
+            {
+              "name": "WEBPUBSUB_ENDPOINT",
+              "value": "[format('https://{0}', reference(resourceId('Microsoft.SignalRService/webPubSub', format('{0}-wps-{1}', parameters('prefix'), variables('suffix'))), '2024-03-01').hostName)]"
+            },
+            {
+              "name": "WEBPUBSUB_HUB",
+              "value": "[parameters('webPubSubHub')]"
+            },
+            {
+              "name": "DEFAULT_MATCH_ID",
+              "value": "[parameters('defaultMatchId')]"
+            },
+            {
+              "name": "FOUNDRY_ACCOUNT_NAME",
+              "value": "[parameters('foundryAccountName')]"
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.EventHub/namespaces', format('{0}-ehns-{1}', parameters('prefix'), variables('suffix')))]",
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', variables('storageName'), 'default', variables('deployContainer'))]",
+        "[resourceId('Microsoft.Web/serverfarms', format('{0}-plan-{1}', parameters('prefix'), variables('suffix')))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]",
+        "[resourceId('Microsoft.SignalRService/webPubSub', format('{0}-wps-{1}', parameters('prefix'), variables('suffix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.EventHub/namespaces/eventhubs', format('{0}-ehns-{1}', parameters('prefix'), variables('suffix')), parameters('eventHubName'))]",
+      "name": "[guid(resourceId('Microsoft.EventHub/namespaces/eventhubs', format('{0}-ehns-{1}', parameters('prefix'), variables('suffix')), parameters('eventHubName')), resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), variables('roles').eventHubsDataReceiver)]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), '2024-04-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roles').eventHubsDataReceiver)]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix')))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', format('{0}-ehns-{1}', parameters('prefix'), variables('suffix')), parameters('eventHubName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.SignalRService/webPubSub', format('{0}-wps-{1}', parameters('prefix'), variables('suffix')))]",
+      "name": "[guid(resourceId('Microsoft.SignalRService/webPubSub', format('{0}-wps-{1}', parameters('prefix'), variables('suffix'))), resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), variables('roles').webPubSubServiceOwner)]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), '2024-04-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roles').webPubSubServiceOwner)]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix')))]",
+        "[resourceId('Microsoft.SignalRService/webPubSub', format('{0}-wps-{1}', parameters('prefix'), variables('suffix')))]"
+      ]
+    },
+    {
+      "copy": {
+        "name": "raStorage",
+        "count": "[length(createArray(variables('roles').storageBlobDataOwner, variables('roles').storageQueueDataContributor, variables('roles').storageTableDataContributor))]"
+      },
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]",
+      "name": "[guid(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), createArray(variables('roles').storageBlobDataOwner, variables('roles').storageQueueDataContributor, variables('roles').storageTableDataContributor)[copyIndex()])]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), '2024-04-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', createArray(variables('roles').storageBlobDataOwner, variables('roles').storageQueueDataContributor, variables('roles').storageTableDataContributor)[copyIndex()])]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix')))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+      ]
+    },
+    {
+      "condition": "[not(empty(parameters('foundryAccountName')))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.CognitiveServices/accounts', if(empty(parameters('foundryAccountName')), 'unused', parameters('foundryAccountName')))]",
+      "name": "[guid(resourceGroup().id, parameters('foundryAccountName'), resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), variables('roles').azureAiUser)]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), '2024-04-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roles').azureAiUser)]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix')))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "functionAppName": {
+      "type": "string",
+      "value": "[format('{0}-live-{1}', parameters('prefix'), variables('suffix'))]"
+    },
+    "functionAppUrl": {
+      "type": "string",
+      "value": "[format('https://{0}', reference(resourceId('Microsoft.Web/sites', format('{0}-live-{1}', parameters('prefix'), variables('suffix'))), '2024-04-01').defaultHostName)]"
+    },
+    "eventHubsNamespace": {
+      "type": "string",
+      "value": "[format('{0}-ehns-{1}', parameters('prefix'), variables('suffix'))]"
+    },
+    "eventHubName": {
+      "type": "string",
+      "value": "[parameters('eventHubName')]"
+    },
+    "webPubSubName": {
+      "type": "string",
+      "value": "[format('{0}-wps-{1}', parameters('prefix'), variables('suffix'))]"
+    },
+    "webPubSubHub": {
+      "type": "string",
+      "value": "[parameters('webPubSubHub')]"
+    }
+  }
+}

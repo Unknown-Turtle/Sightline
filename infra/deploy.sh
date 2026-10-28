@@ -27,7 +27,7 @@ MODEL_CAPACITY="${MODEL_CAPACITY:-10}"
 LIVE_STREAMING="${LIVE_STREAMING:-true}"
 STREAMING_MODULES="${STREAMING_MODULES:-false}"
 SKIP_VIEWER="${SKIP_VIEWER:-false}"
-LIVE_BICEP="$ROOT/live/infra/live.bicep"
+LIVE_BICEP="$ROOT/live/infra/live.json"  # precompiled from live.bicep (bicep build)
 
 say()  { printf '\n\033[1;35m==> %s\033[0m\n' "$*"; }
 warn() { printf '\033[1;33m[warn] %s\033[0m\n' "$*"; }
@@ -40,7 +40,7 @@ if ! az account show --query '{subscription:name, id:id, user:user.name}' -o tab
   die "Not logged in. Run: az login"
 fi
 command -v npm >/dev/null || die "npm not found. Install Node.js 18 or later."
-az bicep version >/dev/null 2>&1 || az bicep install
+# templates are precompiled to ARM JSON (infra/main.json, live/infra/live.json), so no Bicep CLI is needed
 
 # 2. Resource group
 
@@ -60,7 +60,7 @@ set +e
 az deployment group create \
   --name sightline-main \
   --resource-group "$RG" \
-  --template-file infra/main.bicep \
+  --template-file infra/main.json \
   --parameters \
     foundryLocation="$FOUNDRY_LOCATION" \
     modelName="$MODEL_NAME" \
