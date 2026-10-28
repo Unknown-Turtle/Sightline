@@ -43,6 +43,9 @@ export class Stage {
   mode: CameraMode = "broadcast";
   lens: "casual" | "tactical" = "casual";
   focus: string | null = null;
+  // [extras] start: player focus pulls the broadcast camera towards this player
+  bias: string | null = null;
+  // [extras] end
   readonly sample: Sample;
   private index = new Map<string, number>();
 
@@ -374,7 +377,14 @@ export class Stage {
     const [bx, by] = this.sample.ball;
     const k = 1 - Math.exp(-Math.max(0.016, Math.abs(dt)) * 2.2);
     if (this.mode === "broadcast") {
-      const tx = (bx - 52.5) * 0.92, tz = (34 - by) * 0.45;
+      let tx = (bx - 52.5) * 0.92, tz = (34 - by) * 0.45;
+      // [extras] start
+      const bi = this.bias ? this.index.get(this.bias) : undefined;
+      if (bi !== undefined && !Number.isNaN(this.sample.pos[2 * bi])) {
+        tx += ((this.sample.pos[2 * bi] - 52.5) * 0.92 - tx) * 0.35;
+        tz += ((34 - this.sample.pos[2 * bi + 1]) * 0.45 - tz) * 0.35;
+      }
+      // [extras] end
       this.camTarget.lerp(new THREE.Vector3(tx, 0, tz), k);
       this.camPos.lerp(new THREE.Vector3(this.camTarget.x * 0.82, 30, 66), k);
       this.camera.fov = 26;

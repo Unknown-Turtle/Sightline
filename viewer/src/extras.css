@@ -1,0 +1,110 @@
+/* Extras: personal bar, pinned stat chip, rating chips, ratings, claims and patterns panels.
+   Uses the shared design tokens only, so it follows whichever theme the app shell sets. */
+
+/* containers created here when the app shell has not built them */
+.x-panel.x-own {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-m);
+  padding: 14px; min-width: 0;
+}
+.x-panel h2 { font-family: var(--display); font-size: 24px; line-height: 1.1; margin: 0; }
+.x-sub { color: var(--muted); font-size: 13px; margin: 4px 0 12px; }
+
+/* personal bar */
+.x-bar.x-own { padding: 10px 14px; }
+.x-bar-inner { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; }
+.x-field { display: grid; gap: 2px; font-size: 12px; color: var(--muted); min-width: 0; flex: 1 1 140px; max-width: 240px; }
+.x-field select, .x-claim-form input {
+  font: inherit; font-size: 14px; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: var(--radius-s); padding: 6px 8px; width: 100%; min-width: 0;
+}
+.x-frame, .x-note { margin: 0; font-size: 13px; flex: 1 1 100%; }
+.x-frame { font-weight: 600; }
+.x-frame:empty, .x-note:empty { display: none; }
+.x-note { color: var(--muted); }
+.scorebug .team.x-fav b { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+.x-badge {
+  display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--accent-ink); background: var(--accent); border-radius: 999px; padding: 1px 7px; margin-inline-end: 6px; vertical-align: 1px;
+}
+
+/* pinned stat chip on the stage */
+.x-pin {
+  position: absolute; top: 12px; inset-inline-start: 12px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center;
+  background: color-mix(in srgb, var(--stage) 86%, transparent); color: var(--stage-ink);
+  border-radius: 999px; padding: 5px 12px; font-size: 13px; font-variant-numeric: tabular-nums; max-width: calc(100% - 120px);
+  pointer-events: none;
+}
+.x-pin b { font-weight: 600; opacity: 0.8; }
+.x-pin i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c); margin-inline-end: 5px; }
+
+/* rating chip inside player tags */
+.x-rate {
+  display: inline-block; margin-inline-start: 6px; padding: 1px 5px; border-radius: 3px;
+  background: var(--stage); color: var(--stage-ink); font-family: var(--display); font-size: 13px; font-variant-numeric: tabular-nums;
+}
+.x-rate .up { color: var(--good); }
+.x-rate .down { color: var(--bad); }
+
+/* ratings panel */
+.x-ratings { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.x-ratings h3 { font-family: var(--display); font-size: 18px; margin: 0 0 6px; display: flex; align-items: center; gap: 8px; }
+.x-ratings h3 i, .x-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.x-ratings ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.x-row {
+  width: 100%; display: grid; grid-template-columns: 2.2em minmax(0, 1fr) auto auto; gap: 8px; align-items: center;
+  text-align: start; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-s); padding: 6px 10px;
+}
+.x-row:hover { border-color: var(--muted); }
+.x-row.on { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+.x-row .n { font-family: var(--display); color: var(--muted); }
+.x-row .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.x-row .r { font-family: var(--display); font-size: 18px; font-variant-numeric: tabular-nums; }
+.x-row .d { font-size: 12px; min-width: 3.2em; text-align: end; font-variant-numeric: tabular-nums; }
+.x-row .d.up { color: var(--good); }
+.x-row .d.down { color: var(--bad); }
+
+/* claim checker */
+.x-claim-form { display: flex; flex-wrap: wrap; gap: 8px; }
+.x-claim-form input { flex: 1 1 220px; width: auto; }
+.x-btn {
+  border: 1px solid var(--line); background: var(--panel); padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 500;
+}
+.x-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); font-weight: 600; }
+.x-btn:disabled { opacity: 0.6; cursor: progress; }
+.x-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+.x-chips .x-btn { font-size: 13px; padding: 4px 10px; text-align: start; }
+.x-result { margin-top: 14px; display: grid; gap: 10px; }
+.x-verdict { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.x-verdict b {
+  font-family: var(--display); font-size: 20px; padding: 2px 12px; border-radius: 999px; border: 2px solid currentColor;
+}
+.x-verdict .supported { color: var(--good); }
+.x-verdict .partly { color: var(--accent); }
+.x-verdict .not_supported { color: var(--bad); }
+.x-verdict .out_of_scope { color: var(--muted); }
+.x-mode { font-size: 12px; color: var(--muted); }
+.x-tests { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.x-tests li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: baseline; font-size: 14px; }
+.x-tests .ok { color: var(--good); font-weight: 600; }
+.x-tests .no { color: var(--bad); font-weight: 600; }
+.x-tests .v { color: var(--muted); font-variant-numeric: tabular-nums; text-align: end; }
+.x-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.x-receipt { color: var(--muted); font-size: 12px; margin: 0; }
+
+/* patterns */
+.x-patterns { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.x-pattern {
+  width: 100%; text-align: start; background: transparent; border: 1px solid var(--line);
+  border-radius: var(--radius-s); padding: 10px 12px; display: grid; gap: 4px;
+}
+.x-pattern:hover { border-color: var(--muted); }
+.x-pattern .claim { font-weight: 600; }
+.x-pattern .meta { color: var(--muted); font-size: 12px; }
+
+@media (max-width: 480px) {
+  .x-field { max-width: none; flex-basis: calc(50% - 6px); }
+  .x-pin { font-size: 12px; max-width: calc(100% - 24px); top: auto; bottom: 12px; inset-inline-start: auto; inset-inline-end: 12px; }
+}
+
+/* Arabic sets dir="rtl" on the page; the pitch, clock and timeline keep match orientation */
+[dir="rtl"] .scorebug, [dir="rtl"] .stage, [dir="rtl"] .timeline, [dir="rtl"] .controls, [dir="rtl"] .card canvas { direction: ltr; }

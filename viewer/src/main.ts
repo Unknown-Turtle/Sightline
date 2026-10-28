@@ -2,6 +2,9 @@ import "./styles.css";
 import { clockAt, loadMatch, relX, type Ev, type Meta, type Tracking } from "./data";
 import { Stage, type CameraMode } from "./stage";
 import { cardLabel, detectPoints, zoneText, type Lens, type Point } from "./points";
+// [extras] start
+import { mountExtras, type Extras } from "./extras";
+// [extras] end
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const ON_BALL = new Set(["pass", "carry", "take_on", "shot", "clearance"]);
@@ -38,6 +41,9 @@ class App {
   private duration: number;
   private home: string;
   private away: string;
+  // [extras] start
+  private extras!: Extras;
+  // [extras] end
 
   constructor(private meta: Meta, private events: Ev[], private tracking: Tracking) {
     this.stage = new Stage($("canvas") as HTMLCanvasElement, meta, tracking, events);
@@ -57,6 +63,15 @@ class App {
     this.buildHeader();
     this.buildTimeline();
     this.bindControls();
+    // [extras] start
+    this.extras = mountExtras({
+      meta, events, tracking, stage: this.stage,
+      liveT: () => this.st.liveT,
+      lens: () => this.st.lens,
+      selectPoint: (p) => this.selectPoint(p),
+      refresh: () => this.refreshPoints(true),
+    });
+    // [extras] end
     const ro = new ResizeObserver(() => this.resize());
     ro.observe($("stage"));
     this.resize();
@@ -90,6 +105,9 @@ class App {
       if (st.replayEnd === null) st.liveT = st.t;
     }
     const dt = st.t - prev;
+    // [extras] start
+    this.extras.tick();
+    // [extras] end
     const recent = this.range(st.t - 4, st.t).filter((e) => e.type === "pass");
     this.stage.update(st.t, st.playing ? real : 0.016, this.carrier(), recent);
     this.stage.render();
@@ -297,6 +315,9 @@ class App {
       const d = this.tag(n++);
       d.className = `tag ${cls}`;
       d.innerHTML = html;
+      // [extras] start
+      if (cls !== "speed") d.innerHTML += this.extras.tagChip(pid, this.st.lens);
+      // [extras] end
       d.style.left = `${p.x}px`;
       d.style.top = `${p.y - lift}px`;
       d.hidden = false;
@@ -375,7 +396,10 @@ class App {
   // ---------------------------------------------------------------- points
   private refreshPoints(force: boolean): void {
     this.lastPointsAt = this.st.liveT;
-    const pts = detectPoints(this.meta, this.events, this.st.liveT);
+    let pts = detectPoints(this.meta, this.events, this.st.liveT);
+    // [extras] start
+    pts = this.extras.points(pts, this.st.lens);
+    // [extras] end
     $("rail-sub").textContent = `As of ${clockAt(this.meta, this.st.liveT).text}. Points update as the match plays.`;
     const sig = pts.map((p) => `${p.id}:${p.stat}`).join("|") + this.st.lens;
     if (!force && sig === this.pointsSig) return;
@@ -391,9 +415,11 @@ class App {
       const b = document.createElement("button");
       b.className = "point" + (this.st.point?.id === p.id ? " on" : "");
       const colour = this.meta.teams.find((t) => t.id === p.team)?.colour ?? "#999";
-      b.innerHTML = `<span class="claim">${p.claim[this.st.lens]}</span>
+      // [extras] start: translated claim text and a club badge
+      b.innerHTML = `<span class="claim">${this.extras.badge(p)}${this.extras.claim(p, this.st.lens, p.claim[this.st.lens])}</span>
         <span class="stat">${p.stat}</span>
         <span class="meta"><i class="who" style="--c:${colour}"></i>${p.forEv.length} moments for, ${p.againstEv.length} against</span>`;
+      // [extras] end
       b.addEventListener("click", () => this.selectPoint(p));
       li.appendChild(b);
       list.appendChild(li);
@@ -425,7 +451,9 @@ class App {
     const wrap = $("reel-wrap");
     if (!p) { wrap.hidden = true; return; }
     wrap.hidden = false;
-    $("reel-title").textContent = p.claim[this.st.lens];
+    // [extras] start
+    $("reel-title").textContent = this.extras.claim(p, this.st.lens, p.claim[this.st.lens] ?? p.claim.casual);
+    // [extras] end
     $("reel-receipt").textContent =
       `Checked against ${p.checked} logged events up to ${clockAt(this.meta, this.st.liveT).text}. Every card is one of them. Select a card to watch it.`;
     const tf = $("tab-for"), ta = $("tab-against");
