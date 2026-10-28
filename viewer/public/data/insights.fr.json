@@ -1,0 +1,13 @@
+{
+ "match_id": "m_seed587",
+ "generated_at": null,
+ "mode": "fallback",
+ "model": null,
+ "note": "No Foundry configuration: English text kept, translated is false on every item.",
+ "lang": "fr",
+ "source": "insights.json",
+ "translation_mode": "fallback",
+ "translation_model": null,
+ "items": [],
+ "translated": false
+}
