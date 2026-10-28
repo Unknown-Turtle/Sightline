@@ -123,7 +123,9 @@ python -m agents build --match matchgen/sample/demo_seed587 --history matchgen/s
 20 second timeout per call, temperature 0.3, 400 output tokens, JSON replies. `mode` is `live` and
 `model` is the deployment name. An item whose text still fails after the retries, or whose call fails
 or times out, gets the template text and says so in its receipt (`source: "template"`), so a live
-build is never incomplete.
+build is never incomplete. If credentials are set but not a single call succeeds (wrong endpoint,
+expired key, no network), the file is still complete and `mode` is reported as `fallback`, with the
+last error printed on stderr.
 
 **Fallback:** with no endpoint or deployment set, or with `--fallback`, the same pipeline runs with
 template phrasing. Every number, evidence id, trivia fact, check and receipt is identical; only the

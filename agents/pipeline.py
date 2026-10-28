@@ -134,6 +134,12 @@ def build(m: Match, hist: History | None, foundry: Foundry | None, *, verbose: b
                     print(f"[{item['clock']}] {item['kind']:<11} {item['point_id']:<18} check={'ok' if item['check']['passed'] else 'FAIL'} "
                           f"src={item['receipt']['source']}  {item['text']['tactical'][:90]}")
     model = foundry.deployment if mode == "live" else None
+    if mode == "live" and not any(i["receipt"]["source"] == "llm" for i in items):
+        # credentials were set but no call succeeded (bad endpoint, expired key, network):
+        # the file is complete, so report honestly that it is template phrased
+        mode, model = "fallback", None
+        for i in items:
+            i["receipt"]["mode"] = "fallback"
     return {
         "match_id": m.match_id,
         "generated_at": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),

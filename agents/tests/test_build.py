@@ -56,3 +56,14 @@ def test_demo_story_is_detected(result):
 def test_casual_has_no_jargon(result):
     for i in result["items"]:
         assert "xG" not in i["text"]["casual"]
+
+
+def test_dead_endpoint_still_completes_and_reports_fallback():
+    from agents.data import load_history, load_match
+    from agents.llm import Foundry
+    from agents.pipeline import build
+    foundry = Foundry(endpoint="https://127.0.0.1:9/", deployment="gpt-4o", api_key="x")
+    out = build(load_match(MATCH), load_history(HISTORY), foundry, max_items=2)
+    assert out["mode"] == "fallback" and out["model"] is None
+    assert out["items"] and all(i["check"]["passed"] for i in out["items"])
+    assert all(i["receipt"]["source"] == "template" for i in out["items"])

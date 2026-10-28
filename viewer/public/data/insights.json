@@ -1,6 +1,6 @@
 {
  "match_id": "m_seed587",
- "generated_at": "2026-10-28T04:01:30Z",
+ "generated_at": "2026-10-28T04:03:30Z",
  "mode": "fallback",
  "model": null,
  "items": [
@@ -781,7 +781,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 17,
+    "latency_ms": 18,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -1851,7 +1851,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 3,
+    "latency_ms": 4,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -1975,7 +1975,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 4,
+    "latency_ms": 3,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -2045,7 +2045,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 4,
+    "latency_ms": 5,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -2097,7 +2097,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 1,
+    "latency_ms": 0,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -2281,7 +2281,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 2,
+    "latency_ms": 1,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -2633,7 +2633,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 1,
+    "latency_ms": 0,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -2757,7 +2757,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 5,
+    "latency_ms": 4,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -2946,7 +2946,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 5,
+    "latency_ms": 4,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
@@ -3121,7 +3121,7 @@
    },
    "receipt": {
     "model": null,
-    "latency_ms": 2,
+    "latency_ms": 1,
     "tokens_in": 0,
     "tokens_out": 0,
     "agents": [
