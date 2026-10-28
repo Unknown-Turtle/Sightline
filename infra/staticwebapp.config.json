@@ -1,0 +1,14 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/data/*", "*.{js,css,json,bin,png,jpg,svg,woff2}"]
+  },
+  "mimeTypes": {
+    ".bin": "application/octet-stream",
+    ".jsonl": "application/x-ndjson",
+    ".json": "application/json"
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff"
+  }
+}
