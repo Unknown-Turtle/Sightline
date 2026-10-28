@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.48.1.52935",
-      "templateHash": "2902034065020233712"
+      "templateHash": "4543068364459767464"
     }
   },
   "parameters": {
@@ -189,21 +189,6 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-id-{1}', parameters('namePrefix'), variables('shortSuffix')))]",
-        "[resourceId('Microsoft.Storage/storageAccounts', take(toLower(format('{0}{1}', parameters('namePrefix'), variables('suffix'))), 24))]"
-      ]
-    },
-    {
-      "condition": "[not(empty(parameters('deployerPrincipalId')))]",
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2022-04-01",
-      "scope": "[resourceId('Microsoft.Storage/storageAccounts', take(toLower(format('{0}{1}', parameters('namePrefix'), variables('suffix'))), 24))]",
-      "name": "[guid(resourceId('Microsoft.Storage/storageAccounts', take(toLower(format('{0}{1}', parameters('namePrefix'), variables('suffix'))), 24)), parameters('deployerPrincipalId'), variables('roles').storageBlobDataContributor)]",
-      "properties": {
-        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roles').storageBlobDataContributor)]",
-        "principalId": "[parameters('deployerPrincipalId')]",
-        "principalType": "User"
-      },
-      "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', take(toLower(format('{0}{1}', parameters('namePrefix'), variables('suffix'))), 24))]"
       ]
     },

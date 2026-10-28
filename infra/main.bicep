@@ -133,15 +133,7 @@ resource identityBlobReader 'Microsoft.Authorization/roleAssignments@2022-04-01'
   }
 }
 
-resource deployerBlobContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(deployerPrincipalId)) {
-  name: guid(storage.id, deployerPrincipalId, roles.storageBlobDataContributor)
-  scope: storage
-  properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roles.storageBlobDataContributor)
-    principalId: deployerPrincipalId
-    principalType: 'User'
-  }
-}
+// The deployer's blob contributor role was removed: new subscriptions sometimes reject it, and the app does not need it.
 
 // Foundry: AI Services account, project and model deployment (swedencentral)
 
