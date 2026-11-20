@@ -11,34 +11,6 @@
 
 **Why you can trust it.** Code computes every number; the AI agents only phrase. A deterministic stats engine produces the facts, an analyst agent picks what matters, a narrator writes it for each lens, a trivia agent adds sourced history, and a **checker agent verifies every number in the text against the stats** before anything is shown, retrying or dropping the line if it fails. Every insight carries a receipt: model, latency, tokens, which agents ran, and whether the check passed.
 
-## Architecture
-
-```mermaid
-flowchart LR
-  subgraph Data["Synthetic data (matchgen)"]
-    G[Match engine<br/>events + tracking] --> S[Stats engine<br/>snapshots, xG, momentum]
-    H[Five-season league history]
-  end
-
-  subgraph Foundry["Microsoft Foundry (swedencentral)"]
-    A[Analyst agent] --> N[Narrator agent<br/>Casual / Tactical / Commentator]
-    T[Trivia agent] --> N
-    N --> C[Checker agent<br/>verifies every number]
-  end
-
-  S --> A
-  H --> T
-  C --> I[(insights.json<br/>ratings, claims, routines,<br/>translations)]
-  I --> V[Viewer on Azure Static Web Apps<br/>3D replay, live points, evidence reels]
-
-  G -.-> EH[Event Hubs]
-  EH -.-> F[Azure Functions<br/>live pipeline]
-  F -.-> A
-  F -.-> WP[Web PubSub] -.-> V
-```
-
-Dotted lines are the optional live path. Without it, the same agents run ahead of time over the full match and the viewer replays their output.
-
 ## Microsoft technologies
 
 | Technology | Where it is used |
